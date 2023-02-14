@@ -1,0 +1,10 @@
+Amazon RDS
+DB instance identifier: ring-ring-bike
+Master username: admin
+Master password: ring-ring2023
+Amazon RDS will add a new VPC security group rds-ec2-1 to allow 
+connectivity with your compute resource.
+
+Amazon AWS EC2
+go into your folder with ssh key
+ssh -i "aws-flask.pem" ubuntu@ec2-54-216-215-206.eu-west-1.compute.amazonaws.com
