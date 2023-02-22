@@ -10,7 +10,8 @@ def store(text):
     with engine.connect() as connection:
         query = text("SELECT * FROM ringringbikes.stations")
         result = connection.execute(query)
-        print(result)
+        for line in result:
+            print(line)
 
 
 def main():
