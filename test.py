@@ -11,7 +11,9 @@ USER="admin"
 
 engine= create_engine("mysql+mysqldb://{}:{}@{}:{}".format(USER, PASSWORD, URI, PORT), echo=True)
 
-sql = """CREATE DATABASE IF NOT EXISTS ring-ring-bike"""
+sql = """
+CREATE DATABASE IF NOT EXISTS ring-ring-bike;
+"""
 
 with engine.begin() as connection:
     connection.execute(text(sql))
