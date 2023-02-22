@@ -17,4 +17,4 @@ CREATE DATABASE IF NOT EXISTS ring-ring-bike;
 
 with engine.begin() as connection:
     connection.execute(text(sql))
-    connection.execute(text("USE ring-ring-bike"))
+    connection.execute(text("USE ring\-ring\-bike"))
