@@ -1,0 +1,6 @@
+I installed following programs:
+
+python -m pip install requests
+
+conda install sqlalchemy
+conda install -c anaconda mysqlclient
