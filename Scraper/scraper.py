@@ -1,0 +1,3 @@
+from scraperBike import *
+
+main()

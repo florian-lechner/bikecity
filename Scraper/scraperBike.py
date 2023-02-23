@@ -7,13 +7,27 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from datetime import datetime
 
-Base = automap_base()
-engine = create_engine(DATABASE_URL)
 
-# reflect the tables
-Base.prepare(autoload_with=engine, schema="ringringbikes")
-Station_Availability_table = Base.classes.station_availability
-Stations_table = Base.classes.stations
+global Base
+global engine
+global Station_Availability_table
+global Stations_table
+
+def connect_db():
+    Base = automap_base()
+    engine = create_engine(DATABASE_URL)
+
+    # reflect the tables
+    Base.prepare(autoload_with=engine, schema="ringringbikes")
+    Station_Availability_table = Base.classes.station_availability
+    Stations_table = Base.classes.stations
+
+
+def time_to_datetime(time):
+    # Format "1000-01-01 00:00:00"
+    dt = datetime.fromtimestamp(time / 1000)
+    formatted_date = dt.strftime("%Y-%m-%d %H:%M:%S")
+    return formatted_date
 
 def test_connection():
     with Session(engine) as session:
@@ -32,12 +46,6 @@ def create_stations(stations):
                 session.rollback()
                 
 
-def time_to_datetime(time):
-    # Format "1000-01-01 00:00:00"
-    dt = datetime.fromtimestamp(time / 1000)
-    formatted_date = dt.strftime("%Y-%m-%d %H:%M:%S")
-    return formatted_date
-
 def store(stations):
     with Session(engine) as session:
         for station in stations:
@@ -51,10 +59,11 @@ def store(stations):
 def main():
     r = requests.get(JC_URL, params={"contract":JC_CONTRACT, "apiKey": JC_KEY})  
     stations = json.loads(r.text)
+    connect_db()
     #create_stations(stations)
     store(stations)
-    #print(json.loads(r.text))
+    #print(stations)
 
 
-main()
+#main()
 #test_connection()
