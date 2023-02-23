@@ -42,13 +42,15 @@ def store(weather):
                 wind_direction = float(entry["location"]["windDirection"].get("@deg"))
                 wind_gust = 1#float(entry["location"]["windGust"].get("@mps"))
             elif forecast_time == time_to_datetime(entry.get("@to")):
+                if entry["location"]["precipitation"].get("@minvalue") is None:
+                    break
                 precipitation_value = float(entry["location"]["precipitation"].get("@value"))
                 precipitation_min = float(entry["location"]["precipitation"].get("@minvalue"))
                 precipitation_max = float(entry["location"]["precipitation"].get("@maxvalue"))
-                precipitation_probabilty = float(entry["location"]["precipitation"].get("@probabilty"))
+                precipitation_probability = float(entry["location"]["precipitation"].get("@probability"))
                 #print(entry)
                 try:
-                    session.add(Weather_table(request_time=request_time, forecast_time=forecast_time, temperature=temperature, pressure=pressure, humidity=humidity, clouds=clouds, wind_speed_mps=wind_speed_mps, wind_speed_beaufort=wind_speed_beaufort, wind_direction=wind_direction, wind_gust=wind_gust, precipitation_value=precipitation_value, precipitation_min=precipitation_min, precipitation_max=precipitation_max, precipitation_probabilty=precipitation_probabilty))
+                    session.add(Weather_table(request_time=request_time, forecast_time=forecast_time, temperature=temperature, pressure=pressure, humidity=humidity, clouds=clouds, wind_speed_mps=wind_speed_mps, wind_speed_beaufort=wind_speed_beaufort, wind_direction=wind_direction, wind_gust=wind_gust, precipitation_value=precipitation_value, precipitation_min=precipitation_min, precipitation_max=precipitation_max, precipitation_probability=precipitation_probability))
                     print("try to commit")
                     session.commit()
                 except IntegrityError:
