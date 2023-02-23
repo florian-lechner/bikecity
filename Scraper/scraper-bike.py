@@ -47,9 +47,6 @@ def store(stations):
                 session.commit()
             except IntegrityError:
                 session.rollback()
-            #vals = (int(station.get("number")), time_to_datetime(int(station.get("last_update"))), int(station.get("available_bikes")), int(station.get("available_bike_stands")), station.get("status"))
-            
-            #result = session.execute("INSERT INTO `ringringbikes`.`station_availability` (`station_id`, `last_update`, `available_bikes`, `available_bike_stands`, `status`) VALUES (%s, %s, %s, %s, %s)", vals)
 
 def main():
     r = requests.get(URL, params={"contract":CONTRACT, "apiKey": JCKEY})  
