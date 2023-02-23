@@ -41,7 +41,7 @@ def store(weather):
                 wind_speed_beaufort = float(entry["location"]["windSpeed"].get("@beaufort"))
                 wind_direction = float(entry["location"]["windDirection"].get("@deg"))
                 wind_gust = 1#float(entry["location"]["windGust"].get("@mps"))
-            elif forecast_time == entry.get("@to"):
+            elif forecast_time == time_to_datetime(entry.get("@to")):
                 precipitation_value = float(entry["location"]["precipitation"].get("@value"))
                 precipitation_min = float(entry["location"]["precipitation"].get("@minvalue"))
                 precipitation_max = float(entry["location"]["precipitation"].get("@maxvalue"))
