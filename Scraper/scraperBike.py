@@ -36,7 +36,9 @@ def test_connection():
         for line in result:
             print(line)
 
-def create_stations(stations):
+def create_stations():
+    r = requests.get(JC_URL, params={"contract":JC_CONTRACT, "apiKey": JC_KEY})  
+    stations = json.loads(r.text)
     with Session(engine) as session:
         for station in stations:
             #print(station)
@@ -61,7 +63,6 @@ def main():
     r = requests.get(JC_URL, params={"contract":JC_CONTRACT, "apiKey": JC_KEY})  
     stations = json.loads(r.text)
     connect_db()
-    #create_stations(stations)
     store(stations)
     #print(stations)
 
