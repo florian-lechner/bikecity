@@ -32,7 +32,11 @@ def store(weather_extra):
     with Session(engine) as session:
         for entry in weather_extra:
             try:
-                session.add(Weather_extra_table(request_time=request_time, sunrise=float(entry["sys"].get("sunrise")), sunset=float(entry["sys"].get("sunset")), temperature_feels_like=float(entry["main"].get("feels_like")), visibility=float(entry.get("feels_like"))))
+		sunrise = float(entry["sys"].get("sunrise"))
+		sunset = float(entry["sys"].get("sunset"))
+		temp = float(entry["main"].get("feels_like"))
+		visibility = float(entry.get("visibility"))
+                session.add(Weather_extra_table(request_time=request_time, sunrise=sunrise, sunset=sunset, temperature_feels_like=temp, visibility=visibilty))
                 session.commit()
             except IntegrityError:
                 session.rollback()
