@@ -1,55 +1,45 @@
-import sqlalchemy as sqla
-from sqlalchemy import create_engine, text
-import json
 import requests
-import urllib.request
-import traceback
-import glob
-import os
-from pprint import pprint
-import time
-from IPython.display import display
-import datetime
+import json
+from dbinfo import *
+from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import Session
+from datetime import datetime
 
-APIKEY = "OPENWEATHER_KEY"
+def connect_db():
+    global Base
+    global engine
+    global Weather_extra_table
+    Base = automap_base()
+    engine = create_engine(DATABASE_URL)
 
-# Dublin coordinates
-latitude = 53.350140
-longitude = -6.266155
+    # reflect the tables
+    Base.prepare(autoload_with=engine, schema="ringringbikes")
+    Weather_extra_table = Base.classes.weather_extra
+    
+def time_to_datetime(time):
+    # Format "1000-01-01 00:00:00"
+    # Convert the Unix timestamp to a datetime object
+    dt_object = datetime.fromtimestamp(time)
+    # Format the datetime object as a string in the desired format
+    formatted_datetime = dt_object.strftime('%Y-%m-%d %H:%M:%S')
+    return formatted_datetime
 
-# Construct the API URL with the city and country code
-url = f'https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={APIKEY}'
+def store(weather_extra):
+    request_time = time_to_datetime(weather_extra.get("dt"))
+    
+    with Session(engine) as session:
+        for entry in weather_extra:
+            try:
+                session.add(Weather_extra_table(request_time=request_time, sunrise=float(entry["sys"].get("sunrise")), sunset=float(entry["sys"].get("sunset")), temperature_feels_like=float(entry["main"].get("feels_like")), visibility=float(entry.get("feels_like"))))
+                session.commit()
+            except IntegrityError:
+                session.rollback()
 
-# Create an empty dictionary to store the data
-weather_dict = {}
-
-# Send a GET request to the API and parse the JSON response
-response = urllib.request.urlopen(url)
-data = response.read().decode('UTF-8')
-new_data = json.loads(data)
-#mainTemp = data[3].main.temp
-
-
-# Save the JSON dictionary data to a file
-with open('weather_data.json', 'w') as outfile:
-    json.dump(weather_dict, outfile)
-
-
-
-
-
-
-#URI="ring-ring-bike.cwdqwzqexfzl.eu-west-1.rds.amazonaws.com"
-#PASSWORD="ring-ring2023"
-#PORT="3306"
-#DB="ring-ring-bike"
-#USER="admin"
-
-
-#engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
-###sql = """CREATE DATABASE IF NOT EXISTS ring-ring-bike"""
-
-#with engine.begin() as connection:
-#    connection.execute(text(sql))
-#    connection.execute(text("USE ring-ring-bike"))
-
+def main():
+    r = requests.get(OPENWEATHER_API, params={"lat":LATITUDE, "lon": LONGITUDE, "appid": OPENWEATHER_KEY})   
+    weather_extra_stuff = json.loads(r.text)
+    connect_db()
+    store(weather_extra_stuff)
+    #print(weather_extra_stuff)

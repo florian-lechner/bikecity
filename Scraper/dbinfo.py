@@ -9,5 +9,9 @@ MET_URL = "http://metwdb-openaccess.ichec.ie/metno-wdb2ts/locationforecast"
 LATITUDE = 53.3377518
 LONGITUDE = -6.273927
 
+# OpenWeather API
+OPENWEATHER_API = "https://api.openweathermap.org/data/2.5/weather"
+OPENWEATHER_KEY = "OPENWEATHER_KEY"
+
 # Database
 DATABASE_URL = "DATABASE_URL"
