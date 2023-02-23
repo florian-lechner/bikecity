@@ -4,4 +4,4 @@ import openWeatherAPI
 
 scraperBike.main()
 metWeatherAPI.main()
-openWeatherAPI.main()
+#openWeatherAPI.main()
