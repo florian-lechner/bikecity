@@ -1,3 +1,5 @@
-from scraperBike import *
+import scraperBike
+import metWeatherAPI
 
-main()
+scraperBike.main()
+metWeatherAPI.main()

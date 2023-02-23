@@ -51,10 +51,8 @@ def store(weather):
                 #print(entry)
                 try:
                     session.add(Weather_table(request_time=request_time, forecast_time=forecast_time, temperature=temperature, pressure=pressure, humidity=humidity, clouds=clouds, wind_speed_mps=wind_speed_mps, wind_speed_beaufort=wind_speed_beaufort, wind_direction=wind_direction, wind_gust=wind_gust, precipitation_value=precipitation_value, precipitation_min=precipitation_min, precipitation_max=precipitation_max, precipitation_probability=precipitation_probability))
-                    print("try to commit")
                     session.commit()
                 except IntegrityError:
-                    print("rollback")
                     session.rollback()
 
 
@@ -68,5 +66,3 @@ def main():
     connect_db()
     store(weather)
     
-
-main()
