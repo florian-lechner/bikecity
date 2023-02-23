@@ -8,11 +8,11 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 import xmltodict
 
-global Base
-global engine
-global Weather_table
 
 def connect_db():
+    global Base
+    global engine
+    global Weather_table
     Base = automap_base()
     engine = create_engine(DATABASE_URL)
 

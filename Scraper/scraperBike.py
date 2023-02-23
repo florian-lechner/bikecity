@@ -8,12 +8,13 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 
 
-global Base
-global engine
-global Station_Availability_table
-global Stations_table
+
 
 def connect_db():
+    global Base
+    global engine
+    global Station_Availability_table
+    global Stations_table
     Base = automap_base()
     engine = create_engine(DATABASE_URL)
 
