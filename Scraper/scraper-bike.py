@@ -49,7 +49,7 @@ def store(stations):
                 session.rollback()
 
 def main():
-    r = requests.get(URL, params={"contract":CONTRACT, "apiKey": JCKEY})  
+    r = requests.get(JC_URL, params={"contract":JC_CONTRACT, "apiKey": JC_KEY})  
     stations = json.loads(r.text)
     #create_stations(stations)
     store(stations)
