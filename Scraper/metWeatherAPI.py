@@ -40,7 +40,7 @@ def store(weather):
                 wind_speed_mps = float(entry["location"]["windSpeed"].get("@mps"))
                 wind_speed_beaufort = float(entry["location"]["windSpeed"].get("@beaufort"))
                 wind_direction = float(entry["location"]["windDirection"].get("@deg"))
-                wind_gust = 1 #float(entry["location"]["windGust"].get("@mps"))
+                wind_gust = float(entry["location"]["windGust"].get("@mps", 0))
             elif forecast_time == time_to_datetime(entry.get("@to")):
                 if entry["location"]["precipitation"].get("@minvalue") is None:
                     break
