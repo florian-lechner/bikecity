@@ -28,18 +28,16 @@ def time_to_datetime(time):
 
 def store(weather_extra):
     request_time = time_to_datetime(weather_extra.get("dt"))
-    
-    with Session(engine) as session:
-        for entry in weather_extra:
-            try:
-                sunrise = float(entry["sys"].get("sunrise"))
-                sunset = float(entry["sys"].get("sunset"))
-                temp = float(entry["main"].get("feels_like"))
-                visibility = float(entry.get("visibility"))
-                session.add(Weather_extra_table(request_time=request_time, sunrise=sunrise, sunset=sunset, temperature_feels_like=temp, visibility=visibility))
-                session.commit()
-            except IntegrityError:
-                session.rollback()
+    try:
+        sunrise = float(weather_extra["sys"].get("sunrise"))
+        sunset = float(weather_extra["sys"].get("sunset"))
+        temperature_feels_like = float(weather_extra["main"].get("feels_like"))
+        visibility = float(weather_extra.get("visibility"))
+        with Session(engine) as session:
+            session.add(Weather_extra_table(request_time=request_time, sunrise=sunrise, sunset=sunset, temperature_feels_like=temperature_feels_like, visibility=visibility))
+            session.commit()
+    except IntegrityError:
+        session.rollback()
 
 def main():
     r = requests.get(OPENWEATHER_API, params={"lat":LATITUDE, "lon": LONGITUDE, "appid": OPENWEATHER_KEY})   
