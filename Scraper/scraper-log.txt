@@ -1,0 +1,5 @@
+
+Traceback (most recent call last):
+  File "/home/ubuntu/comp30830/ring-ring-bike/Scraper/scraper-bike.py", line 4, in <module>
+    from sqlalchemy import create_engine
+ModuleNotFoundError: No module named 'sqlalchemy'

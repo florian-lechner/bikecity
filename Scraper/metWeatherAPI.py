@@ -33,24 +33,25 @@ def store(weather):
         for entry in weather["weatherdata"]["product"]["time"]:
             if entry.get("@from") == entry.get("@to"):
                 forecast_time = time_to_datetime(entry.get("@to"))
-                temperature = float(entry["location"]["temperature"].get("@value"))
-                pressure = float(entry["location"]["pressure"].get("@value"))
-                humidity = float(entry["location"]["humidity"].get("@value"))
-                clouds = float(entry["location"]["cloudiness"].get("@percent"))
+                temperature = float(entry["location"]["temperature"].get("@value")) # given in Celsius
+                pressure = float(entry["location"]["pressure"].get("@value"))       # given in  units of hPa
+                humidity = float(entry["location"]["humidity"].get("@value"))       # max 100 percent
+                clouds = float(entry["location"]["cloudiness"].get("@percent"))     
                 wind_speed_mps = float(entry["location"]["windSpeed"].get("@mps"))
                 wind_speed_beaufort = float(entry["location"]["windSpeed"].get("@beaufort"))
                 wind_direction = float(entry["location"]["windDirection"].get("@deg"))
-                wind_gust = 1#float(entry["location"]["windGust"].get("@mps"))
             elif forecast_time == time_to_datetime(entry.get("@to")):
                 if entry["location"]["precipitation"].get("@minvalue") is None:
                     break
-                precipitation_value = float(entry["location"]["precipitation"].get("@value"))
+                # statistical analysis of the forecast, and refer to the lower (20th percentile), 
+                # middle (60th percentile) and higher (80th percentile) expected amount
+                precipitation_value = float(entry["location"]["precipitation"].get("@value")) # given in milimeters (mm)
                 precipitation_min = float(entry["location"]["precipitation"].get("@minvalue"))
                 precipitation_max = float(entry["location"]["precipitation"].get("@maxvalue"))
                 precipitation_probability = float(entry["location"]["precipitation"].get("@probability"))
                 #print(entry)
                 try:
-                    session.add(Weather_table(request_time=request_time, forecast_time=forecast_time, temperature=temperature, pressure=pressure, humidity=humidity, clouds=clouds, wind_speed_mps=wind_speed_mps, wind_speed_beaufort=wind_speed_beaufort, wind_direction=wind_direction, wind_gust=wind_gust, precipitation_value=precipitation_value, precipitation_min=precipitation_min, precipitation_max=precipitation_max, precipitation_probability=precipitation_probability))
+                    session.add(Weather_table(request_time=request_time, forecast_time=forecast_time, temperature=temperature, pressure=pressure, humidity=humidity, clouds=clouds, wind_speed_mps=wind_speed_mps, wind_speed_beaufort=wind_speed_beaufort, wind_direction=wind_direction, precipitation_value=precipitation_value, precipitation_min=precipitation_min, precipitation_max=precipitation_max, precipitation_probability=precipitation_probability))
                     session.commit()
                 except IntegrityError:
                     session.rollback()
