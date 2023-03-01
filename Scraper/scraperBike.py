@@ -30,12 +30,14 @@ def time_to_datetime(time):
     formatted_date = dt.strftime("%Y-%m-%d %H:%M:%S")
     return formatted_date
 
+# Test function to check if connection to database is successful
 def test_connection():
     with Session(engine) as session:
         result = session.execute("SELECT * FROM ringringbikes.stations")
         for line in result:
             print(line)
 
+# Functions adds every station from the API request into the stations table
 def create_stations():
     r = requests.get(JC_URL, params={"contract":JC_CONTRACT, "apiKey": JC_KEY})  
     stations = json.loads(r.text)
@@ -49,6 +51,7 @@ def create_stations():
                 session.rollback()
                 
 
+# Stores all the stations data in the station availability table
 def store(stations):
     with Session(engine) as session:
         for station in stations:
