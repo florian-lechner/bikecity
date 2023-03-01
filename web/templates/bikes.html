@@ -6,8 +6,6 @@
         <link rel="stylesheet" type="text/css" href="..\static\css\style.css">
         <title>Bikes </title>
         <script src = "..\static\script\script.js"></script>
-        <script type="text/javascript", src="..\static\script", filename='script.js'></script>
-        
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     </head>
 
@@ -20,10 +18,11 @@
         </div>
 
         <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFSzfMaJbIJfAealATuP-YHSMgZ92C75U&callback=initMap"
+            src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_API_KEY&callback=initMap"
             defer
         ></script>
-        
+
+
         <div class="wrapper" id="map" style="width:100%; height: 500px;">
             {% for station in stations %}
             <h3> {{station.name}}</h3>

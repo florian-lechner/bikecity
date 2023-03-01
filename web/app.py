@@ -11,5 +11,9 @@ station_objs = json.loads(stations.text)
 def hello_world():
     return render_template('bikes.html', stations=station_objs)
 
+@app.route("/testingGetRoute", methods= ['GET'])
+def get_station_coordinates():
+    return stations.text
+
 # To get this to do anything, type the following in the terminal (from the appropriate directory), which should launch a local server
-# python -m flask --app flaskApplication run
+# flask run
