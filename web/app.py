@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import requests
 import json
+import dbConnection
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -14,6 +15,11 @@ def hello_world():
 @app.route("/testingGetRoute", methods= ['GET'])
 def get_station_coordinates():
     return stations.text
+
+@app.route("/getStations", methods= ['GET'])
+def get_station_coordinates2():
+    dbConnection.main()
+    return dbConnection.get_stations()
 
 # To get this to do anything, type the following in the terminal (from the appropriate directory), which should launch a local server
 # flask run
