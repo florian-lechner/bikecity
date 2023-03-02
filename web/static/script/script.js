@@ -142,6 +142,7 @@ function createMarkers(stations) { // Function to create a marker for each stati
     });
     markers.push(marker);
     marker.setMap(map);  
+
     (function(currentIndex){
       marker.addListener("click", function() {
         console.log(currentIndex);
