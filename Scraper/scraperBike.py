@@ -56,7 +56,7 @@ def create_stations():
         for station in stations:
             #print(station)
             try:
-                session.add(Station_Coordinates_table(station_id=int(station.get("number")), position_lat=station.get("latitude"), position_lng=station.get("longitude")))
+                session.add(Station_Coordinates_table(station_id=int(station.get("number")), position_lat=float(station.get("latitude")), position_lng=float(station.get("longitude"))))
                 session.commit()
             except IntegrityError:
                 session.rollback()
