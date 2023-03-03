@@ -15,6 +15,7 @@ def connect_db():
     global engine
     global Station_Availability_table
     global Stations_table
+    global Station_Coordinates_table
     Base = automap_base()
     engine = create_engine(DATABASE_URL)
 
