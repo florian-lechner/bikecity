@@ -41,6 +41,7 @@ def test_connection():
 
 # Functions adds every station from the API request into the stations table
 def create_stations():
+    connect_db() # initiate DB connection
     r = requests.get(JC_URL, params={"contract":JC_CONTRACT, "apiKey": JC_KEY})  
     stations = json.loads(r.text)
     with Session(engine) as session:
