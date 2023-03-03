@@ -54,12 +54,14 @@ def create_stations():
                 session.rollback()
     with Session(engine) as session:
         for station in stations:
-            #print(station)
-            try:
-                session.add(Station_Coordinates_table(station_id=int(station.get("number")), position_lat=float(station.get("latitude")), position_lng=float(station.get("longitude"))))
-                session.commit()
-            except IntegrityError:
-                session.rollback()
+            station_lat = station.get("latitude")
+            station_lng = station.get("longitude")
+            if isinstance(station_lat, str) and isinstance(station_lng, str):
+                try:
+                    session.add(Station_Coordinates_table(station_id=int(station.get("number")), position_lat=float(station_lat), position_lng=float(station_lng)))
+                    session.commit()
+                except IntegrityError:
+                    session.rollback()
                 
 
 # Stores all the stations data in the station availability table
