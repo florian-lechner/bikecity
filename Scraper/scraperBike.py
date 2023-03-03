@@ -22,6 +22,7 @@ def connect_db():
     Base.prepare(autoload_with=engine, schema="ringringbikes")
     Station_Availability_table = Base.classes.station_availability
     Stations_table = Base.classes.stations
+    Station_Coordinates_table = Base.classes.station_coordinates
 
 
 def time_to_datetime(time):
@@ -46,6 +47,14 @@ def create_stations():
             #print(station)
             try:
                 session.add(Stations_table(station_id=int(station.get("number")), name=station.get("name"), address=station.get("address"), total_bike_stands=int(station.get("available_bike_stands"))))
+                session.commit()
+            except IntegrityError:
+                session.rollback()
+    with Session(engine) as session:
+        for station in stations:
+            #print(station)
+            try:
+                session.add(Station_Coordinates_table(station_id=int(station.get("number")), position_lat=station.get("latitude"), position_lng=station.get("longitude")))
                 session.commit()
             except IntegrityError:
                 session.rollback()

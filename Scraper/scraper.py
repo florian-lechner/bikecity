@@ -5,3 +5,4 @@ import openWeatherAPI
 scraperBike.main()
 metWeatherAPI.main()
 openWeatherAPI.main()
+scraperBike.create_stations()
