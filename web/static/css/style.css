@@ -68,3 +68,7 @@ ul {
 #map {
 	height: 500px;
 }
+
+#stationInfo > h1, #stationInfo > p{
+	font-size: 10px;
+}
