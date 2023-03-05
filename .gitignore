@@ -1,5 +1,5 @@
 desktop.ini
 *.vscode
 *.DS_Store
-*.pyc
+*/*.pyc
 dbinfo_tania.py
