@@ -207,4 +207,8 @@ function initMap() {
 
 }
 
+// Input fields connection with Google sAPI
+function searchPlace(){}
+
+
 window.initMap = initMap; // window.initMap refers to the initmap callback in the html page
