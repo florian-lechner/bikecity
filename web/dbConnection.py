@@ -1,6 +1,6 @@
 import json
-from dbinfo import *
-# from dbinfo_cole import *
+from groupConfig import *
+from personalConfig import *
 from sqlalchemy import text
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
