@@ -27,6 +27,7 @@ def time_to_datetime(time):
     return formatted_datetime
 
 def store(weather_extra):
+    # instead of request time, it is calculation time given from openWeather system
     request_time = time_to_datetime(weather_extra.get("dt"))
     try:
         sunrise = time_to_datetime(weather_extra["sys"].get("sunrise"))

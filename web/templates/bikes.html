@@ -18,7 +18,7 @@
         </div>
 
         <script
-            src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_API_KEY&libraries=places&callback=initMap"
+            src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places&callback=initMap"
             defer
         ></script>
         
@@ -44,8 +44,8 @@
         <div id="google-map-overlays">
             <div id="station-info-panel"></div>
             <div id="weather-display">
-                <div id="current-weather"></div>
-                <div id="predicted-weather"></div>
+                <div id="current-weather" style="display: inline-block; width: 100px; height: 100px; border: 1px solid blue;"></div>
+                <div id="predicted-weather" style="display: inline-block; width: 100px; height: 100px; border: 1px solid blue;"></div>
             </div>
             <div id="toggle-switches-top">
                 <button id="hide-stations-no-bikes"></button>
