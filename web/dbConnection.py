@@ -1,5 +1,6 @@
 import json
-from dbinfo import *
+from groupConfig import *
+from personalConfig import *
 from sqlalchemy import text
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
@@ -47,7 +48,19 @@ def get_station_live_data(id):
         for line in result:
             live_data = {'id': line[0], 'name': line[1], 'available_bikes': line[3], 'available_stands': line[4]}
         return live_data
-        
+
+#####        
+#def get_live_weather():
+#    live_weather = {}
+#    with Session(engine) as session:
+#        result = session.execute(text("SELECT T1.request_time, MIN(T1.forecast_time) AS forecast_time, T1.temperature, T2.request_time, T2.sunrise, T2.sunset, T2.temperature_feels_like\
+#                                      FROM ringringbikes.weather AS T1\
+#                                      JOIN ringringbikes.weather_extra AS T2 ON T1.request_time <= T2.request_time\
+#                                      GROUP BY T1.request_time;"))
+#        for line in result:
+#            live_weather = {'current_temp': line[2], 'name': line[1], 'available_bikes': line[3], 'available_stands': line[4]}
+#        return live_weather
+#####
 
 def main():
     connect_db()
