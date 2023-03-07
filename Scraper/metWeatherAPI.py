@@ -50,7 +50,7 @@ def store(weather):
                 precipitation_max = float(entry["location"]["precipitation"].get("@maxvalue"))
                 precipitation_probability = float(entry["location"]["precipitation"].get("@probability"))
                 weather_type = str(entry["location"]["symbol"].get("@id"))
-                icon_number = int(entry["location"]["symbol"].get("@id"))
+                icon_number = int(entry["location"]["symbol"].get("@number"))
                 #print(entry)
                 try:
                     session.add(Weather_table(request_time=request_time, forecast_time=forecast_time, temperature=temperature, pressure=pressure, humidity=humidity, clouds=clouds, wind_speed_mps=wind_speed_mps, wind_speed_beaufort=wind_speed_beaufort, wind_direction=wind_direction, precipitation_value=precipitation_value, precipitation_min=precipitation_min, precipitation_max=precipitation_max, precipitation_probability=precipitation_probability, weather_type=weather_type, icon_number=icon_number))
