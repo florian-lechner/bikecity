@@ -3,4 +3,5 @@ desktop.ini
 *.DS_Store
 **.pyc
 dbinfo_tania.py
+dbinfo_cole.py
 personalConfig.py
