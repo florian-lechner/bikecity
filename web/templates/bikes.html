@@ -18,7 +18,7 @@
         </div>
 
         <script
-            src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_API_KEY&callback=initMap"
+            src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_API_KEY&libraries=places&callback=initMap"
             defer
         ></script>
         
@@ -26,9 +26,9 @@
             <form action="/action_page.php">
                 <!--Provides the picker with the station location options from database-->
                 <label for="start-location-field">Start Location:</label>
-                <input type="text" id="start-location-field" name="start-location-field"><br><br>
+                <input id="start-location-field" name="start-location-field" type="text" placeholder="Search Box"/><br><br>
                 <label for="end-location-field">Destination Location:</label>
-                <input type="text" id="end-location-field" name="end-location-field"><br><br>
+                <input id="end-location-field" name="end-location-field" type="text" placeholder="Search Box"/><br><br>
                 <!--Provides days in future and time by minute starting from current user time-->
                 <label for="time-picker">Pick a time:</label>
                 <input type="text" id="lname" name="lname"><br><br>
