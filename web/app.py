@@ -7,8 +7,6 @@ from personalConfig import *
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
-
-
 @app.route("/")
 def hello_world():
     return render_template('bikes.html', GOOGLEAPI_KEY = GOOGLEAPI_KEY)

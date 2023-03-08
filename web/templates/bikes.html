@@ -1,84 +1,86 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="..\static\css\reset.css">
-        <link rel="stylesheet" type="text/css" href="..\static\css\style.css">
-        <title>Ring Ring Bike Web Application</title>
-        <script src = "..\static\script\script.js"></script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    </head>
 
-    <body>
-        <div class="title wrapper">
-            <h1>Bikes</h1>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="..\static\css\reset.css">
+    <link rel="stylesheet" type="text/css" href="..\static\css\style.css">
+    <title>Ring Ring Bike Web Application</title>
+    <script src="..\static\script\script.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+</head>
+
+<body>
+    <div class="title wrapper">
+        <h1>Bikes</h1>
+    </div>
+
+    <div id="window">
+        <div id="map-window">
+            <div id="map">
+            </div>
+
+            <div id="google-map-overlays">
+                <div id="station-info-panel">
+                    <div class="bike-availability" id="current-bike-availability"></div>
+                    <div class="bike-availability" id="current-bike-availability"></div>
+                </div>
+                <div id="weather-display">
+                    <div class="weather" id="current-weather"></div>
+                    <div class="weather" id="predicted-weather"></div>
+                </div>
+                <div id="toggle-switches-top">
+                    <button id="hide-stations-no-bikes"></button>
+                    <button id="show-bus-stations"></button>
+                    <button id="show-train-stations"></button>
+                </div>
+                <div id="toggle-switch-bottom">
+                    <button id="stats-for-nerds"></button>
+                </div>
+                <div id="popularity-diagram">
+                    <image id="bike"></image>
+                </div>
+                <div id="heat-map-slider">
+                    <form action="/action_page.php">
+                        <!--HeatMap min/max are times, step is minute, value is default for current user time-->
+                        <label for="heat-map-slider">HeatMap Time:</label>
+                        <input type="range" id="heat-map-slider" name="heat-map-slider" min="00:00" max="23:59"
+                            step="00:01" value="">
+                    </form>
+                </div>
+                <div id="recommendation-window">
+                    <p id="rec-message"></p>
+                </div>
+            </div>
         </div>
 
-        <div id="map">
-        </div>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places&callback=initMap"
+            defer></script>
 
-        <script
-            src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places&callback=initMap"
-            defer
-        ></script>
-        
         <div id="right-side-panel">
             <form action="/action_page.php">
                 <!--Provides the picker with the station location options from database-->
-                <label for="start-location-field">Start Location:</label>
-                <input id="start-location-field" name="start-location-field" type="text" placeholder="Search Box"/><br><br>
-                <label for="end-location-field">Destination Location:</label>
-                <input id="end-location-field" name="end-location-field" type="text" placeholder="Search Box"/><br><br>
+                <label for="start-location-field">Start Location:</label><br>
+
+                <input id="start-location-field" name="start-location-field" type="text"
+                    placeholder="Search Box" /><br><br>
+
+                <label for="end-location-field">Destination Location:</label><br>
+                <input id="end-location-field" name="end-location-field" type="text" placeholder="Search Box" /><br><br>
                 <!--Provides days in future and time by minute starting from current user time-->
-                <label for="time-picker">Pick a time:</label>
+                <label for="time-picker">Pick a time:</label><br>
                 <input type="text" id="lname" name="lname"><br><br>
-                <label for="departure-arrival-picker">Arrival or Destination:</label>
+                <label for="departure-arrival-picker">Arrival or Departure:</label><br>
                 <select name="departure-arrival" id="departure-arrival-picker">
-                    <option value="Arrival" selected="True"></option>
-                    <option value="Departure"></option>
+                    <option value="Arrival" selected="True">Arrival</option>
+                    <option value="Departure">Departure</option>
                 </select>
+                <br><br>
                 <input type="submit" value="Submit">
             </form>
         </div>
+    </div>
 
-        <div id="google-map-overlays">
-            <div id="station-info-panel"></div>
-            <div id="weather-display">
-                <div id="current-weather" style="display: inline-block; width: 100px; height: 100px; border: 1px solid blue;"></div>
-                <div id="predicted-weather" style="display: inline-block; width: 100px; height: 100px; border: 1px solid blue;"></div>
-            </div>
-            <div id="toggle-switches-top">
-                <button id="hide-stations-no-bikes"></button>
-                <button id="show-bus-stations"></button>
-                <button id="show-train-stations"></button>
-            </div>
-            <div id="toggle-switch-bottom">
-                <button id="stats-for-nerds"></button>
-            </div>
-            <div id="popularity-diagram">
-                <image id="bike"></image>
-            </div>
-            <div id="heat-map-slider">
-                <form action="/action_page.php">
-                    <!--HeatMap min/max are times, step is minute, value is default for current user time-->
-                    <label for="heat-map-slider">HeatMap Time:</label>
-                    <input type="range" id="heat-map-slider" name="heat-map-slider" min="00:00" max="23:59" step="00:01" value=""> 
-                </form>
-            </div>
-            <div id="recommendation-window">
-                <p id="rec-message"></p>
-            </div>
-        </div>
+</body>
 
-        <div class="wrapper" id="map" style="width:100%; height: 500px;">
-            {% for station in stations %}
-            <h3> {{station.name}}</h3>
-            <p> Latitude: {{station.position.lat}}, Longitude: {{station.position.lng}}<p>
-            <br>
-            {% endfor %}
-        </div>
-    </body>
 </html>
-
-
-<!-- https://towardsdatascience.com/integrating-google-maps-api-using-python-and-javascript-149fdba27b99 -->
