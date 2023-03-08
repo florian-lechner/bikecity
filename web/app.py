@@ -34,7 +34,8 @@ def get_station_live_data(id):
     except:
         return {'error': "No data found for station " + str(id)}
 
-#####    
+#####
+#Mandatory comment
 #@app.route("/getLiveWeather", methods= ['GET'])
 #def get_live_weather():
 #    try:
