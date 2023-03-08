@@ -133,7 +133,7 @@ function getStationsData(onStationDataLoaded) { // Function that will call whate
 
 function createMarkers(stations) { // Function to create a marker for each station and add it to the map
   // For each station in the stations list, create a new marker
-  markers = []
+  let markers = []
   for (let i = 0; i < stations.length; i++) {
     var marker = new google.maps.Marker({
       position: { lat: stations[i].position_lat, lng: stations[i].position_lng },
@@ -211,7 +211,7 @@ function initMap() {
 var place_start;
 var place_end;
 
-// Input fields connection with Google sAPI
+// Input fields connection with GoogleAPI
 function searchBoxes(){
   // Create the search box and link it to the UI element.
   const input_start = document.getElementById("start-location-field");
@@ -234,7 +234,6 @@ function searchBoxes(){
     place_end = searchBox.getPlaces();
   });
 
-  let markers = [];
 }
 
 

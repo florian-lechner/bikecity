@@ -2,6 +2,5 @@ desktop.ini
 *.vscode
 *.DS_Store
 **.pyc
-dbinfo_tania.py
-dbinfo_cole.py
-personalConfig.py
+web/personalConfig.py
+web/__pycache__/*.pyc
