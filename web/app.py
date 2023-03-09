@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 import requests
 import json
 import dbConnection
@@ -23,7 +23,7 @@ def get_station_coordinates():
         for line in result:
             station = {'id': int(line.get("number")), 'name': line.get("address"), 'position_lat': float(line.get("position").get("lat")), 'position_lng': float(line.get("position").get("lng"))}
             stations.append(station)           
-    return stations
+    return jsonify(stations)
 
 @app.route("/getLiveData/<int:id>", methods= ['GET'])
 def get_station_live_data(id):
