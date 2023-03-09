@@ -16,6 +16,35 @@
     </div>
 
     <div id="window">
+        <div id="left-side-panel">
+
+            <div id="plan-journey">
+                <button class = "plan-journey-buttons">Now</button>
+                <button class = "plan-journey-buttons">Later</button>
+            </div>
+
+            <form action="/action_page.php">
+                <!--Provides the picker with the station location options from database-->
+                <label for="start-location-field">Start Location:</label><br>
+
+                <input id="start-location-field" name="start-location-field" type="text"
+                    placeholder="Search Box" /><br><br>
+
+                <label for="end-location-field">Destination Location:</label><br>
+                <input id="end-location-field" name="end-location-field" type="text" placeholder="Search Box" /><br><br>
+                <!--Provides days in future and time by minute starting from current user time-->
+                <label for="time-picker">Pick a time:</label><br>
+                <input type="text" id="lname" name="lname"><br><br>
+                <label for="departure-arrival-picker">Arrival or Departure:</label><br>
+                <select name="departure-arrival" id="departure-arrival-picker">
+                    <option value="Arrival" selected="True">Arrival</option>
+                    <option value="Departure">Departure</option>
+                </select>
+                <br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
         <div id="map-window">
             <div id="map">
             </div>
@@ -57,28 +86,7 @@
         <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places&callback=initMap"
             defer></script>
 
-        <div id="right-side-panel">
-            <form action="/action_page.php">
-                <!--Provides the picker with the station location options from database-->
-                <label for="start-location-field">Start Location:</label><br>
 
-                <input id="start-location-field" name="start-location-field" type="text"
-                    placeholder="Search Box" /><br><br>
-
-                <label for="end-location-field">Destination Location:</label><br>
-                <input id="end-location-field" name="end-location-field" type="text" placeholder="Search Box" /><br><br>
-                <!--Provides days in future and time by minute starting from current user time-->
-                <label for="time-picker">Pick a time:</label><br>
-                <input type="text" id="lname" name="lname"><br><br>
-                <label for="departure-arrival-picker">Arrival or Departure:</label><br>
-                <select name="departure-arrival" id="departure-arrival-picker">
-                    <option value="Arrival" selected="True">Arrival</option>
-                    <option value="Departure">Departure</option>
-                </select>
-                <br><br>
-                <input type="submit" value="Submit">
-            </form>
-        </div>
     </div>
 
 </body>

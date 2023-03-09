@@ -248,11 +248,11 @@ function searchBoxes(){
   });
 
   searchBox_start.addListener("places_changed", () => {
-    place_start = searchBox.getPlaces();
+    place_start = searchBox_start.getPlaces();
   });
 
-  searchBox_start.addListener("places_changed", () => {
-    place_end = searchBox.getPlaces();
+  searchBox_end.addListener("places_changed", () => {
+    place_end = searchBox_end.getPlaces();
   });
 
 }
