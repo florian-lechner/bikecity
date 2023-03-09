@@ -133,12 +133,14 @@ function getStationsData(onStationDataLoaded) { // Function that will call whate
 
 function createMarkers(stations) { // Function to create a marker for each station and add it to the map
   // For each station in the stations list, create a new marker
-  let markers = []
+  let markers = [];
+  let openInfoWindow;
   for (let i = 0; i < stations.length; i++) {
     var marker = new google.maps.Marker({
       position: { lat: stations[i].position_lat, lng: stations[i].position_lng },
       map,
       title: stations[i].name,
+      animation: google.maps.Animation.DROP
     });
     markers.push(marker);
     marker.setMap(map);  
@@ -146,18 +148,35 @@ function createMarkers(stations) { // Function to create a marker for each stati
     (function(currentIndex){
       marker.addListener("click", function() {
         console.log(currentIndex);
-        map.setZoom(16);
-        map.setCenter({ lat: stations[currentIndex].position_lat, lng: stations[currentIndex].position_lng })
         getCurrentBikeAvailability(function (availability_data){
+          
+          // get the html contents of the info window
           let html = createPopUp(availability_data);
+          
+          // Define infor window
           const infoWindow = new google.maps.InfoWindow({
             content: html,
             ariaLabel: stations[currentIndex].name
           })
+          
+          // Open window at marker
           infoWindow.open({
             anchor: markers[currentIndex],
             map,
           });
+
+          // Hide open window if there is any, set current window to open window
+          if (openInfoWindow != undefined){
+            openInfoWindow.close();
+          }
+          openInfoWindow = infoWindow;
+          
+          // Make markers bounce :)         
+          markers[currentIndex].setAnimation(google.maps.Animation.BOUNCE);
+          setTimeout(function(){
+            markers[currentIndex].setAnimation(null);
+          });
+
         }, stations[currentIndex].id);
       }
     )})(i)
@@ -188,8 +207,8 @@ function createPopUp(availability_data) { // Function to create a pop up for a s
   var stationInfo =
     '<div id="stationInfo">' +
     '<h1>' + availability_data.name + '<h1>' +
-    '<p> Available Bikes:' + availability_data.available_bikes + '<p>' +
-    '<p> Available Stands:' + availability_data.available_stands + '<p>' +
+    '<p> Available Bikes: ' + availability_data.available_bikes + '<p>' +
+    '<p> Available Stands: ' + availability_data.available_stands + '<p>' +
     '</div>'
   return stationInfo
 }
@@ -205,6 +224,8 @@ function initMap() {
   // This will call the function that executes the get request, wait for the stations to load, and then call the create markers function with the loaded stations
   getStationsData(createMarkers);
   searchBoxes();
+
+  let openInfoWindow;
 }
 
 // Locations
