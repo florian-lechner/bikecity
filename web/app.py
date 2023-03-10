@@ -30,9 +30,9 @@ def get_station_live_data(id):
     try:
         dbConnection.main()
         live_data = dbConnection.get_station_live_data(id)
-        return live_data
+        return jsonify(live_data)
     except:
-        return {'error': "No data found for station " + str(id)}
+        return jsonify({'error': "No data found for station " + str(id)})
 
 #####
 #Mandatory comment
