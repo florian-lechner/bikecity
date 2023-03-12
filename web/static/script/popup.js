@@ -2,6 +2,11 @@ import { context } from "./context.js";
 
 function createPopUp(marker, stationAvailability) {
 
+    // Hide open window if there is any, set current window to open window
+    if (context.openInfoWindow != undefined) {
+        context.openInfoWindow.close();
+    }
+
     const infoWindow = new google.maps.InfoWindow({
         content: createPopUpHTML(stationAvailability),
         ariaLabel: stationAvailability.name
@@ -13,10 +18,6 @@ function createPopUp(marker, stationAvailability) {
         map: context.map,
     });
 
-    // Hide open window if there is any, set current window to open window
-    if (context.openInfoWindow != undefined) {
-        context.openInfoWindow.close();
-    }
     context.openInfoWindow = infoWindow;
 
     // Make markers bounce       
