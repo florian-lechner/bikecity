@@ -1,9 +1,13 @@
+import mimetypes
+mimetypes.add_type('application/javascript', '.js', strict=True)
+
 from flask import Flask, render_template, jsonify
 import requests
 import json
 import dbConnection
 from groupConfig import *
 from personalConfig import *
+
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -25,14 +29,14 @@ def get_station_coordinates():
             stations.append(station)           
     return jsonify(stations)
 
-@app.route("/getLiveData/<int:id>", methods= ['GET'])
+@app.route("/getLiveBikeData/<int:id>", methods= ['GET'])
 def get_station_live_data(id):
     try:
         dbConnection.main()
         live_data = dbConnection.get_station_live_data(id)
-        return live_data
+        return jsonify(live_data)
     except:
-        return {'error': "No data found for station " + str(id)}
+        return jsonify({'error': "No data found for station " + str(id)})
 
 #####
 #Mandatory comment
