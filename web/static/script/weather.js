@@ -25,12 +25,12 @@ function liveWeather() {
     // Create the search box and link it to the UI element.
     var liveWeather = document.getElementById("current-weather");
 
-    getLiveWeather();
+    //showLiveWeather();
 
     var liveWeather_text = 
     '<div id="current-weather-text">' +
-    '<h1> Current Weather </h1>' +
-    '<p><img id="current-weather-icon" src="' + IconSelector(currentWeatherType) + '" alt="Current weather icon"><p>' +
+    '<p> Current Weather <p>' +                 // weather icon not working yet
+    '<p><img id="current-weather-icon" src="web/static/weather_icons/04.png" alt="Current weather icon"><p>' +
     '<p>  ' + currentTemp + '°C, Feels like '+ temperatureFeelsLike +'<p>' + '</div>';
 
     liveWeather.innerHTML = liveWeather_text;
