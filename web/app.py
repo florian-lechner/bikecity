@@ -38,16 +38,23 @@ def get_station_live_data(id):
     except:
         return jsonify({'error': "No data found for station " + str(id)})
 
-#####
-#Mandatory comment
-#@app.route("/getLiveWeather", methods= ['GET'])
-#def get_live_weather():
+@app.route("/getLiveWeather", methods= ['GET'])
+def get_live_weather():
+    try:
+        dbConnection.main()
+        live_weather = dbConnection.get_live_weather()
+        return jsonify(live_weather)
+    except:
+        return jsonify({'error': "No data found for current weather"})
+    
+#@app.route("/getForecastWeather", methods= ['GET'])
+#def get_live_weather(time):
 #    try:
 #        dbConnection.main()
-#        live_weather = dbConnection.get_live_weather()
-#        return live_weather
+#        live_weather = dbConnection.get_live_weather(time)
+#        return jsonify(live_weather)
 #    except:
-#        return {'error': "No data found for weather"}
+#        return jsonify({'error': "No data found for current weather"})
 #####
 
 # To get this to do anything, type the following in the terminal (from the appropriate directory), which should launch a local server
