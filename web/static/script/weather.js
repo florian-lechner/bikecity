@@ -28,9 +28,9 @@ function liveWeather() {
     //showLiveWeather();
 
     var liveWeather_text = 
-    '<div id="current-weather-text">' +
+      '<div id="current-weather-text">' +
     '<p> Current Weather <p>' +                 // weather icon not working yet
-    '<p><img id="current-weather-icon" src="web/static/weather_icons/04.png" alt="Current weather icon"><p>' +
+    '<p><img id="current-weather-icon" src="/static/weather_icons/04.png" alt="Current weather icon"><p>' +
     '<p>  ' + currentTemp + '°C, Feels like '+ temperatureFeelsLike +'<p>' + '</div>';
 
     liveWeather.innerHTML = liveWeather_text;
@@ -106,9 +106,9 @@ function IconSelector(currentWeatherType) {
   } else {
     iconName = weatherIcons.hasOwnProperty(currentWeatherType) ? weatherIcons[currentWeatherType] : '04';
   }
-  iconPath = `web/static/weather_icons/${iconName}.png`;
+  iconPath = `/static/weather_icons/${iconName}.png`;
   return iconPath;
 }
 
 
-export {showLiveWeather};
+export { showLiveWeather };

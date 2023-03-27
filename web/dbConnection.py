@@ -59,7 +59,7 @@ def get_live_weather():
                                       ORDER BY T1.request_time DESC\
                                       LIMIT 1;"))
         for line in result:
-            live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': line[4], 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[6], 'temperature_feels_like': line[7]}
+            live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': line[4], 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': line[8]}
         return live_weather
 
 #def get_forecast_weather(time): # time taken from input form
