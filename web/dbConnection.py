@@ -52,6 +52,7 @@ def get_station_live_data(id):
 def get_live_weather():
     live_weather = {}
     with Session(engine) as session:
+        # Sort table by request time - get newest request time (min) - get first entry
         result = session.execute(text("SELECT T1.request_time, MIN(T1.forecast_time) AS forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.request_time, T2.sunrise, T2.sunset, T2.temperature_feels_like\
                                       FROM ringringbikes.weather AS T1\
                                       JOIN ringringbikes.weather_extra AS T2 ON T1.request_time <= T2.request_time\
@@ -65,6 +66,7 @@ def get_live_weather():
 #def get_forecast_weather(time): # time taken from input form
 #    forecast_weather = {}
 #    with Session(engine) as session:
+        # Sort table by request time - use forecast time - get first entry
 #        result = session.execute(text("SELECT T1.request_time, MIN(T1.forecast_time) AS forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.request_time, T2.sunrise, T2.sunset\
 #                                      FROM ringringbikes.weather AS T1\
 #                                      JOIN ringringbikes.weather_extra AS T2 ON T1.request_time <= T2.request_time\
