@@ -21,16 +21,18 @@ function liveWeather(weatherData) {
   liveWeather.innerHTML = liveWeather_text;
 }
 
-function showPredictedWeather() {
-  fetch("/getForecastWeather/<string:selectedTime>")
-  .then((response) => response.json())
-  .then((weatherData) => predictedWeather(weatherData));
+function showPredictedWeather(selectedTime) {
+  console.log(selectedTime);
+  fetch("/getForecastWeather/" + selectedTime)
+    .then((response) => response.json())
+    .then((weatherData) => predictedWeather(weatherData));
 };
 
 
 function predictedWeather(weatherData) {
   // Find predicted weather div to append predicted weather info to
   var predictedWeather = document.getElementById("predicted-weather");
+  
   // Toggle the display of the predicted weather
   predictedWeather.style.display = "block";
   

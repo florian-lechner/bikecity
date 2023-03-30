@@ -1,15 +1,6 @@
 import { context } from "./context.js";
 import { showPredictedWeather }  from "./weather.js"
 
-// --> Would need to include the Now and Later buttons in future time
-
-
-// Globally available variables
-let startLocation;
-let endLocation;
-let selectedTime;
-let departureOrArrival;
-
 
 function formSubmission() {
     // Get the submit button element
@@ -21,27 +12,27 @@ function formSubmission() {
         // Prevent the default form submission behavior
         event.preventDefault();
 
+        debugger
         // Get the values of the input fields
-        startLocation = document.getElementById('start-location-field').value;
-        endLocation = document.getElementById('end-location-field').value;
-        selectedTime = convertTime(document.getElementById('time-picker').value);
-        departureOrArrival = document.getElementById('departure-arrival-picker').value;
+        let startLocation = document.getElementById('start-location-field').value;
+        let endLocation = document.getElementById('end-location-field').value;
+        let selectedTime = convertTime(document.getElementById('time-picker').value);
+        let departureOrArrival = document.getElementById('departure-arrival-picker').value;
         
         // Call the method to get the 
-        showPredictedWeather();
+        showPredictedWeather(selectedTime);
     });
 }
 
 // Helper function to convert time from timepicker to database format
+// TO DO: Needs to be able to convert selected date/time to hours from now for forecast
 function convertTime(time){
-    // extract values from time
-    var timepickerhours = time.split(":")[0];
-    var timepickerminutes = time.split(":")[1];
+
+    console.log(typeof(time))
 
     // create new instance of time
-    var today = new Date();
-    var date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), timepickerhours, timepickerminutes);
-    
+    var date = new Date(time);
+
     // extract necessary values
     let year = date.getFullYear();
     let month = String(date.getMonth() + 1).padStart(2, '0');
