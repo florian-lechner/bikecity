@@ -1,45 +1,50 @@
 import { context } from "./context.js";
 
-// Globally available variables
-let currentTemp;
-let sunriseTime;
-let sunsetTime;
-let temperatureFeelsLike;
-let currentWeatherType;
-
 function showLiveWeather() {
     fetch("/getLiveWeather")
       .then((response) => response.json())
-      .then((weatherData) => {
-        // save data into variables
-        currentTemp = weatherData.current_temp;
-        sunriseTime = weatherData.sunrise_time;
-        sunsetTime = weatherData.sunset_time;
-        temperatureFeelsLike = weatherData.temperature_feels_like;
-        currentWeatherType = weatherData.weather_type;
-      })
-      .then(() => liveWeather()); // call LiveWeather() after data is retrieved
+      .then((weatherData) => liveWeather(weatherData));
 }
 
-function liveWeather() {
-    // Create the search box and link it to the UI element.
-    var liveWeather = document.getElementById("current-weather");
+function liveWeather(weatherData) {
+  // Find current weather div to append current weather info to
+  var liveWeather = document.getElementById("current-weather");
 
-    //showLiveWeather();
-
-    var liveWeather_text = 
-      '<div id="current-weather-text">' +
+  // Generate live weather HTML
+  var liveWeather_text = 
+    '<div id="current-weather-text">' +
     '<p> Current Weather <p>' +                 // weather icon not working yet
     '<p><img id="current-weather-icon" src="/static/weather_icons/04.png" alt="Current weather icon"><p>' +
-    '<p>  ' + currentTemp + '°C, Feels like '+ temperatureFeelsLike +'<p>' + '</div>';
+    '<p>  ' + weatherData.current_temp + '°C, Feels like '+ weatherData.temperature_feels_like +'°C<p>' + '</div>';
+  
+  // Insert the live weather html
+  liveWeather.innerHTML = liveWeather_text;
+}
 
-    liveWeather.innerHTML = liveWeather_text;
-  }
+function showPredictedWeather() {
+  fetch("/getForecastWeather/<string:selectedTime>")
+  .then((response) => response.json())
+  .then((weatherData) => predictedWeather(weatherData));
+};
 
-// function ForecastWeather() {
-//    var predictedWeather_box = document.getElementById("predicted-weather");
-//    var predictedWeather_text;
-// }
+
+function predictedWeather(weatherData) {
+  // Find predicted weather div to append predicted weather info to
+  var predictedWeather = document.getElementById("predicted-weather");
+  // Toggle the display of the predicted weather
+  predictedWeather.style.display = "block";
+  
+  // Generate predicted weather HTML
+  var predictedWeather_text = 
+    '<div id="predicted-weather-text">' +
+    '<p> Predicted Weather <p>' +                 // weather icon not working yet
+    '<p><img id="predicted-weather-icon" src="/static/weather_icons/04.png" alt="Predicted weather icon"><p>' +
+    '<p>  ' + weatherData.currentTemp + '°C';
+  
+  // Insert the predicted weather html
+  predictedWeather.innerHTML = predictedWeather_text;
+}
+
 
 function IconSelector(currentWeatherType) {
   const sunrise = new Date(sunriseTime);
@@ -111,4 +116,4 @@ function IconSelector(currentWeatherType) {
 }
 
 
-export { showLiveWeather };
+export { showLiveWeather, showPredictedWeather };

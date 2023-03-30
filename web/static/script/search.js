@@ -13,7 +13,6 @@ function searchBoxes() {
     const input_end = document.getElementById("end-location-field");
     const searchBox_end = new google.maps.places.SearchBox(input_end);
   
-    debugger
     // Bias the SearchBox results towards current map's viewport.
     context.map.addListener("bounds_changed", () => {
       searchBox_start.setBounds(context.map.getBounds());

@@ -47,15 +47,15 @@ def get_live_weather():
     except:
         return jsonify({'error': "No data found for current weather"})
     
-#@app.route("/getForecastWeather", methods= ['GET'])
-#def get_live_weather(time):
-#    try:
-#        dbConnection.main()
-#        live_weather = dbConnection.get_live_weather(time)
-#        return jsonify(live_weather)
-#    except:
-#        return jsonify({'error': "No data found for current weather"})
-#####
+@app.route("/getForecastWeather/<string:time>", methods= ['GET'])
+def get_forecast_weather(time):
+    try:
+        dbConnection.main()
+        live_weather = dbConnection.get_live_weather(time)
+        return jsonify(live_weather)
+    except:
+        return jsonify({'error': "No data found for future weather"})
+####
 
 # To get this to do anything, type the following in the terminal (from the appropriate directory), which should launch a local server
 # flask run

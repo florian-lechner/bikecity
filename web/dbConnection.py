@@ -59,22 +59,30 @@ def get_live_weather():
                                       GROUP BY T1.request_time\
                                       ORDER BY T1.request_time DESC\
                                       LIMIT 1;"))
+        
+
+        
         for line in result:
             live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': line[4], 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': line[8]}
         return live_weather
 
-#def get_forecast_weather(time): # time taken from input form
-#    forecast_weather = {}
-#    with Session(engine) as session:
-        # Sort table by request time - use forecast time - get first entry
-#        result = session.execute(text("SELECT T1.request_time, MIN(T1.forecast_time) AS forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.request_time, T2.sunrise, T2.sunset\
-#                                      FROM ringringbikes.weather AS T1\
-#                                      JOIN ringringbikes.weather_extra AS T2 ON T1.request_time <= T2.request_time\
-#                                      GROUP BY T1.request_time\
-#                                      WHERE T1.forecast_time = :id;"), {"id": time})
-#        for line in result:
-#            forecast_weather = {'forecast_temp': line[2], 'weather_type': line[3], 'icon_number': line[4]}
-#        return forecast_weather
+def get_forecast_weather(time): # time taken from input form
+   forecast_weather = {}
+   with Session(engine) as session:
+        dt = datetime.fromtimestamp(time / 1000)
+        formattedTime = dt.strftime("%Y-%m-%d %H:%M:%S")
+        print(formattedTime)
+        # result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.sunrise, T2.sunset, T2.temperature_feels_like\
+        #                             FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
+        #                             WHERE T1.request_time = T2.request_time AND T1.request_time = \
+	    #                             (SELECT MAX(T1.request_time)\
+	    #                             FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
+	    #                             WHERE T1.request_time = T2.request_time)\
+        #                             AND T1.forecast_time = ':time'\
+        #                             ORDER BY T1.request_time DESC;"), {"time": formattedTime})
+        # for line in result:
+        #     forecast_weather = {'forecast_temp': line[2], 'weather_type': line[3], 'icon_number': line[4]}
+        # return forecast_weather
 
 def main():
     connect_db()
