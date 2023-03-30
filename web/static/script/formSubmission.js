@@ -23,7 +23,7 @@ function formSubmission() {
     // Get the values of the input fields
     startLocation = document.getElementById('start-location-field').value;
     endLocation = document.getElementById('end-location-field').value;
-    selectedTime = document.getElementById('time-picker').value;
+    selectedTime = document.getElementById('time-picker').value; // time input changed
     departureOrArrival = document.getElementById('departure-arrival-picker').value;
    
     });
