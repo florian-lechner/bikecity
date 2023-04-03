@@ -36,16 +36,15 @@
                 
                 <!-- Provides days in future and time by minute starting from current user time
                 <label for="time-picker">Pick a time:</label><br>
-                <input type="time" id="time-picker" name="time-picker" step="300"><br><br> -->
-                
+                <!-- need to add current day as min and next 4 days max 
+                <input type="time" id="time-picker" name="time-picker" step="300">-->
+                <input type="datetime-local" id="time-picker" name="date" min="2023-04-01T00:00" max="2023-06-01T23:59"/><br><br>
                 <label for="departure-arrival-picker">Arrival or Departure:</label><br>
                 <select name="departure-arrival" id="departure-arrival-picker">
                     <option value="Arrival" selected="True">Arrival</option>
                     <option value="Departure">Departure</option>
                 </select>
                 
-                <!-- need to add current day as min and next 4 days max -->
-                <input type="datetime-local" id="time-picker" name="date" min="2023-04-01T00:00" max="2023-04-04T23:59"/>
                 <br><br>
                 <input type="submit" value="Submit">
             </form>
