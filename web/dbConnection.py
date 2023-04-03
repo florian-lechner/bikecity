@@ -68,28 +68,31 @@ def get_live_weather():
                                         LIMIT 1;"))
         
         for line in result:
-            if 0 > line[4] or line[4] > 52:
-                # fallback
-                ico = 4
-            else:
-                ico = line[4]
-            # Icon number to string:
-            if ico < 10:
-                ico = "0" + str(ico)
-            else:
-                ico = str(ico)
-            # Add day & night to icon
-            if ico not in ("04", "09", "10", "11", "12", "13", "14", "15", "22", "23", "30", "31", "32", "33", "34", "46", "47", "48", "49", "50"):
-                if line[6] <= line[0] < line[7]:
-                    ico += "d"
-                else:
-                    ico += "n"
-            else:
-                pass
+            
+            ico = icon_to_file_name(line[4])
 
             live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': ico, 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': round(line[8])}
         return live_weather
 
+
+def icon_to_file_name(icon):
+    if 0 > icon or icon > 52:
+        # fallback
+        ico = 4
+    else:
+        ico = icon
+    # Icon number to string:
+    if ico < 10:
+        ico = "0" + str(ico)
+    else:
+        ico = str(ico)
+    # Add day & night to icon
+    if ico not in ("04", "09", "10", "11", "12", "13", "14", "15", "22", "23", "30", "31", "32", "33", "34", "46", "47", "48", "49", "50"):
+        if line[6] <= line[0] < line[7]:
+            ico += "d"
+        else:
+            ico += "n"
+    return ico
 
 def get_forecast_weather(time): # time taken from input form
    forecast_weather = {}
