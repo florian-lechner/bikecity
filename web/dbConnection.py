@@ -68,18 +68,25 @@ def get_live_weather():
                                         LIMIT 1;"))
         
         for line in result:
-            # Icon number to string:
-            if line[4] < 10:
-                ico = "0" + str(line[4])
+            if 0 > line[4] or line[4] > 52:
+                # fallback
+                ico = 4
             else:
-                ico = str(line[4])
+                ico = line[4]
+            # Icon number to string:
+            if ico < 10:
+                ico = "0" + str(ico)
+            else:
+                ico = str(ico)
             # Add day & night to icon
             if ico not in ("04", "09", "10", "11", "12", "13", "14", "15", "22", "23", "30", "31", "32", "33", "34", "46", "47", "48", "49", "50"):
                 if line[6] <= line[0] < line[7]:
                     ico += "d"
                 else:
                     ico += "n"
-            
+            else:
+                pass
+
             live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': ico, 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': round(line[8])}
         return live_weather
 
