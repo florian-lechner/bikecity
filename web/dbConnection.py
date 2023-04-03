@@ -8,6 +8,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from datetime import datetime
 import requests
+import util
 
 # create the connection to the database
 def connect_db():
@@ -28,13 +29,16 @@ def connect_db():
 def get_stations():
     stations = []
     with Session(engine) as session:
-        result = session.execute(text("SELECT ringringbikes.stations.station_id, address, position_lat as lat, position_lng as lng \
-                                      FROM ringringbikes.stations, ringringbikes.station_coordinates \
-                                      WHERE ringringbikes.stations.station_id = ringringbikes.station_coordinates.station_id;"))
-                
+        result = session.execute(text("SELECT S.station_id, address, position_lat as lat, position_lng as lng, SA.available_bikes, SA.available_bike_stands\
+                                            FROM ringringbikes.stations as S, ringringbikes.station_coordinates as SC, ringringbikes.station_availability AS SA, \
+                                                (SELECT SA.station_id, MAX(SA.last_update) AS last_update_time\
+                                                FROM ringringbikes.station_availability AS SA\
+                                                GROUP BY SA.station_id) AS LT\
+                                            WHERE S.station_id = SC.station_id AND S.station_id = SA.station_id AND LT.station_id = S.station_id AND SA.last_update = LT.last_update_time;"))               
         for line in result:
-            station = {'id': line[0], 'name': line[1], 'position_lat': float(line[2]), 'position_lng': float(line[3])}
+            station = {'id': line[0], 'name': line[1], 'position_lat': float(line[2]), 'position_lng': float(line[3]), 'bikes': float(line[4]), 'bike_stands': float(line[5])}
             stations.append(station)
+            print(station)
     return stations
 
 def get_station_live_data(id):
@@ -42,9 +46,9 @@ def get_station_live_data(id):
     with Session(engine) as session:
         result = session.execute(text("SELECT SA.station_id, S.address, LT.last_update_time, SA.available_bikes, SA.available_bike_stands\
                                       FROM ringringbikes.stations as S, ringringbikes.station_availability AS SA,\
-                                      (SELECT SA.station_id, MAX(SA.last_update) AS last_update_time\
-                                      FROM ringringbikes.station_availability AS SA\
-                                      GROUP BY SA.station_id) AS LT\
+                                        (SELECT SA.station_id, MAX(SA.last_update) AS last_update_time\
+                                        FROM ringringbikes.station_availability AS SA\
+                                        GROUP BY SA.station_id) AS LT\
                                       WHERE SA.station_id = LT.station_id AND S.station_id = SA.station_id AND SA.last_update = LT.last_update_time AND SA.station_id = :id;"), {"id": id})
         for line in result:
             live_data = {'id': line[0], 'name': line[1], 'available_bikes': line[3], 'available_stands': line[4]}
@@ -53,8 +57,6 @@ def get_station_live_data(id):
 def get_live_weather():
     live_weather = {}
     with Session(engine) as session:
-        # Sort table by request time - get newest request time (min) - merge weather with weather_extra table on rounded request time - get first entry
-
         result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.request_time, T2.sunrise, T2.sunset, T2.temperature_feels_like\
                                         FROM ringringbikes.weather AS T1\
                                         JOIN ringringbikes.weather_extra AS T2 ON CONCAT(DATE_FORMAT(T1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(T2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T2.request_time) / 5) * 5, 2, '0'), '\:00')\
@@ -68,53 +70,30 @@ def get_live_weather():
                                         LIMIT 1;"))
         
         for line in result:
-            
-            ico = icon_to_file_name(line[4])
-
+            ico = util.icon_to_file_name(line[4], line)
             live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': ico, 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': round(line[8])}
         return live_weather
 
-
-def icon_to_file_name(icon):
-    if 0 > icon or icon > 52:
-        # fallback
-        ico = 4
-    else:
-        ico = icon
-    # Icon number to string:
-    if ico < 10:
-        ico = "0" + str(ico)
-    else:
-        ico = str(ico)
-    # Add day & night to icon
-    if ico not in ("04", "09", "10", "11", "12", "13", "14", "15", "22", "23", "30", "31", "32", "33", "34", "46", "47", "48", "49", "50"):
-        if line[6] <= line[0] < line[7]:
-            ico += "d"
-        else:
-            ico += "n"
-    return ico
-
-def get_forecast_weather(time): # time taken from input form
-   forecast_weather = {}
+def get_forecast_weather(hours): # time taken from input form
+   hours = int(hours)
    with Session(engine) as session:
-        dt = datetime.fromtimestamp(time / 1000)
-        formattedTime = dt.strftime("%Y-%m-%d %H:%M:%S")
-        print(formattedTime)
-        # result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.sunrise, T2.sunset, T2.temperature_feels_like\
-        #                             FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
-        #                             WHERE T1.request_time = T2.request_time AND T1.request_time = \
-	    #                             (SELECT MAX(T1.request_time)\
-	    #                             FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
-	    #                             WHERE T1.request_time = T2.request_time)\
-        #                             AND T1.forecast_time = ':time'\
-        #                             ORDER BY T1.request_time DESC;"), {"time": formattedTime})
-        # for line in result:
-        #     forecast_weather = {'forecast_temp': line[2], 'weather_type': line[3], 'icon_number': line[4]}
-        # return forecast_weather
+        result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.sunrise, T2.sunset, T2.temperature_feels_like\
+                                    FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
+                                    WHERE T1.request_time = T2.request_time AND T1.request_time = (\
+	                                    SELECT MAX(T1.request_time)\
+	                                    FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
+	                                    WHERE T1.request_time = T2.request_time)\
+                                    ORDER BY T1.request_time DESC;"))
+        for i, line in enumerate(result):
+            if i == hours:
+                ico = util.icon_to_file_name(line[4], line)
+                return {'forecast_temp': line[2], 'weather_type': line[3], 'icon_number': ico}
+        return {'No forecast found for %f hours from now', hours}
 
 def main():
     connect_db()
+    print(get_forecast_weather('10'))
 
 main()
-# get_station_live_data(111)
-# print(get_station_live_data(11))
+
+
