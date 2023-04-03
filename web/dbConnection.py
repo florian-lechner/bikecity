@@ -31,6 +31,7 @@ def get_stations():
         result = session.execute(text("SELECT ringringbikes.stations.station_id, address, position_lat as lat, position_lng as lng \
                                       FROM ringringbikes.stations, ringringbikes.station_coordinates \
                                       WHERE ringringbikes.stations.station_id = ringringbikes.station_coordinates.station_id;"))
+                
         for line in result:
             station = {'id': line[0], 'name': line[1], 'position_lat': float(line[2]), 'position_lng': float(line[3])}
             stations.append(station)
@@ -52,19 +53,46 @@ def get_station_live_data(id):
 def get_live_weather():
     live_weather = {}
     with Session(engine) as session:
-        # Sort table by request time - get newest request time (min) - get first entry
-        result = session.execute(text("SELECT T1.request_time, MIN(T1.forecast_time) AS forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.request_time, T2.sunrise, T2.sunset, T2.temperature_feels_like\
-                                      FROM ringringbikes.weather AS T1\
-                                      JOIN ringringbikes.weather_extra AS T2 ON T1.request_time <= T2.request_time\
-                                      GROUP BY T1.request_time\
-                                      ORDER BY T1.request_time DESC\
-                                      LIMIT 1;"))
-        
+        # Sort table by request time - get newest request time (min) - merge weather with weather_extra table on rounded request time - get first entry
 
+        result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.request_time, T2.sunrise, T2.sunset, T2.temperature_feels_like\
+                                        FROM ringringbikes.weather AS T1\
+                                        JOIN ringringbikes.weather_extra AS T2 ON CONCAT(DATE_FORMAT(T1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(T2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T2.request_time) / 5) * 5, 2, '0'), '\:00')\
+                                        WHERE T1.forecast_time = (\
+                                            SELECT MIN(T1.forecast_time)\
+                                            FROM ringringbikes.weather AS T1\
+                                            GROUP BY T1.request_time\
+                                            ORDER BY T1.request_time DESC\
+                                            LIMIT 1)\
+                                        ORDER BY T1.request_time DESC\
+                                        LIMIT 1;"))
         
         for line in result:
-            live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': line[4], 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': line[8]}
+            
+            ico = icon_to_file_name(line[4])
+
+            live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': ico, 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': round(line[8])}
         return live_weather
+
+
+def icon_to_file_name(icon):
+    if 0 > icon or icon > 52:
+        # fallback
+        ico = 4
+    else:
+        ico = icon
+    # Icon number to string:
+    if ico < 10:
+        ico = "0" + str(ico)
+    else:
+        ico = str(ico)
+    # Add day & night to icon
+    if ico not in ("04", "09", "10", "11", "12", "13", "14", "15", "22", "23", "30", "31", "32", "33", "34", "46", "47", "48", "49", "50"):
+        if line[6] <= line[0] < line[7]:
+            ico += "d"
+        else:
+            ico += "n"
+    return ico
 
 def get_forecast_weather(time): # time taken from input form
    forecast_weather = {}

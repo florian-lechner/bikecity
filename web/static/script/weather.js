@@ -14,7 +14,7 @@ function liveWeather(weatherData) {
   var liveWeather_text = 
     '<div id="current-weather-text">' +
     '<p> Current Weather <p>' +                 // weather icon not working yet
-    '<p><img id="current-weather-icon" src="/static/weather_icons/04.png" alt="Current weather icon"><p>' +
+    '<p><img id="current-weather-icon" src="/static/weather_icons/' + weatherData.icon_number + '.png" alt="Current weather icon"><p>' +
     '<p>  ' + weatherData.current_temp + '°C, Feels like '+ weatherData.temperature_feels_like +'°C<p>' + '</div>';
   
   // Insert the live weather html

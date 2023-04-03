@@ -3,6 +3,10 @@ import { showPredictedWeather }  from "./weather.js"
 
 
 function formSubmission() {
+    // Limits Date selector
+    document.getElementById("time-picker").setAttribute("min", formatDay(0)+"T00:00");
+    document.getElementById("time-picker").setAttribute("max", formatDay(3)+"T23:59");
+
     // Get the submit button element
     var submitBtn = document.querySelector('input[type="submit"]');
 
@@ -22,6 +26,25 @@ function formSubmission() {
         // Call the method to get the 
         showPredictedWeather(selectedTime);
     });
+}
+
+function formatDay(add){
+    var day = new Date(); 
+    day.setDate(day.getDate() + add);
+    var dd = day.getDate();
+    var mm = day.getMonth() + 1; // January would 0
+    var yyyy = day.getFullYear();
+
+    if (dd < 10) {
+    dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+    mm = '0' + mm;
+    } 
+        
+    day = yyyy + '-' + mm + '-' + dd;
+    return day
 }
 
 // Helper function to convert time from timepicker to database format
