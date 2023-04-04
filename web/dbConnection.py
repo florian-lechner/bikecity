@@ -55,27 +55,27 @@ def get_live_weather():
     with Session(engine) as session:
         # Sort table by request time - get newest request time (min) - merge weather with weather_extra table on rounded request time - get first entry
 
-        result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.request_time, T2.sunrise, T2.sunset, T2.temperature_feels_like\
-                                        FROM ringringbikes.weather AS T1\
-                                        JOIN ringringbikes.weather_extra AS T2 ON CONCAT(DATE_FORMAT(T1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(T2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T2.request_time) / 5) * 5, 2, '0'), '\:00')\
-                                        WHERE T1.forecast_time = (\
-                                            SELECT MIN(T1.forecast_time)\
-                                            FROM ringringbikes.weather AS T1\
-                                            GROUP BY T1.request_time\
-                                            ORDER BY T1.request_time DESC\
+        result = session.execute(text("SELECT W1.request_time, W1.forecast_time, W1.temperature, W1.weather_type, W1.icon_number, W2.request_time, W2.sunrise, W2.sunset, W2.temperature_feels_like, W2.day_flag\
+                                        FROM ringringbikes.weather AS W1\
+                                        JOIN ringringbikes.weather_extra AS W2 ON CONCAT(DATE_FORMAT(W1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(W2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W2.request_time) / 5) * 5, 2, '0'), '\:00')\
+                                        WHERE W1.forecast_time = (\
+                                            SELECT MIN(W1.forecast_time)\
+                                            FROM ringringbikes.weather AS W1\
+                                            GROUP BY W1.request_time\
+                                            ORDER BY W1.request_time DESC\
                                             LIMIT 1)\
-                                        ORDER BY T1.request_time DESC\
+                                        ORDER BY W1.request_time DESC\
                                         LIMIT 1;"))
         
         for line in result:
             
-            ico = icon_to_file_name(line[4])
+            ico = icon_to_file_name(line[4],line[9])
 
             live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': ico, 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': round(line[8])}
         return live_weather
 
 
-def icon_to_file_name(icon):
+def icon_to_file_name(icon, day_flag):
     if 0 > icon or icon > 52:
         # fallback
         ico = 4
@@ -88,7 +88,7 @@ def icon_to_file_name(icon):
         ico = str(ico)
     # Add day & night to icon
     if ico not in ("04", "09", "10", "11", "12", "13", "14", "15", "22", "23", "30", "31", "32", "33", "34", "46", "47", "48", "49", "50"):
-        if line[6] <= line[0] < line[7]:
+        if day_flag == 1:
             ico += "d"
         else:
             ico += "n"
@@ -100,14 +100,14 @@ def get_forecast_weather(time): # time taken from input form
         dt = datetime.fromtimestamp(time / 1000)
         formattedTime = dt.strftime("%Y-%m-%d %H:%M:%S")
         print(formattedTime)
-        # result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.sunrise, T2.sunset, T2.temperature_feels_like\
-        #                             FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
-        #                             WHERE T1.request_time = T2.request_time AND T1.request_time = \
-	    #                             (SELECT MAX(T1.request_time)\
-	    #                             FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
-	    #                             WHERE T1.request_time = T2.request_time)\
-        #                             AND T1.forecast_time = ':time'\
-        #                             ORDER BY T1.request_time DESC;"), {"time": formattedTime})
+        # result = session.execute(text("SELECT W1.request_time, W1.forecast_time, W1.temperature, W1.weather_type, W1.icon_number, W2.sunrise, W2.sunset, W2.temperature_feels_like\
+        #                             FROM ringringbikes.weather AS W1, ringringbikes.weather_extra AS W2\
+        #                             WHERE W1.request_time = W2.request_time AND W1.request_time = \
+	    #                             (SELECT MAX(W1.request_time)\
+	    #                             FROM ringringbikes.weather AS W1, ringringbikes.weather_extra AS W2\
+	    #                             WHERE W1.request_time = W2.request_time)\
+        #                             AND W1.forecast_time = ':time'\
+        #                             ORDER BY W1.request_time DESC;"), {"time": formattedTime})
         # for line in result:
         #     forecast_weather = {'forecast_temp': line[2], 'weather_type': line[3], 'icon_number': line[4]}
         # return forecast_weather
