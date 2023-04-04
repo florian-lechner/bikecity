@@ -1,32 +1,64 @@
 import { context } from "./context.js";
 import { showPredictedWeather }  from "./weather.js"
 
-
-function formSubmission() {
+function nowLaterButton() {
+    const nowButton = document.getElementById("now-button");
+    const laterButton = document.getElementById("later-button");
+  
+    nowButton.addEventListener("click", function () {
+      document.getElementById("time-picker").style.display = "none";
+      document.getElementById("departure-arrival-picker").style.display = "none";
+      document.getElementById("arrdep-label").style.display = "none";
+      document.getElementById("datetime-label").style.display = "none";
+      nowButton.classList.add("selected");
+      laterButton.classList.remove("selected");
+      document.querySelector(".newline").style.display = "none";
+    });
+  
+    laterButton.addEventListener("click", function () {
+      document.getElementById("time-picker").style.display = "block";
+      document.getElementById("departure-arrival-picker").style.display = "block";
+      document.getElementById("arrdep-label").style.display = "inline-block";
+      document.getElementById("datetime-label").style.display = "inline-block";
+      laterButton.classList.add("selected");
+      nowButton.classList.remove("selected");
+      document.querySelector(".newline").style.display = "none";
+    });
+  }
+  
+  function formSubmission() {
+    // Call nowLaterButton function to add event listeners to the buttons
+    nowLaterButton();
+  
     // Limits Date selector
-    document.getElementById("time-picker").setAttribute("min", formatDay(0)+"T00:00");
-    document.getElementById("time-picker").setAttribute("max", formatDay(3)+"T23:59");
-
+    document.getElementById("time-picker").setAttribute("min", formatDay(0) + "T00:00");
+    document.getElementById("time-picker").setAttribute("max", formatDay(3) + "T23:59");
+  
     // Get the submit button element
     var submitBtn = document.querySelector('input[type="submit"]');
-
+  
     // Add a click event listener to the submit button
-    submitBtn.addEventListener('click', function(event) {
-        
-        // Prevent the default form submission behavior
-        event.preventDefault();
-
-        debugger
-        // Get the values of the input fields
-        let startLocation = document.getElementById('start-location-field').value;
-        let endLocation = document.getElementById('end-location-field').value;
-        let hoursToTime = convertTimeToHours(document.getElementById('time-picker').value);
-        let departureOrArrival = document.getElementById('departure-arrival-picker').value;
-        
-        // Call the method to get the 
-        showPredictedWeather(hoursToTime);
+    submitBtn.addEventListener("click", function (event) {
+      // Prevent the default form submission behavior
+      event.preventDefault();
+  
+      // Get the values of the input fields
+      let startLocation = document.getElementById("start-location-field").value;
+      let endLocation = document.getElementById("end-location-field").value;
+      let hoursToTime = convertTimeToHours(document.getElementById("time-picker").value);
+      let departureOrArrival = document.getElementById("departure-arrival-picker").value;
+  
+      if (document.getElementById("time-picker").style.display === "none") {
+        // If the time-picker is hidden, assume 'Now' mode
+        const now = new Date();
+        hoursToTime = convertTimeToHours(now.toISOString().slice(0, 19));
+        departureOrArrival = "departure";
+      }
+  
+      // Call the method to get the predicted weather
+      showPredictedWeather(hoursToTime);
     });
-}
+  }
 
 function formatDay(add){
     var day = new Date(); 
