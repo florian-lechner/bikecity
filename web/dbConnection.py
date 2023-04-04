@@ -57,16 +57,6 @@ def get_station_live_data(id):
 def get_live_weather():
     live_weather = {}
     with Session(engine) as session:
-        result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.request_time, T2.sunrise, T2.sunset, T2.temperature_feels_like\
-                                        FROM ringringbikes.weather AS T1\
-                                        JOIN ringringbikes.weather_extra AS T2 ON CONCAT(DATE_FORMAT(T1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(T2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T2.request_time) / 5) * 5, 2, '0'), '\:00')\
-                                        WHERE T1.forecast_time = (\
-                                            SELECT MIN(T1.forecast_time)\
-                                            FROM ringringbikes.weather AS T1\
-                                            GROUP BY T1.request_time\
-                                            ORDER BY T1.request_time DESC\
-        # Sort table by request time - get newest request time (min) - merge weather with weather_extra table on rounded request time - get first entry
-
         result = session.execute(text("SELECT W1.request_time, W1.forecast_time, W1.temperature, W1.weather_type, W1.icon_number, W2.request_time, W2.sunrise, W2.sunset, W2.temperature_feels_like, W2.day_flag\
                                         FROM ringringbikes.weather AS W1\
                                         JOIN ringringbikes.weather_extra AS W2 ON CONCAT(DATE_FORMAT(W1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(W2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W2.request_time) / 5) * 5, 2, '0'), '\:00')\
@@ -80,9 +70,7 @@ def get_live_weather():
                                         LIMIT 1;"))
         
         for line in result:
-            
             ico = util.icon_to_file_name(line[4],line[9])
-
             live_weather = {'current_temp': line[2], 'weather_type': line[3], 'icon_number': ico, 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': round(line[8])}
         return live_weather
 
