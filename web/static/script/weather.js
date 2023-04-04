@@ -12,9 +12,9 @@ function liveWeather(weatherData) {
   // Generate live weather HTML
   var liveWeather_text = 
     '<div id="current-weather-text">' +
-    '<p> Current Weather <p>' +                 // weather icon not working yet
+    '<p> Current <p>' +                
     '<p><img id="current-weather-icon" src="/static/weather_icons/' + weatherData.icon_number + '.png" alt="Current weather icon"><p>' +
-    '<p>  ' + weatherData.current_temp + '°C, Feels like '+ weatherData.temperature_feels_like +'°C<p>' + '</div>';
+    '<p>  ' + weatherData.current_temp + '°C<br>Feels like '+ weatherData.temperature_feels_like +'°C<p>' + '</div>';
   // Insert the live weather html
   liveWeather.innerHTML = liveWeather_text;
 }
@@ -35,7 +35,7 @@ function predictedWeather(weatherData) {
   // Generate predicted weather HTML
   var predictedWeather_text = 
     '<div id="predicted-weather-text">' +
-    '<p> Predicted Weather <p>' +                 
+    '<p> Forecast <p>' +                 
     '<p><img id="predicted-weather-icon" src="/static/weather_icons/' + weatherData.icon_number + '.png" alt="Predicted weather icon"><p>' +
     '<p>  ' + weatherData.forecast_temp + '°C';
   // Insert the predicted weather html
