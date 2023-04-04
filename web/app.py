@@ -17,17 +17,22 @@ def hello_world():
 
 
 @app.route("/getStations", methods= ['GET'])
-def get_station_coordinates():
+def get_stations():
     try:
+        print("Attempting to get stations from database...")
         dbConnection.main()
         stations = dbConnection.get_stations()
-    except:
+        
+    except Exception as e:
+        print("Database connection failed. Getting stations from JCDecaux API")
+        print(repr(e))
         stations = []
         result = requests.get(JC_URL, params={"contract":JC_CONTRACT, "apiKey": JC_KEY})  
         result = json.loads(result.text)
         for line in result:
-            station = {'id': int(line.get("number")), 'name': line.get("address"), 'position_lat': float(line.get("position").get("lat")), 'position_lng': float(line.get("position").get("lng")), 'bikes': int(line.get("bikes")), 'bike_stands': int(line.get("bike_stands"))}
+            station = {'id': int(line.get("number")), 'name': line.get("address"), 'position_lat': float(line.get("position").get("lat")), 'position_lng': float(line.get("position").get("lng")), 'bikes': int(line.get("available_bikes")), 'bike_stands': int(line.get("available_bike_stands"))}
             stations.append(station)           
+    
     return jsonify(stations)
 
 
