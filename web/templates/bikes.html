@@ -20,8 +20,8 @@
         <div id="left-side-panel">
 
             <div id="plan-journey">
-                <button class = "plan-journey-buttons">Now</button>
-                <button class = "plan-journey-buttons">Later</button>
+                <button class = "plan-journey-buttons" id="now-button">Now</button>
+                <button class = "plan-journey-buttons" id="later-button">Later</button>
             </div>
 
             <form>
@@ -34,18 +34,21 @@
                 <label for="end-location-field">Destination Location:</label><br>
                 <input id="end-location-field" name="end-location-field" type="text" placeholder="Search Box" /><br><br>
                 
-                <!-- Provides days in future and time by minute starting from current user time
-                <label for="time-picker">Pick a time:</label><br>
-                <!-- need to add current day as min and next 4 days max 
-                <input type="time" id="time-picker" name="time-picker" step="300">-->
+                <!-- Provides days in future and time by minute starting from current user time -->
+                <!-- <label for="time-picker">Pick a time:</label><br> -->
+                <!-- need to add current day as min and next 4 days max -->
+                <!-- <input type="time" id="time-picker" name="time-picker" step="300">-->
+
+                <label for="time-picker" id="datetime-label">Pick Date and Time:</label><br> 
                 <input type="datetime-local" id="time-picker" name="date" min="2023-04-01T00:00" max="2023-06-01T23:59"/><br><br>
-                <label for="departure-arrival-picker">Arrival or Departure:</label><br>
+                <span class="newline"></span>
+                <label for="departure-arrival-picker" id="arrdep-label">Arrival or Departure:</label><br>
                 <select name="departure-arrival" id="departure-arrival-picker">
                     <option value="Arrival" selected="True">Arrival</option>
                     <option value="Departure">Departure</option>
                 </select>
-                
-                <br><br>
+                <span class="newline"></span>
+                <br>
                 <input type="submit" value="Submit">
             </form>
         </div>
