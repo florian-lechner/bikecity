@@ -23,11 +23,29 @@ function createMarkers(stations) { // Function to create a marker for each stati
       position: { lat: station.position_lat, lng: station.position_lng },
       map: context.map,
       title: station.name,
-      animation: google.maps.Animation.DROP
+      animation: google.maps.Animation.DROP,
+      icon: {
+        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+        scale: 8,
+        fillColor: availabilityColor(station), // Set the fill color to blue
+        fillOpacity: 1,
+        strokeWeight: 0
+      }
     });
     marker.setMap(context.map);
     addMarkerListener(marker, station);
   };
+}
+
+function availabilityColor(station){
+
+  // let value = parseInt(station.bikes) / (parseInt(station.bikes) + parseInt(station.bike_stands));
+  console.log(station);
+  // let hue = ((1-value)*120).toString(10);
+  // console.log("hi colors");
+  // console.log("value: " + value + " hue: " + hue);
+  // return ["hsl(",hue,",100%,50%)"].join("");
+  return "#0000FF"
 }
 
 function addMarkerListener(marker, station) {

@@ -26,7 +26,7 @@ def get_station_coordinates():
         result = requests.get(JC_URL, params={"contract":JC_CONTRACT, "apiKey": JC_KEY})  
         result = json.loads(result.text)
         for line in result:
-            station = {'id': int(line.get("number")), 'name': line.get("address"), 'position_lat': float(line.get("position").get("lat")), 'position_lng': float(line.get("position").get("lng"))}
+            station = {'id': int(line.get("number")), 'name': line.get("address"), 'position_lat': float(line.get("position").get("lat")), 'position_lng': float(line.get("position").get("lng")), 'bikes': int(line.get("bikes")), 'bike_stands': int(line.get("bike_stands"))}
             stations.append(station)           
     return jsonify(stations)
 
