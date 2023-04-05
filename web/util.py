@@ -16,3 +16,4 @@ def icon_to_file_name(icon, day_flag):
         else:
             ico += "n"
     return ico
+

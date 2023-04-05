@@ -58,3 +58,11 @@ def get_forecast_weather(hours):
         return jsonify(live_weather)
     except:
         return jsonify({'error': "No data found for future weather for hour " + hours})
+
+"""
+@app.route("/testCleanData", methods= ['GET'])
+def get_clean_data():
+    dbConnection.main()
+    output = dbConnection.create_min_availability()
+    return output
+"""
