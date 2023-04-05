@@ -3,7 +3,6 @@ import { createPopUp } from "./popup.js";
 import { stylesArray } from "./stylesArray.js";
 
 function drawMap() {
-  console.log("Hello from the other side")
   context.map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 53.350, lng: -6.260 },
     zoom: 14,
@@ -18,6 +17,7 @@ function drawMap() {
 }
 
 function createMarkers(stations) { // Function to create a marker for each station and add it to the map
+  console.log("Creating markers...")
   for (let station of stations) { // For each station in the stations list, create a new marker
     var marker = new google.maps.Marker({
       position: { lat: station.position_lat, lng: station.position_lng },
@@ -26,11 +26,12 @@ function createMarkers(stations) { // Function to create a marker for each stati
       animation: google.maps.Animation.DROP,
       icon: {
         path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-        scale: 8,
+        scale: 6,
         fillColor: availabilityColor(station), // Set the fill color to blue
         fillOpacity: 1,
-        strokeWeight: 0
-      }
+        strokeWeight: 0.5,
+      },
+      label: station.bikes.toString()
     });
     marker.setMap(context.map);
     addMarkerListener(marker, station);
@@ -38,14 +39,9 @@ function createMarkers(stations) { // Function to create a marker for each stati
 }
 
 function availabilityColor(station){
-
-  // let value = parseInt(station.bikes) / (parseInt(station.bikes) + parseInt(station.bike_stands));
-  console.log(station);
-  // let hue = ((1-value)*120).toString(10);
-  // console.log("hi colors");
-  // console.log("value: " + value + " hue: " + hue);
-  // return ["hsl(",hue,",100%,50%)"].join("");
-  return "#0000FF"
+  let value = parseInt(station.bikes) / (parseInt(station.bikes) + parseInt(station.bike_stands));
+  let hue = ((value)*120).toString(10);
+  return ["hsl(",hue,",100%,50%)"].join("");
 }
 
 function addMarkerListener(marker, station) {

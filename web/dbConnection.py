@@ -22,10 +22,10 @@ def connect_db():
     engine = create_engine(DATABASE_URL)
 
     # reflect the tables
-    Base.prepare(autoload_with=engine, schema="ringringbikes")
-    Station_Availability_table = Base.classes.station_availability
-    Stations_table = Base.classes.stations
-    Station_Coordinates_table = Base.classes.station_coordinates
+    # Base.prepare(autoload_with=engine, schema="ringringbikes")
+    # Station_Availability_table = Base.classes.station_availability
+    # Stations_table = Base.classes.stations
+    # Station_Coordinates_table = Base.classes.station_coordinates
     #Station_Availability_timestamp_table = Base.classes.station_availability_timestamp
 
 def get_stations():
@@ -40,7 +40,7 @@ def get_stations():
         for line in result:
             station = {'id': line[0], 'name': line[1], 'position_lat': float(line[2]), 'position_lng': float(line[3]), 'bikes': float(line[4]), 'bike_stands': float(line[5])}
             stations.append(station)
-            print(station)
+    print("Successfully retrieved stations from database.")
     return stations
 
 def get_station_live_data(id):
@@ -87,13 +87,12 @@ def get_forecast_weather(hours): # time taken from input form
 	                                    WHERE T1.request_time = T2.request_time)\
                                     ORDER BY T1.request_time DESC;"))
         for i, line in enumerate(result):
-            if i == hours:
+            if i ==int(hours):
                 ico = util.icon_to_file_name(line[4], line[8])
                 return {'forecast_temp': line[2], 'weather_type': line[3], 'icon_number': ico}
         return {'No forecast found for %f hours from now', hours}
 
 def main():
     connect_db()
-    print(get_forecast_weather('10'))
 
 main()
