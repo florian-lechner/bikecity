@@ -88,7 +88,6 @@ function convertTimeToHours(time){
     let date = new Date(time);
     let now =  new Date();
     let hoursToPlannedTime = Math.ceil(Math.abs(date - now) / 36e5);
-
     return hoursToPlannedTime; 
 }
 
