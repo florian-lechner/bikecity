@@ -26,7 +26,6 @@ function searchBoxes() {
     searchBox_end.addListener("places_changed", () => {
       place_end = searchBox_end.getPlaces();
     });
-  
   }
 
-export {searchBoxes}
+export {searchBoxes};

@@ -131,6 +131,11 @@ ul {
 	float: left;
 }
 
+#distance-calculator-table {
+	font-size: 8;
+	border: #444;
+}
+
 #plan-journey > button {
     width: 100px;
     height: 40px;
