@@ -52,6 +52,7 @@ function nowLaterButton() {
         // If the time-picker is hidden, assume 'Now' mode
         const now = new Date();
         hoursToTime = convertTimeToHours(now.toISOString().slice(0, 19));
+        console.log(hoursToTime);
         departureOrArrival = "departure";
       }
   

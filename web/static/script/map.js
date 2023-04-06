@@ -7,6 +7,7 @@ function drawMap() {
     center: { lat: 53.350, lng: -6.260 },
     zoom: 14,
     styles: stylesArray,
+    disableDefaultUI: true
   })
 
   // This will call the function that executes the get request, wait for the stations to load, and then call the create markers function with the loaded stations
