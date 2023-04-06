@@ -57,6 +57,9 @@ function nowLaterButton() {
   
       // Call the method to get the predicted weather
       showPredictedWeather(hoursToTime);
+
+      //Call the distance method with the given startLocation and endLocation
+      // insert here!
     });
   }
 
