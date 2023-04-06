@@ -12,7 +12,7 @@ def create_min_availability():
     errors = []
     with Session(scraperBike.engine) as session:
         # Get first and last date from db to create five minute steps inbetween that
-        time_queries = ["SELECT MIN(last_update) FROM ringringbikes.station_availability;", "SELECT MAX(last_update) FROM ringringbikes.station_availability;"]
+        time_queries = ["SELECT MAX(timestamp) FROM ringringbikes.station_availability_timestamp;", "SELECT MAX(last_update) FROM ringringbikes.station_availability;"]
         time_limits = []
         for query in time_queries:
             result = session.execute(text(query))

@@ -1,102 +1,172 @@
 var stylesArray = [
-    [
-      {
-        "featureType": "administrative",
-        "elementType": "geometry",
-        "stylers": [
+  {
+      "featureType": "all",
+      "elementType": "geometry.fill",
+      "stylers": [
           {
-            "visibility": "off"
+              "weight": "2.00"
           }
-        ]
-      },
-      {
-        "featureType": "administrative.land_parcel",
-        "elementType": "labels",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "all",
+      "elementType": "geometry.stroke",
+      "stylers": [
           {
-            "visibility": "off"
+              "color": "#9c9c9c"
           }
-        ]
-      },
-      {
-        "featureType": "poi",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "all",
+      "elementType": "labels.text",
+      "stylers": [
           {
-            "visibility": "off"
+              "visibility": "on"
           }
-        ]
-      },
-      {
-        "featureType": "poi",
-        "elementType": "labels.text",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "landscape",
+      "elementType": "all",
+      "stylers": [
           {
-            "visibility": "off"
+              "color": "#f2f2f2"
           }
-        ]
-      },
-      {
-        "featureType": "road",
-        "elementType": "labels.icon",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "landscape",
+      "elementType": "geometry.fill",
+      "stylers": [
           {
-            "visibility": "off"
+              "color": "#ffffff"
           }
-        ]
-      },
-      {
-        "featureType": "road.local",
-        "elementType": "labels",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "landscape.man_made",
+      "elementType": "geometry.fill",
+      "stylers": [
           {
-            "visibility": "off"
+              "color": "#ffffff"
           }
-        ]
-      },
-      {
-        "featureType": "transit",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "poi",
+      "elementType": "all",
+      "stylers": [
           {
-            "visibility": "off"
+              "visibility": "off"
           }
-        ]
-      },
-      {
-        "featureType": "transit.station",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "road",
+      "elementType": "all",
+      "stylers": [
           {
-            "visibility": "on"
+              "saturation": -100
           },
           {
-            "weight": 8
+              "lightness": 45
           }
-        ]
-      },
-      {
-        "featureType": "transit.station.airport",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "road",
+      "elementType": "geometry.fill",
+      "stylers": [
           {
-            "visibility": "on"
+              "color": "#eeeeee"
           }
-        ]
-      },
-      {
-        "featureType": "transit.station.bus",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "road",
+      "elementType": "labels.text.fill",
+      "stylers": [
           {
-            "visibility": "on"
+              "color": "#7b7b7b"
           }
-        ]
-      },
-      {
-        "featureType": "transit.station.rail",
-        "stylers": [
+      ]
+  },
+  {
+      "featureType": "road",
+      "elementType": "labels.text.stroke",
+      "stylers": [
           {
-            "visibility": "on"
+              "color": "#ffffff"
           }
-        ]
-      }
-    ]
-  ]
+      ]
+  },
+  {
+      "featureType": "road.highway",
+      "elementType": "all",
+      "stylers": [
+          {
+              "visibility": "simplified"
+          }
+      ]
+  },
+  {
+      "featureType": "road.arterial",
+      "elementType": "labels.icon",
+      "stylers": [
+          {
+              "visibility": "off"
+          }
+      ]
+  },
+  {
+      "featureType": "transit",
+      "elementType": "all",
+      "stylers": [
+          {
+              "visibility": "off"
+          }
+      ]
+  },
+  {
+      "featureType": "water",
+      "elementType": "all",
+      "stylers": [
+          {
+              "color": "#46bcec"
+          },
+          {
+              "visibility": "on"
+          }
+      ]
+  },
+  {
+      "featureType": "water",
+      "elementType": "geometry.fill",
+      "stylers": [
+          {
+              "color": "#c8d7d4"
+          }
+      ]
+  },
+  {
+      "featureType": "water",
+      "elementType": "labels.text.fill",
+      "stylers": [
+          {
+              "color": "#070707"
+          }
+      ]
+  },
+  {
+      "featureType": "water",
+      "elementType": "labels.text.stroke",
+      "stylers": [
+          {
+              "color": "#ffffff"
+          }
+      ]
+  }
+]
 
-  export {stylesArray}
+export { stylesArray }
