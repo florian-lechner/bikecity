@@ -14,6 +14,7 @@ def connect_db():
     global Base
     global engine
     global Station_Availability_table
+    global Station_Availability_timestamp_table
     global Stations_table
     global Station_Coordinates_table
     Base = automap_base()
@@ -24,6 +25,7 @@ def connect_db():
     Station_Availability_table = Base.classes.station_availability
     Stations_table = Base.classes.stations
     Station_Coordinates_table = Base.classes.station_coordinates
+    Station_Availability_timestamp_table = Base.classes.station_availability_timestamp
 
 
 def time_to_datetime(time):
