@@ -7,102 +7,119 @@
     <link rel="stylesheet" type="text/css" href="..\static\css\style.css">
     <title>bikecity</title>
     <script  type = "module" src="..\static\script\main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- <script  src="..\static\script\map.js"></script> -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 </head>
 
 <body>
     <div class="title wrapper">
-        <h1>bikecity</h1>
+        <img src="/static/img/BIKECITY.svg" alt="Bikecity logo">
+    </div>
+
+    <div class="current-weather-box">
+        <div class="temperature-curve">
+            <canvas id="current-temp-graph" width="48" height="48"></canvas>
+            <canvas id="current-temp-graph-number" width="48" height="48"></canvas>
+            <span id="current-temp">-°C</span><span id="current-min">-</span><span id="current-max">-</span>
+        </div>
+        <div class="precipitation-curve">
+            <canvas id="current-precipitation-graph" width="48" height="48"></canvas>
+            <canvas id="current-precipitation-graph-number" width="48" height="48"></canvas>
+            <span id="current-precipitation-probability">-%</span><img src="/static/img/umbrella.svg" alt="umbrella icon" id="umbrella-icon">
+        </div>
+        <div class="weather" id="current-weather"></div>
     </div>
 
     <div id="window">
-        <div id="left-side-panel">
-
-            <div id="plan-journey">
-                <button class = "plan-journey-buttons" id="now-button">Now</button>
-                <button class = "plan-journey-buttons" id="later-button">Later</button>
-            </div>
-
-            <form>
-                <!--Provides the picker with the station location options from database-->
-                <label for="start-location-field">Start Location:</label><br>
-
-                <input id="start-location-field" name="start-location-field" type="text"
-                    placeholder="Search Box" /><br><br>
-
-                <label for="end-location-field">Destination Location:</label><br>
-                <input id="end-location-field" name="end-location-field" type="text" placeholder="Search Box" /><br><br>
-                
-                <!-- Provides days in future and time by minute starting from current user time -->
-                <!-- <label for="time-picker">Pick a time:</label><br> -->
-                <!-- need to add current day as min and next 4 days max -->
-                <!-- <input type="time" id="time-picker" name="time-picker" step="300">-->
-
-                <label for="time-picker" id="datetime-label">Pick Date and Time:</label><br> 
-                <input type="datetime-local" id="time-picker" name="date" min="2023-04-01T00:00" max="2023-06-01T23:59"/><br><br>
-                <span class="newline"></span>
-                <label for="departure-arrival-picker" id="arrdep-label">Arrival or Departure:</label><br>
-                <select name="departure-arrival" id="departure-arrival-picker">
-                    <option value="Arrival" selected="True">Arrival</option>
-                    <option value="Departure">Departure</option>
-                </select>
-                <span class="newline"></span>
-                <br>
-                <input type="submit" value="Submit">
-            </form>
-            <br>
-            <br>
-            <div id="distance-calculator">
-                <table id="distance-calculator-table">
-                    <thead>
-                      <tr>
-                        <th>Station Name</th>
-                        <th>Available Bikes</th>
-                        <th>Chance to Get Bike</th>
-                        <th>Walking Distance</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- Row 1 -->
-                      <tr>
-                        <td id="station-name-1"></td>
-                        <td id="available-bikes-1"></td>
-                        <td id="chance-to-get-bike-1"></td>
-                        <td id="walking-distance-1"></td>
-                      </tr>
-                      <!-- Row 2 -->
-                      <tr>
-                        <td id="station-name-2"></td>
-                        <td id="available-bikes-2"></td>
-                        <td id="chance-to-get-bike-2"></td>
-                        <td id="walking-distance-2"></td>
-                      </tr>
-                      <!-- Row 3 -->
-                      <tr>
-                        <td id="station-name-3"></td>
-                        <td id="available-bikes-3"></td>
-                        <td id="chance-to-get-bike-3"></td>
-                        <td id="walking-distance-3"></td>
-                      </tr>
-                      <!-- Row 4 -->
-                      <tr>
-                        <td id="station-name-4"></td>
-                        <td id="available-bikes-4"></td>
-                        <td id="chance-to-get-bike-4"></td>
-                        <td id="walking-distance-4"></td>
-                      </tr>
-                      <!-- Row 5 = with definite availability condition! -->
-                      <tr>
-                        <td id="station-name-5"></td>
-                        <td id="available-bikes-5"></td>
-                        <td id="chance-to-get-bike-5"></td>
-                        <td id="walking-distance-5"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-            </div>
+        <!--
+        <div id="plan-journey">
+            <button class = "plan-journey-buttons" id="now-button">Now</button>
+            <button class = "plan-journey-buttons" id="later-button">Later</button>
         </div>
+        -->
+        
+
+        <form>
+            
+            <select name="now-departure-arrival" id="now-departure-arrival-picker">
+                <option value="Start Now" selected="True">Start Now</option>
+                <option value="Arrival">Arrival</option>
+                <option value="Departure">Departure</option>
+            </select>
+            
+            <span id="date-time-picker">
+            <input type="datetime-local" id="time-picker" name="date" min="2023-04-01T00:00" max="2023-06-01T23:59"/>
+            </span>
+
+            <!--Provides the picker with the station location options from database-->
+            <div class="location">
+                <input id="start-location-field" name="start-location-field" type="text"
+                    placeholder="Start location" /><br><br>
+                <span id="add-destination">+ Add destination</span>
+                <input id="end-location-field" name="end-location-field" type="text" placeholder="Destination" /><br><br>
+            </div>
+
+            <!--
+            <span class="newline"></span>
+            <label for="departure-arrival-picker" id="arrdep-label">Arrival or Departure:</label><br>
+            -->
+            <span class="newline"></span>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        <br>
+        <br>
+        <div id="distance-calculator">
+            <table id="distance-calculator-table">
+                <thead>
+                    <tr>
+                    <th>Station Name</th>
+                    <th>Available Bikes</th>
+                    <th>Chance to Get Bike</th>
+                    <th>Walking Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Row 1 -->
+                    <tr>
+                    <td id="station-name-1"></td>
+                    <td id="available-bikes-1"></td>
+                    <td id="chance-to-get-bike-1"></td>
+                    <td id="walking-distance-1"></td>
+                    </tr>
+                    <!-- Row 2 -->
+                    <tr>
+                    <td id="station-name-2"></td>
+                    <td id="available-bikes-2"></td>
+                    <td id="chance-to-get-bike-2"></td>
+                    <td id="walking-distance-2"></td>
+                    </tr>
+                    <!-- Row 3 -->
+                    <tr>
+                    <td id="station-name-3"></td>
+                    <td id="available-bikes-3"></td>
+                    <td id="chance-to-get-bike-3"></td>
+                    <td id="walking-distance-3"></td>
+                    </tr>
+                    <!-- Row 4 -->
+                    <tr>
+                    <td id="station-name-4"></td>
+                    <td id="available-bikes-4"></td>
+                    <td id="chance-to-get-bike-4"></td>
+                    <td id="walking-distance-4"></td>
+                    </tr>
+                    <!-- Row 5 = with definite availability condition! -->
+                    <tr>
+                    <td id="station-name-5"></td>
+                    <td id="available-bikes-5"></td>
+                    <td id="chance-to-get-bike-5"></td>
+                    <td id="walking-distance-5"></td>
+                    </tr>
+                </tbody>
+                </table>
+        </div>
+        
     </div>
 
         <div id="map-window">
@@ -110,15 +127,15 @@
             </div>
 
             <div id="google-map-overlays">
-                <div id="station-info-panel">
+                <!--<div id="station-info-panel">
                     <div class="bike-availability" id="current-bike-availability"></div>
                     <div class="bike-availability" id="current-bike-availability"></div>
-                </div>
+                </div>-->
                 <div id="weather-display">
-                    <div class="weather" id="current-weather"></div>
+                    <!--<div class="weather" id="current-weather"></div>-->
                     <div class="weather" id="predicted-weather"></div>
                 </div>
-                <div id="toggle-switches-top">
+                <!--<div id="toggle-switches-top">
                     <button id="hide-stations-no-bikes"></button>
                     <button id="show-bus-stations"></button>
                     <button id="show-train-stations"></button>
@@ -128,7 +145,7 @@
                 </div>
                 <div id="popularity-diagram">
                     <image id="bike"></image>
-                </div>
+                </div>-->
                 <div id="heat-map-slider">
                     <form action="/action_page.php">
                         <!--HeatMap min/max are times, step is minute, value is default for current user time-->

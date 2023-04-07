@@ -2,33 +2,31 @@ import { context } from "./context.js";
 import { showPredictedWeather }  from "./weather.js"
 
 function nowLaterButton() {
-    const nowButton = document.getElementById("now-button");
-    const laterButton = document.getElementById("later-button");
-  
-    nowButton.addEventListener("click", function () {
-      document.getElementById("time-picker").style.display = "none";
-      document.getElementById("departure-arrival-picker").style.display = "none";
-      document.getElementById("arrdep-label").style.display = "none";
-      document.getElementById("datetime-label").style.display = "none";
-      nowButton.classList.add("selected");
-      laterButton.classList.remove("selected");
-      document.querySelector(".newline").style.display = "none";
-    });
-  
-    laterButton.addEventListener("click", function () {
-      document.getElementById("time-picker").style.display = "block";
-      document.getElementById("departure-arrival-picker").style.display = "block";
-      document.getElementById("arrdep-label").style.display = "inline-block";
-      document.getElementById("datetime-label").style.display = "inline-block";
-      laterButton.classList.add("selected");
-      nowButton.classList.remove("selected");
-      document.querySelector(".newline").style.display = "none";
-    });
+  const laterDropdown = document.getElementById("now-departure-arrival-picker");
+
+  laterDropdown.addEventListener("change", (event) => {
+    if(event.target.value != "Start Now") {
+      document.getElementById("date-time-picker").style.display = "inline-block";
+    }
+    else if (event.target.value == "Start Now") {
+      document.getElementById("date-time-picker").style.display = "none";
+    }
+  });
   }
   
+  function addDestination() {
+    const addDestination = document.getElementById("add-destination");
+
+    addDestination.addEventListener("click", (event) => {
+      document.getElementById("add-destination").style.display = "none";
+      document.getElementById("end-location-field").style.display = "block";
+    })
+  }
+
   function formSubmission() {
     // Call nowLaterButton function to add event listeners to the buttons
     nowLaterButton();
+    addDestination();
   
     // Limits Date selector
     document.getElementById("time-picker").setAttribute("min", formatDay(0) + "T00:00");
