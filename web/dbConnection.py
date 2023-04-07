@@ -59,37 +59,43 @@ def get_station_live_data(id):
 def get_live_weather():
     live_weather = {}
     with Session(engine) as session:
-        result = session.execute(text("SELECT W1.request_time, W1.forecast_time, W1.temperature, W1.weather_type, W1.icon_number, W2.sunrise, W2.sunset, W2.temperature_feels_like, W2.day_flag, W1.precipitation_probability\
-                                        FROM ringringbikes.weather AS W1\
-                                        JOIN ringringbikes.weather_extra AS W2 ON CONCAT(DATE_FORMAT(W1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(W2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W2.request_time) / 5) * 5, 2, '0'), '\:00')\
-                                        WHERE W1.forecast_time = (\
-                                            SELECT MIN(W1.forecast_time)\
+        try:
+            result = session.execute(text("SELECT W1.request_time, W1.forecast_time, W1.temperature, W1.weather_type, W1.icon_number, W2.sunrise, W2.sunset, W2.temperature_feels_like, W2.day_flag, W1.precipitation_probability\
                                             FROM ringringbikes.weather AS W1\
-                                            GROUP BY W1.request_time\
+                                            JOIN ringringbikes.weather_extra AS W2 ON CONCAT(DATE_FORMAT(W1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(W2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W2.request_time) / 5) * 5, 2, '0'), '\:00')\
+                                            WHERE W1.forecast_time = (\
+                                                SELECT MIN(W1.forecast_time)\
+                                                FROM ringringbikes.weather AS W1\
+                                                GROUP BY W1.request_time\
+                                                ORDER BY W1.request_time DESC\
+                                                LIMIT 1)\
                                             ORDER BY W1.request_time DESC\
-                                            LIMIT 1)\
-                                        ORDER BY W1.request_time DESC\
-                                        LIMIT 1;"))
-        
-        for line in result:
-            ico = util.icon_to_file_name(line[4],line[8])
-            live_weather = {'current_temp': round(line[2]), 'weather_type': line[3], 'icon_number': ico, 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': round(line[8]), 'precipitation_probability': round(line[9])}
+                                            LIMIT 1;"))
+            
+            for line in result:
+                ico = util.icon_to_file_name(line[4],line[8])
+                live_weather = {'current_temp': round(line[2]), 'weather_type': line[3], 'icon_number': ico, 'request_time': line[0], 'sunrise_time': line[6], 'sunset_time': line[7], 'temperature_feels_like': round(line[8]), 'precipitation_probability': round(line[9])}
+        except:
+            print("Error getting current weather from SQL")
         
         # Get min / max weather:
         #Test date:
         today =  str(date(2023, 3, 8)) #str(date.today())
         min_max_temp = []
-        result = session.execute(text("SELECT W1.temperature\
-                                    FROM ringringbikes.weather AS W1\
-                                    WHERE CONCAT(DATE_FORMAT(W1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W1.request_time) / 5) * 5, 2, '0'), '\:00') = '" + today + " 00:00:00'\
-                                    ORDER BY W1.forecast_time ASC;"))
-        
-        for i, line in enumerate(result):
-            if i < 24:
-                min_max_temp.append(line[0])
+        try:
+            result = session.execute(text("SELECT W1.temperature\
+                                        FROM ringringbikes.weather AS W1\
+                                        WHERE CONCAT(DATE_FORMAT(W1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W1.request_time) / 5) * 5, 2, '0'), '\:00') = '" + today + " 00:00:00'\
+                                        ORDER BY W1.forecast_time ASC;"))
+            
+            for i, line in enumerate(result):
+                if i < 24:
+                    min_max_temp.append(line[0])
 
-        live_weather["min_temp"] = round(min(min_max_temp))
-        live_weather["max_temp"] = round(max(min_max_temp))
+            live_weather["min_temp"] = round(min(min_max_temp))
+            live_weather["max_temp"] = round(max(min_max_temp))
+        except:
+            print("Error getting current min/max weather")
         return live_weather
 
 def get_forecast_weather(hours): # time taken from input form
