@@ -32,7 +32,7 @@ function nowLaterButton() {
     addDestination();
 
     // Initialize search boxes for location input fields
-    const locations = searchBoxes();
+    //var locations = searchBoxes();
   
     // Limits Date selector
     document.getElementById("time-picker").setAttribute("min", formatDay(0) + "T00:00");
@@ -40,48 +40,21 @@ function nowLaterButton() {
   
     // Get the submit button element
     var submitBtn = document.querySelector('input[type="submit"]');
-  
-    // Add a click event listener to the submit button
-    submitBtn.addEventListener("click", function (event) {
-      // Prevent the default form submission behavior
-      event.preventDefault();
-  
-      // Get the start and end location objects
-      const startLocation = locations.getStartLocation();
-      const endLocation = locations.getEndLocation();
-      // Declare the latitude and longitude variables for start and end locations
-      let startLocationLat, startLocationLng, endLocationLat, endLocationLng;
-      // Check if start and end location objects are available
-      if (startLocation && endLocation) {
-        // Get the latitude and longitude of the start and end locations
-        startLocationLat = startLocation.geometry.location.lat();
-        startLocationLng = startLocation.geometry.location.lng();
-        endLocationLat = endLocation.geometry.location.lat();
-        endLocationLng = endLocation.geometry.location.lng();
-      }
-
+    
+    // Listener Date change
+    document.getElementById("time-picker").addEventListener("change", function (event) {
       let hoursToTime = convertTimeToHours(document.getElementById("time-picker").value);
-      let departureOrArrival = document.getElementById("departure-arrival-picker").value;
+      let departureOrArrival = document.getElementById("now-departure-arrival-picker").value;
   
-      if (document.getElementById("time-picker").style.display === "none") {
-        // If the time-picker is hidden, assume 'Now' mode
-        const now = new Date();
-        hoursToTime = convertTimeToHours(now.toISOString().slice(0, 19));
-        console.log(hoursToTime);
-        departureOrArrival = "departure";
+      if (departureOrArrival == "Start Now") {
+        // If now, current date as start time
+        hoursToTime = 0;
+        console.log("Time: ", hoursToTime);
+        departureOrArrival = "Departure";
       }
   
       // Call the method to get the predicted weather
       showPredictedWeather(hoursToTime);
-
-      //Call the distance method with the given startLocation and endLocation
-      console.log("startLAT:", startLocationLat)
-      console.log("startLNG:", startLocationLng)
-      // Call the distance method with the given startLocation 
-      findDistances(startLocationLat, startLocationLng, 'bike', (closestStations) => {
-        populateTable(closestStations, 'distance-calculator-table1');
-        document.getElementById("distance-calculator-table1").style.visibility = "visible";
-      });
     });
   }
 

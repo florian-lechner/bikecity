@@ -5,8 +5,8 @@ import { showLiveWeather } from "./weather.js";
 
 function main()  {
     drawMap();
-    //searchBoxes();
-    //formSubmission();
+    searchBoxes();
+    formSubmission();
     showLiveWeather();
 }
 
