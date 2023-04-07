@@ -40,12 +40,12 @@ function searchBoxes() {
     });
   
     searchBox_start.addListener("places_changed", () => {
-      place_changed(searchBox_start.getPlaces(), True);
+      place_changed(searchBox_start.getPlaces(), true);
 
     });
   
     searchBox_end.addListener("places_changed", () => {
-      place_changed(searchBox_end.getPlaces(), False);
+      place_changed(searchBox_end.getPlaces(), false);
     });
   }
 
