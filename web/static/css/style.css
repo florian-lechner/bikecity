@@ -138,7 +138,7 @@ input[type="datetime-local"] {
 #window {
 	position: absolute;
 	width: 496px;
-	/*height: 261px;*/
+	height: 310px;
 	left: 27px;
 	top: 127px;
 
@@ -179,7 +179,7 @@ form {
 
 #now-departure-arrival-picker {
 	width: 161px;
-	height: 40px;
+	height: 44px;
 	background: #B0EFFF;
 	border-radius: 5px;
 	color: #232323;
@@ -214,6 +214,7 @@ input#time-picker {
 	margin-left: 15px;
 	display: block;
 	height: 19px;
+	margin-bottom: 27px;
 }
 
 #add-destination:hover {
