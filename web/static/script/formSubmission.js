@@ -59,7 +59,7 @@ function nowLaterButton() {
         endLocationLat = endLocation.geometry.location.lat();
         endLocationLng = endLocation.geometry.location.lng();
       }
-      
+
       let hoursToTime = convertTimeToHours(document.getElementById("time-picker").value);
       let departureOrArrival = document.getElementById("departure-arrival-picker").value;
   
@@ -75,7 +75,13 @@ function nowLaterButton() {
       showPredictedWeather(hoursToTime);
 
       //Call the distance method with the given startLocation and endLocation
-      // insert here!
+      console.log("startLAT:", startLocationLat)
+      console.log("startLNG:", startLocationLng)
+      // Call the distance method with the given startLocation 
+      findDistances(startLocationLat, startLocationLng, 'bike', (closestStations) => {
+        populateTable(closestStations, 'distance-calculator-table1');
+        document.getElementById("distance-calculator-table1").style.visibility = "visible";
+      });
     });
   }
 
