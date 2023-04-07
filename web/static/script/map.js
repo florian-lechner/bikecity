@@ -4,7 +4,7 @@ import { stylesArray } from "./stylesArray.js";
 
 function drawMap() {
   context.map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 53.350, lng: -6.260 },
+    center: { lat: 53.3468, lng: -6.2913 },
     zoom: 14,
     styles: stylesArray,
     disableDefaultUI: true
@@ -30,9 +30,9 @@ function createMarkers(stations) { // Function to create a marker for each stati
         scale: 8,
         fillColor: availabilityColor(station), // Set the fill color to blue
         fillOpacity: 1,
-        strokeWeight: 0.5,
+        strokeWeight: 1,
       },
-      label: station.bikes.toString()
+      //label: station.bikes.toString()
     });
     context.markers.push(marker);
     marker.setMap(context.map);
@@ -48,8 +48,8 @@ function createMarkers(stations) { // Function to create a marker for each stati
 
 function availabilityColor(station) {
   let value = parseInt(station.bikes) / (parseInt(station.bikes) + parseInt(station.bike_stands));
-  let hue = ((value) * 120).toString(10);
-  return ["hsl(", hue, ",100%,50%)"].join("");
+  let hue = ((value)*120).toString(10);
+  return ["hsl(",hue,",100%,70%)"].join("");
 }
 
 function addMarkerListener(marker, station) {

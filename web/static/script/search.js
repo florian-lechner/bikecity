@@ -26,6 +26,12 @@ function searchBoxes() {
     searchBox_end.addListener("places_changed", () => {
       place_end = searchBox_end.getPlaces();
     });
+
+    // Return the place_start and place_end objects
+    return {
+      getStartLocation: () => place_start && place_start[0],
+      getEndLocation: () => place_end && place_end[0]
+    };
   }
 
-export {searchBoxes};
+export { searchBoxes };

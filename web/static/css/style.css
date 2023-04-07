@@ -1,16 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,300&display=swap');
+
 body {
 	min-height: 100vh;
 	margin: 0;
 	padding: 0;
 	background-color: rgb(255, 255, 255);
-	color: #777;
-	font: normal 15px Helvetica, Arial, Geneva, sans-serif;
-	font-weight: bold;
-}
-
-.wrapper {
-	margin: 0 auto;
-	padding: 0px 0px;
+	color: #B0EFFF;
+	font: normal 16px Roboto, Helvetica, Arial, Geneva, sans-serif;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
 }
 
 p {
@@ -27,58 +25,212 @@ p {
   }
 
 h1 {
-	font-weight: bold;
-	color: #444;
+	font-weight: 700;
+	color: #B0EFFF;
 	font-size: 50px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
 h2 {
-	font-weight: bold;
-	color: #444;
+	font-weight: 700;
+	color: #B0EFFF;
 	font-size: 25px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 
 }
 
-h3 {
-	font-size: 20px;
-	color: black;
-	font-weight: lighter;
-	text-align: left;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-
-h4 {
-	font-size: 18px;
-	color: black;
-	font-weight: lighter;
-	text-align: left;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
 
 ul {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
+input, select {
+	background: #232323;
+	border: 2px solid #B0EFFF;
+	border-radius: 5px;
+    height: 40px;
+    padding-left: 12px;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 19px;
+	color: #B0EFFF;
+	width: 100%;
+}
 
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+	color: #B0EFFF;
+	opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+	color: #B0EFFF;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+	color: #B0EFFF;
+  }
+
+input:hover {
+	border-color: #459CB2;
+	cursor: pointer;
+}
+
+/* Adjust the size and position of the default calendar icon */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+	padding: 4px;
+	padding-left: 40px;
+	margin-left: 4px;
+	vertical-align: middle;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+}
+  
+/* Display a custom calendar icon */
+input[type="datetime-local"] {
+	background-image: url(/static/img/calendar.svg);
+	background-repeat: no-repeat;
+	background-position: 95% 50%;;
+	background-size: auto 40%;
+}
+
+*:focus {
+    outline: none;
+}
+
+/*
 #map-window {
 	float: right;
 	width: 80%;
 	height: 800px;
 	position: absolute;
 	left: 20%;
+}*/
+
+.title.wrapper {
+	position: absolute;
+	width: 263px;
+	height: 67px;
+	left: 27px;
+	top: 33px;
+
+	background: #232323;
+	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
+	border-radius: 10px;
+	z-index: 10;
+}
+
+.title.wrapper img {
+	width: 204px;
+	height: 30px;
+	margin-top: 19px;
+	margin-left: 29px;
+}
+
+.wrapper {
+	margin: 0 auto;
+	padding: 0px 0px;
+}
+
+#window {
+	position: absolute;
+	width: 496px;
+	height: 310px;
+	left: 27px;
+	top: 127px;
+
+	background: #232323;
+	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
+	border-radius: 10px;
+	z-index: 9;
+}
+
+.current-weather-box {
+	position: absolute;
+	width: 206px;
+	height: 67px;
+	left: 317px;
+	top: 33px;
+
+	background: #232323;
+	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
+	border-radius: 10px;
+	z-index: 2;
+}
+
+#current-weather-icon {
+	position: absolute;
+	width: 44px;
+	height: 44px;
+	left: 144px;
+	top: 9px;
+}
+
+/* Form: */
+
+form {
+	margin-top: 30px;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+#now-departure-arrival-picker {
+	width: 161px;
+	height: 44px;
+	background: #B0EFFF;
+	border-radius: 5px;
+	color: #232323;
+
+	display: inline-block;
+	margin-right: 18px;
+	margin-bottom: 18px;
+}
+
+#now-departure-arrival-picker:hover {
+	background: #459CB2;
+	border-color: #459CB2;
+	cursor: pointer;
+}
+
+
+#date-time-picker {
+	height: 40px;
+	display: none;
+}
+
+input#time-picker {
+	width: 237px;
+}
+
+#start-location-field, #end-location-field {
+	width: 418px;
+}
+
+#add-destination {
+	font-weight: 700;
+	margin-left: 15px;
+	display: block;
+	height: 19px;
+	margin-bottom: 27px;
+}
+
+#add-destination:hover {
+	color: #459CB2;
+	cursor: pointer;
+}
+
+#end-location-field {
+	display: none;
 }
 
 #map {
-	height: 100%;
-	width: 100%;
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+	z-index: 0;
 }
 
 #google-map-overlays{
@@ -87,6 +239,7 @@ ul {
 	width: 100%;
 	height: 100px;
 	color: black;
+	z-index: 1;
 }
 
 #google-map-overlays > * {
@@ -94,6 +247,7 @@ ul {
 	background-color: white;
 }
 
+/*
 #current-weather, #predicted-weather {
   position: absolute;
   top: -690px;
@@ -114,6 +268,7 @@ ul {
   	transform: translateX(-45%);
 	display: none;
 }
+*/
 
 .bike-availability{
 	display: inline-block;
@@ -122,18 +277,12 @@ ul {
 	border: 1px solid darkblue;
 }
 
-#left-side-panel {
-	box-sizing: border-box;
-	padding: 10px;
-	color: black;
-	height: 500px;
-	width: 20%;
-	float: left;
-}
 
-#distance-calculator-table {
+
+table#distance-calculator-table1, table#distance-calculator-table2 {
 	font-size: 8;
 	border: #444;
+	visibility: hidden;
 }
 
 #plan-journey > button {
@@ -160,16 +309,64 @@ ul {
 }
 
 
-input {
+/*input {
 	width: 80%;
-}
+}*/
 
 
-input, select {
-    border: 1px solid lightgray;
-    background-color: rgb(240,240,240);
-    margin: 7px 0px 10px 0px;
-    border-radius: 3px;
-    height: 20px;
-    padding: 1px 6px;
+/* Canvas: */
+.temperature-curve {
+	width: 48px;
+	height: 48px;
+	display: box;
+	position: absolute;
+	left: 18px;
+	font-weight: 700;
 }
+
+.precipitation-curve{
+	width: 48px;
+	height: 48px;
+	display: box;
+	position: absolute;
+	left: 81px;
+	font-weight: 700;
+}
+
+#current-temp-graph, #current-temp-graph-number, #current-precipitation-graph, #current-precipitation-graph-number {
+	position: absolute;
+}
+
+#current-temp, #current-precipitation-probability {
+	position: absolute;
+	left: 50%;
+    transform: translate(-50%, 0);
+	top: 26px;
+	font-size: 14px;
+	text-align: center;
+}
+
+#current-min {
+	position: absolute;
+	left: 7px;
+	top: 46px;
+	font-size: 10px;
+}
+
+#current-max {
+	position: absolute;
+	right: 8px;
+	top: 46px;
+	font-size: 10px;
+}
+
+#umbrella-icon {
+	position: absolute;
+	height: 10px;
+	width: 10px;
+	left: 50%;
+    transform: translate(-50%, 0);
+	top: 46px;
+}
+
+/* end canvas */

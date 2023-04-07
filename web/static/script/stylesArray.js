@@ -22,10 +22,19 @@ var stylesArray = [
       "elementType": "labels.text",
       "stylers": [
           {
-              "visibility": "on"
+              "visibility": "on",
           }
       ]
   },
+  {
+    "featureType": "all",
+    "elementType": "labels.text.fill",
+    "stylers": [
+        {
+            "color": "#232323"
+        }
+    ]
+},
   {
       "featureType": "landscape",
       "elementType": "all",
@@ -61,6 +70,15 @@ var stylesArray = [
               "visibility": "off"
           }
       ]
+  },
+  {
+    "featureType": "poi.park",
+    "stylers": [
+      {
+        "visibility": "on",
+        "color": "#C8E3D0"
+      }
+    ]
   },
   {
       "featureType": "road",
@@ -133,7 +151,7 @@ var stylesArray = [
       "elementType": "all",
       "stylers": [
           {
-              "color": "#46bcec"
+              "color": "#CBD7D4"
           },
           {
               "visibility": "on"
@@ -145,7 +163,7 @@ var stylesArray = [
       "elementType": "geometry.fill",
       "stylers": [
           {
-              "color": "#c8d7d4"
+              "color": "#BFCFDA"
           }
       ]
   },

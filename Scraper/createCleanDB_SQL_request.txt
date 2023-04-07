@@ -1,0 +1,17 @@
+-- SQL request to merge all the scraped database to one db:
+
+
+
+CREATE TABLE clean_DB AS
+SELECT S.*, W.*
+FROM station_availability_timestamp as S, (
+SELECT W1.*, W2.temperature_feels_like, W2.day_flag
+FROM (
+SELECT W1.* -- , W2.sunrise, W2.sunset, W2.temperature_feels_like, W2.day_flag
+FROM ringringbikes.weather AS W1, (
+	SELECT request_time, MIN(W1.forecast_time) as forecast_time
+	FROM ringringbikes.weather AS W1
+	GROUP BY W1.request_time) AS W3
+WHERE W1.request_time = W3.request_time AND W1.forecast_time = W3.forecast_time) AS W1
+JOIN ringringbikes.weather_extra AS W2 ON CONCAT(DATE_FORMAT(W1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W1.request_time) / 5) * 5, 2, '0'), ':00') = CONCAT(DATE_FORMAT(W2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W2.request_time) / 5) * 5, 2, '0'), ':00')) AS W
+WHERE S.timestamp = CONCAT(DATE_FORMAT(W.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W.request_time) / 5) * 5, 2, '0'), ':00')
