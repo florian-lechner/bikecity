@@ -57,7 +57,7 @@ function nowLaterButton() {
       }
 
       let hoursToTime = convertTimeToHours(document.getElementById("time-picker").value);
-      let departureOrArrival = document.getElementById("departure-arrival-picker").value;
+      //let departureOrArrival = document.getElementById("departure-arrival-picker").value;
       if (document.getElementById("time-picker").style.display === "none") {
         // If the time-picker is hidden, assume 'Now' mode
         const now = new Date();
