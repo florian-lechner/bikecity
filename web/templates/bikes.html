@@ -9,6 +9,7 @@
     <script  type = "module" src="..\static\script\main.js"></script>
     <!-- <script  src="..\static\script\map.js"></script> -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 </head>
 
 <body>
@@ -27,9 +28,7 @@
             <form>
                 <!--Provides the picker with the station location options from database-->
                 <label for="start-location-field">Start Location:</label><br>
-
-                <input id="start-location-field" name="start-location-field" type="text"
-                    placeholder="Search Box" /><br><br>
+                <input id="start-location-field" name="start-location-field" type="text" placeholder="Search Box" /><br><br>
 
                 <label for="end-location-field">Destination Location:</label><br>
                 <input id="end-location-field" name="end-location-field" type="text" placeholder="Search Box" /><br><br>
@@ -143,8 +142,8 @@
             </div>
         </div>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places&callback=initMap"
-            defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places&callback=initMap&libraries=visualization"defer></script>
+
 
 
     </div>

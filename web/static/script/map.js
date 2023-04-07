@@ -27,22 +27,29 @@ function createMarkers(stations) { // Function to create a marker for each stati
       animation: google.maps.Animation.DROP,
       icon: {
         path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-        scale: 6,
+        scale: 8,
         fillColor: availabilityColor(station), // Set the fill color to blue
         fillOpacity: 1,
         strokeWeight: 0.5,
       },
       label: station.bikes.toString()
     });
+    context.markers.push(marker);
     marker.setMap(context.map);
     addMarkerListener(marker, station);
   };
+
+  // Code to cluster the markers
+
+  let algorithm = new markerClusterer.SuperClusterAlgorithm({ maxZoom: 13, radius: 80});
+  let config = { map: context.map, markers: context.markers, algorithm: algorithm };
+  let cluster = new markerClusterer.MarkerClusterer(config);
 }
 
-function availabilityColor(station){
+function availabilityColor(station) {
   let value = parseInt(station.bikes) / (parseInt(station.bikes) + parseInt(station.bike_stands));
-  let hue = ((value)*120).toString(10);
-  return ["hsl(",hue,",100%,50%)"].join("");
+  let hue = ((value) * 120).toString(10);
+  return ["hsl(", hue, ",100%,50%)"].join("");
 }
 
 function addMarkerListener(marker, station) {
@@ -57,4 +64,5 @@ function getLiveBikeData(marker, station) {
     .then((stationAvailability) => createPopUp(marker, stationAvailability))
 }
 
-export {drawMap};
+
+export { drawMap };

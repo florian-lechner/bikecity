@@ -10,6 +10,4 @@ function main()  {
     showLiveWeather();
 }
 
-console.log("test")
-
 window.initMap = main;
