@@ -6,7 +6,6 @@ var place_end;
 
 // Input fields connection with GoogleAPI
 function searchBoxes() {
-  debugger
     // Create the search box and link it to the UI element.
     const input_start = document.getElementById("start-location-field");
     const searchBox_start = new google.maps.places.SearchBox(input_start);

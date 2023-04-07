@@ -201,16 +201,21 @@
   </div>
 
   <div id="chart-window">
-    <span class="chart-title">Daily Bike Availability</span>
+    <div id="close-chart-window">
+      <img src="../static/img/x.svg" alt="icon">
+    </div>
+    <div id="chart-station-title"> Placeholder Station Name</div>
+
+    <div class="chart-title">Daily Bike Availability</div>
     <div class="chart" id="daily-chart"> Test </div>
-    <span class="chart-title">Weekly Bike Availability</span>
+    <div class="chart-title">Weekly Bike Availability</div>
     <div class="chart" id="weekly-chart"> Test</div>
   </div>
 
   <script
     src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places,visualization&callback=initMap"
     defer>
-  </script>
+    </script>
 
 
 

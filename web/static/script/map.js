@@ -1,10 +1,10 @@
 import { context } from "./context.js";
-import { createPopUp } from "./popup.js";
+import { createPopUp, createCharts } from "./popup.js";
 import { stylesArray } from "./stylesArray.js";
 
 function drawMap() {
   context.map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 53.3468, lng: -6.2913 },
+    center: { lat: 53.3468, lng: -6.270 },
     zoom: 14,
     styles: stylesArray,
     disableDefaultUI: true
@@ -30,7 +30,8 @@ function createMarkers(stations) { // Function to create a marker for each stati
         scale: 7,
         fillColor: availabilityColor(station), // Set the fill color to blue
         fillOpacity: 1,
-        strokeWeight: 1,
+        strokeWeight: 1.5,
+        strokeColor: "#232323"
       },
       //label: station.bikes.toString()
     });
@@ -81,7 +82,7 @@ function addMarkerListener(marker, station) {
 function getLiveBikeData(marker, station) {
   fetch("/getLiveBikeData/" + station.id)
     .then((response) => response.json())
-    .then((stationAvailability) => createPopUp(marker, stationAvailability))
+    .then((stationAvailability) => createCharts(stationAvailability));
 }
 
 

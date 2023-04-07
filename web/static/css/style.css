@@ -370,6 +370,7 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 }
 
 #chart-window {
+	display: none;
 	position: absolute;
     width: 300px;
     height: 70%;
@@ -382,6 +383,12 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	padding: 30px;
 }
 
+#chart-station-title{
+	display: block;
+	font-weight: 700;
+	height: 40px;
+}
+
 #chart-title {
 	font-weight: 700;
 	margin-left: 15px;
@@ -390,8 +397,17 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	margin-bottom: 27px;
 }
 
+#close-chart-window > img {
+    right: 30px;
+    position: absolute;
+    display: block;
+    width: 20px;
+}
+
 .chart{
-    height: 30%;
+	display: block;
+    height: calc((100% - (30px + 40px + 19px + 19px + 10px + 40px)) / 2);
+	box-sizing: border-box;
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 5px;
@@ -401,6 +417,7 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
+	
 }
 
 #cluster-marker-class {
