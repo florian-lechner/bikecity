@@ -369,6 +369,40 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	top: 46px;
 }
 
+#chart-window {
+	position: absolute;
+    width: 300px;
+    height: 70%;
+    right: 0px;
+    top: 33px;
+    box-shadow: rgba(35, 35, 35, 0.16) 2px 4px 6px;
+    z-index: 9;
+    background: rgb(35, 35, 35);
+    border-radius: 10px 0px 0px 10px;
+	padding: 30px;
+}
+
+#chart-title {
+	font-weight: 700;
+	margin-left: 15px;
+	display: block;
+	height: 19px;
+	margin-bottom: 27px;
+}
+
+.chart{
+    height: 30%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background: #232323;
+    border: 2px solid #B0EFFF;
+    padding: 12px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+}
+
 #cluster-marker-class {
 	background-color:#232323;
 }
