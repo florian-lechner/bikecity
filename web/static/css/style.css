@@ -369,4 +369,8 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	top: 46px;
 }
 
+#cluster-marker-class {
+	background-color:#232323;
+}
+
 /* end canvas */

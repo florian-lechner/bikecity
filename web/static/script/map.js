@@ -27,7 +27,7 @@ function createMarkers(stations) { // Function to create a marker for each stati
       animation: google.maps.Animation.DROP,
       icon: {
         path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-        scale: 8,
+        scale: 7,
         fillColor: availabilityColor(station), // Set the fill color to blue
         fillOpacity: 1,
         strokeWeight: 1,
@@ -40,9 +40,29 @@ function createMarkers(stations) { // Function to create a marker for each stati
   };
 
   // Code to cluster the markers
+  let renderer = {
+    render: ({ count, position }) =>
+      new google.maps.Marker({
+        label: { 
+          text: String(count), 
+          color: "#B0EFFF", 
+          fontSize: "10px",
+          fillColor: "#232323",
+          labelClass: "cluster-marker-class"
+        },
+        position,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: "#232323",
+          scale: 10,
+        },
+        // adjust zIndex to be above other markers
+        zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
+      }),
+  };
 
   let algorithm = new markerClusterer.SuperClusterAlgorithm({ maxZoom: 13, radius: 80});
-  let config = { map: context.map, markers: context.markers, algorithm: algorithm };
+  let config = { map: context.map, markers: context.markers, renderer: renderer, algorithm: algorithm };
   let cluster = new markerClusterer.MarkerClusterer(config);
 }
 
