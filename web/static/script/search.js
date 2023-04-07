@@ -1,8 +1,28 @@
 import { context } from "./context.js";
+import { findDistances, populateTable } from "./distance.js";
 
 // Locations
 var place_start;
 var place_end;
+
+function place_changed(places, start) {
+  let LocationLat, LocationLng;
+
+  places.forEach((place) => {
+    LocationLat = place.geometry.location.lat();
+    LocationLng = place.geometry.location.lng();
+  });
+
+  //Call the distance method with the given startLocation and endLocation
+  console.log("LAT:", LocationLat)
+  console.log("LNG:", LocationLng)
+  // Call the distance method with the given startLocation 
+  // Add arg: start (boolean) to know if start or end
+  findDistances(LocationLat, LocationLng, 'bike', (closestStations) => {
+    populateTable(closestStations, 'distance-calculator-table1');
+    document.getElementById("distance-calculator-table1").style.visibility = "visible";
+  });
+}
 
 // Input fields connection with GoogleAPI
 function searchBoxes() {
@@ -20,18 +40,13 @@ function searchBoxes() {
     });
   
     searchBox_start.addListener("places_changed", () => {
-      place_start = searchBox_start.getPlaces();
+      place_changed(searchBox_start.getPlaces(), true);
+
     });
   
     searchBox_end.addListener("places_changed", () => {
-      place_end = searchBox_end.getPlaces();
+      place_changed(searchBox_end.getPlaces(), false);
     });
-
-    // Return the place_start and place_end objects
-    return {
-      getStartLocation: () => place_start && place_start[0],
-      getEndLocation: () => place_end && place_end[0]
-    };
   }
 
 export { searchBoxes };
