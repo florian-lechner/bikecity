@@ -1,10 +1,7 @@
 import { context } from "./context.js";
 import { findDistances, populateTable } from "./distance.js";
 
-// Locations
-var place_start;
-var place_end;
-
+// function that calls findDistances and populates tables
 function place_changed(places, start) {
   let LocationLat, LocationLng;
 
@@ -16,12 +13,16 @@ function place_changed(places, start) {
   //Call the distance method with the given startLocation and endLocation
   console.log("LAT:", LocationLat)
   console.log("LNG:", LocationLng)
-  // Call the distance method with the given startLocation 
-  // Add arg: start (boolean) to know if start or end
-  findDistances(LocationLat, LocationLng, 'bike', (closestStations) => {
-    populateTable(closestStations, 'distance-calculator-table1');
-    document.getElementById("distance-calculator-table1").style.visibility = "visible";
-  });
+  
+  if (start) {
+    findDistances(LocationLat, LocationLng, 'bikes', (closestStations) => {
+      populateTable(closestStations, 'start');
+      document.getElementById("distance-calculator-table1").style.visibility = "visible"; });
+  } else {
+    findDistances(LocationLat, LocationLng, 'bike_stands', (closestStations) => {
+      populateTable(closestStations, 'stop');
+      document.getElementById("distance-calculator-table2").style.visibility = "visible"; });
+  }
 }
 
 // Input fields connection with GoogleAPI
