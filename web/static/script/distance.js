@@ -29,7 +29,6 @@ function findDistances(locationLat, locationLng, availabilityKey, tableID) {
   
 // Converts degrees to radians
 function toRadians(degrees) {
-    console.log("radians");
     return degrees * (Math.PI / 180);
   }
   

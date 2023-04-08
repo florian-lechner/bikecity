@@ -59,4 +59,4 @@ function zoomOnPolyline(polyline) {
     context.map.fitBounds(bounds);
 }
 
-export { requestRoute }
+export { requestRouteDrawPolyline };
