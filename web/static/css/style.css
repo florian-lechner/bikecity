@@ -371,7 +371,7 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	display: none;
 	position: absolute;
     width: 300px;
-    height: 70%;
+    height: 700px;
     right: 0px;
     top: 33px;
     box-shadow: rgba(35, 35, 35, 0.16) 2px 4px 6px;
