@@ -1,4 +1,6 @@
 import { context } from "./context.js";
+// import { Chart} from "../../node_modules/chart.js/auto/auto.cjs";
+
 
 function createPopUp(marker, stationAvailability) {
 

@@ -28,7 +28,7 @@ function nowLaterButton() {
   function formSubmission() {
     // Call nowLaterButton function to add event listeners to the buttons
     nowLaterButton();
-    // Add "+ add destionation" button
+    // Add "+ add destination" button
     addDestination();
 
     // Initialize search boxes for location input fields
@@ -43,7 +43,9 @@ function nowLaterButton() {
     
     // Listener Date change
     document.getElementById("time-picker").addEventListener("change", function (event) {
-      let hoursToTime = convertTimeToHours(document.getElementById("time-picker").value);
+      let time = new Date(document.getElementById("time-picker").value);
+      let hoursToTime = convertTimeToHours(time);
+      context.applicationTime = time;
       let departureOrArrival = document.getElementById("now-departure-arrival-picker").value;
   
       if (departureOrArrival == "Start Now") {
@@ -79,8 +81,6 @@ function formatDay(add){
 
 // Helper function to convert time from timepicker to database format
 function convertTimeToHours(time){
-
-    let date = new Date(time);
     let now =  new Date();
     let hoursToPlannedTime = Math.ceil(Math.abs(date - now) / 36e5);
     return hoursToPlannedTime; 
