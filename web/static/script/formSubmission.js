@@ -47,7 +47,14 @@ function nowLaterButton() {
         hoursToTime = 0;
         departureOrArrival = "Departure";
       }
-  
+      
+      else if (hoursToTime > 90) {
+        hoursToTime = 90;
+      }
+      else if (hoursToTime < 0) {
+        hoursToTime = 0;
+      }
+
       // Call the method to get the predicted weather
       showPredictedWeather(hoursToTime);
     });
