@@ -1,5 +1,9 @@
 import { context } from "./context.js";
-import { findDistances, populateDiv } from "./distance.js";
+import { findDistances, populateDiv, preselectStation } from "./distance.js";
+
+// Preselects
+var preselectStartBike, preselectEndBike;
+
 
 // function that calls findDistances and populates tables
 function place_changed(places, start) {
@@ -11,14 +15,22 @@ function place_changed(places, start) {
   });
   
   if (start) {
-    findDistances(LocationLat, LocationLng, 'bikes', (closestStations) => {
-      populateDiv(closestStations, 'start');
-      //document.getElementById("distance-calculator-table1").style.visibility = "visible"; 
+    findDistances(LocationLat, LocationLng, (closestStations) => {
+      // preselect func, availabilityKey 'bikes'
+      preselectStartBike = preselectStation(closestStations, 'bikes', 'start');
+      populateDiv(closestStations, 'start', preselectStartBike, preselectEndBike);
+      document.getElementById('start-bike-show-more').addEventListener('click', function() {
+        document.getElementsByClassName('start-locations-popup-more-info')[0].style.visibility = "visible";
+      });
     });
   } else {
-    findDistances(LocationLat, LocationLng, 'bike_stands', (closestStations) => {
-      populateDiv(closestStations, 'stop');
-      //document.getElementById("distance-calculator-table2").style.visibility = "visible"; 
+    findDistances(LocationLat, LocationLng, (closestStations) => {
+      // preselect func, availabilityKey 'bike_stands'
+      preselectEndBike = preselectStation(closestStations, 'bike_stands', 'stop');
+      populateDiv(closestStations, 'stop', preselectStartBike, preselectEndBike);
+      document.getElementById('stop-bike-show-more').addEventListener('click', function() {
+        document.getElementsByClassName('stop-locations-popup-more-info')[0].style.visibility = "visible";
+      });
     });
   }
 }

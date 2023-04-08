@@ -1,7 +1,7 @@
 import { context } from "./context.js";
 
 // This function finds the closest stations to a given location
-function findDistances(locationLat, locationLng, availabilityKey, callback) {
+function findDistances(locationLat, locationLng, callback) {
 /**
  * availabilityKey is 'bike' for the origin to bike, and 'bike_stations' for bike to dest
  */
@@ -102,60 +102,50 @@ function sortStationsByDistance(location, stations, callback) {
       });
   }
 
-// RETIRED FUNCTION - DO NOT DELETE
-// This function returns the 5 closest stations, with the 5th station meeting a specified availability criteria
-function getClosestStations(sortedStations, availabilityKey) {
-    const closestStations = sortedStations.slice(0, 4);
-    const remainingStations = sortedStations.slice(4, 10); // Get the next 6 stations
-
-    // checks the remaining stations for availability key and pushes to array if found
-    for (let i = 0; i < remainingStations.length; i++) {
-      if (remainingStations[i].station[availabilityKey] > 0) {
-         var availableStation = remainingStations[i];
-         break;
-      }
-    }
-    if (availableStation) {
-      closestStations.push(availableStation);
-    }
-    return closestStations;
-  }
-
 // This function populates the HTML table 
 /**
  * tableID is 'start' for the first table and 'stop' for the second table
  * closestStations[i].distance returns distance in meters --> changed it to walking minutes
  */
-function populateDiv(sortedStations, tableID) {
-  if (tableID == "start") {
-    const parentDiv = document.querySelector(".start-locations-popup-more-info");
-    for (let i = 0; i < sortedStations.length; i++) {
-      // Create a new div element
-      var newDiv = document.createElement("div");
-      newDiv.setAttribute("id", `${tableID}-location-${i + 1}`);
-      // Append the new div element to the parent div
-      parentDiv.appendChild(newDiv);
-      
-      const walkingTimeInMinutes = distanceToMinutes(sortedStations[i].distance);
-      var chancePrediction = 0;
-      var text = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>'
-      newDiv.innerHTML = text;
-    }
-  } else {
-    const parentDiv = document.querySelector(".stop-locations-popup-more-info");
-    for (let i = 0; i < sortedStations.length; i++) {
-      // Create a new div element
-      var newDiv = document.createElement("div");
-      newDiv.setAttribute("id", `${tableID}-location-${i + 1}`);
-      // Append the new div element to the parent div
-      parentDiv.appendChild(newDiv);
+function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBike) {
+  const parentDiv = document.querySelector(`.${tableID}-locations-popup-more-info`);
 
-      const walkingTimeInMinutes = distanceToMinutes(sortedStations[i].distance);
-      var chancePrediction = 0;
-      var text = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bike-stands-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span id='+`${tableID}-chance-to-store-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>'
-      newDiv.innerHTML = text;
+  for (let i = 0; i < sortedStations.length; i++) {
+    // Create a new div element
+    var newDiv = document.createElement("div");
+    newDiv.setAttribute("id", `${tableID}-station-${i + 1}`);
+    // Append the new div element to the parent div
+    parentDiv.appendChild(newDiv);
+
+    const walkingTimeInMinutes = distanceToMinutes(sortedStations[i].distance);
+    var chancePrediction = 0;
+
+    var text;
+    if (tableID == "start") {
+      text = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>';
+    } else {
+      text = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bike-stands-${i + 1}`+'>'+`${sortedStations[i].station.bike_stands}`+'</span><span id='+`${tableID}-chance-to-store-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>';
     }
+
+    newDiv.innerHTML = text;
+
+    // Add event listener to the new div
+    newDiv.addEventListener('click', function() {
+      if (tableID === 'start') {
+        preselectStartBike = sortedStations[i];
+      } else {
+        preselectEndBike = sortedStations[i];
+      }
+
+      // Update the preselect div
+      const preselectDiv = document.getElementById(`${tableID}-bike-preselect`);
+      const preselectText = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>';
+      preselectDiv.innerHTML = preselectText;
+
+      document.getElementsByClassName(`${tableID}-locations-popup-more-info`)[0].style.visibility = "hidden";
+    });
   }
+  document.getElementsByClassName(`${tableID}-locations-popup-more-info`)[0].style.visibility = "hidden";
 }
 
 // function to change meter distance to walking minutes
@@ -166,4 +156,33 @@ function distanceToMinutes(distance) {
   return Math.round(timeInMinutes);
 }
 
-export { findDistances, populateDiv };
+// function to create preselected station
+function preselectStation(closestStations, availabilityKey, tableID) {
+  var stations = closestStations;
+  console.log("stations: ", stations, stations.length)
+  var availableStation;
+  var index;
+  for (let i = 0; i < stations.length; i++) {
+    console.log("i", i);
+    console.log("stations[i]", stations[i]);
+    if (stations[i].station[availabilityKey] > 0) {
+       availableStation = stations[i];
+       index = i;
+       console.log("availableStation: ", availableStation);
+       break;
+    }
+  }
+  if (availableStation) {
+    const walkingTimeInMinutes = distanceToMinutes(availableStation.distance);
+    var chancePrediction = 0;
+    var text = '<span id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span id='+`${tableID}-available-bikes-${index}`+'>'+`${availableStation.station.bikes}`+'</span><span id='+`${tableID}-chance-to-get-bike-${index}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
+    document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
+  } else { // error message in case no stations available
+    var text = '<span id="preselect-no-result">No available stations in your area.</span>';
+    document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
+  }
+  return availableStation;
+}
+
+
+export { findDistances, populateDiv, preselectStation };
