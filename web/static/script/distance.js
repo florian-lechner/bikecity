@@ -133,12 +133,13 @@ function populateTable(closestStations, tableID) {
       for (let i = 0; i < closestStations.length; i++) {
         const walkingTimeInMinutes = distanceToMinutes(closestStations[i].distance);
         var chancePrediction = 0;
-        var text = '<td id='+`${tableID}-station-name-${i + 1}`+'>'+`${closestStations[i].station.name}`+'</td><td id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${closestStations[i].station.bikes}`+'</td><td id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}`+'</td><td id='+`${tableID}-walking-distance-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</td>'
+        var text = '<td id='+`${tableID}-station-name-${i + 1}`+'>'+`${closestStations[i].station.name}`+'</td><td id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${closestStations[i].station.bikes}`+'</td><td id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}`+'</td><td id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</td><td id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${closestStations[i].distance} m`+'</td>'
         document.getElementById(`${tableID}-row-${i + 1}`).innerHTML = text;
         // old version:
         //document.getElementById(`${tableID}-station-name-${i + 1}`).innerHTML = closestStations[i].station.name;
         //document.getElementById(`${tableID}-available-bikes-${i + 1}`).innerHTML = closestStations[i].station.bikes;
         //document.getElementById(`${tableID}-chance-to-get-bike-${i + 1}`).innerHTML = "add func here"; // need to write percentage calculator here
+        //document.getElementById(`${tableID}-walking-distance-${i + 1}`).innerHTML = `${walkingTimeInMinutes} min`;
         //document.getElementById(`${tableID}-walking-distance-${i + 1}`).innerHTML = `${walkingTimeInMinutes} min`;
       if (closestStations.length == 4) {
         var text = '<td colspan="4">No stations with available bikes in this area.</td>';
@@ -149,7 +150,7 @@ function populateTable(closestStations, tableID) {
       for (let i = 0; i < closestStations.length; i++) {
         const walkingTimeInMinutes = distanceToMinutes(closestStations[i].distance);
         var chancePrediction = 0;
-        var text = '<td id='+`${tableID}-station-name-${i + 1}`+'>'+`${closestStations[i].station.name}`+'</td><td id='+`${tableID}-available-bike-stands-${i + 1}`+'>'+`${closestStations[i].station.bikes}`+'</td><td id='+`${tableID}-chance-to-store-bike-${i + 1}`+'>'+`${chancePrediction}`+'</td><td id='+`${tableID}-walking-distance-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</td>'
+        var text = '<td id='+`${tableID}-station-name-${i + 1}`+'>'+`${closestStations[i].station.name}`+'</td><td id='+`${tableID}-available-bike-stands-${i + 1}`+'>'+`${closestStations[i].station.bikes}`+'</td><td id='+`${tableID}-chance-to-store-bike-${i + 1}`+'>'+`${chancePrediction}`+'</td><td id='+`${tableID}-walking-distance-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</td><td id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${closestStations[i].distance} m`+'</td>'
         document.getElementById(`${tableID}-row-${i + 1}`).innerHTML = text;
     }
     if (closestStations.length == 4) {
