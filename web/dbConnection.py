@@ -63,7 +63,7 @@ def get_station_historical_data(id):
                                       CAST(AVG(available_bikes) AS SIGNED INT) AS 'Average_Bikes', CAST(AVG(available_bike_stands) AS SIGNED INT) AS 'Average_Stands' \
                                       FROM ringringbikes.station_availability \
                                       WHERE station_id = :id\
-                                      GROUP BY HOUR(last_update), DAYNAME(last_update);"), {"id": id})
+                                      GROUP BY Hour, Day;"), {"id": id})
         for line in result:
             historical_data_entry = {'hour': line[0], 'day': line[1], 'average_bike_availability': line[2], 'average_bike_stand_availability': line[3]}
             historical_data.append(historical_data_entry)
