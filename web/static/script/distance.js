@@ -11,8 +11,8 @@ function findDistances(locationLat, locationLng, availabilityKey, callback) {
     .then((stationsData) => {
         // Create a LatLng object for the given location
         let location = new google.maps.LatLng(locationLat, locationLng);
-        // Get the filtered stations within 1.5 km radius
-        let nearbyStations = filterClosestStations(location, stationsData, 1500);
+        // Get the 20 closest stations (haversine distance)
+        let nearbyStations = filterClosestStations(location, stationsData);
         // Sort the stations by distance from the location
         sortStationsByDistance(location, nearbyStations, (error, sortedStations) => {
             if (error) {
@@ -20,9 +20,9 @@ function findDistances(locationLat, locationLng, availabilityKey, callback) {
                 return;
             }
             // Get the closest stations based on the specified criteria
-            let closestStations = getClosestStations(sortedStations, availabilityKey);
+            //let closestStations = getClosestStations(sortedStations, availabilityKey);
             // Call populateTable() function to update the table with closest stations data
-            callback(closestStations);
+            callback(sortedStations);
         });
     });
 }
@@ -51,7 +51,7 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
     return R * c * 1000;
   }
   
-// Filter the 10 closest stations
+// Function get the 20 closest stations to start Location
 function filterClosestStations(location, stations) {
     // Map each station to an object containing the station data and its distance to the location
     const stationsWithDistances = stations.map((station) => {
@@ -65,9 +65,9 @@ function filterClosestStations(location, stations) {
     });
     // Sort the stations by distance (ascending order)
     stationsWithDistances.sort((a, b) => a.distance - b.distance);
-    // Slice the array to get the 10 closest stations
-    const closestStations = stationsWithDistances.slice(0, 10);
-    // Return the 10 closest stations without their distance data (only station objects)
+    // Slice the array to get the 20 closest stations
+    const closestStations = stationsWithDistances.slice(0, 20);
+    // Return the 20 closest stations without their distance data (only station objects)
     return closestStations.map(({ station }) => station);
 }
 
@@ -86,7 +86,6 @@ function sortStationsByDistance(location, stations, callback) {
       avoidHighways: true,
       avoidTolls: true,
     };
-    console.log("destinations: ", destinations)
     // Call DistanceMatrixService with the prepared requestOptions
     service.getDistanceMatrix(requestOptions, (response, status) => {
         if (status === google.maps.DistanceMatrixStatus.OK) {
@@ -102,13 +101,12 @@ function sortStationsByDistance(location, stations, callback) {
         }
       });
   }
-  
+
+// RETIRED FUNCTION - DO NOT DELETE
 // This function returns the 5 closest stations, with the 5th station meeting a specified availability criteria
 function getClosestStations(sortedStations, availabilityKey) {
     const closestStations = sortedStations.slice(0, 4);
-    console.log(closestStations)
     const remainingStations = sortedStations.slice(4, 10); // Get the next 6 stations
-    console.log(remainingStations)
 
     // checks the remaining stations for availability key and pushes to array if found
     for (let i = 0; i < remainingStations.length; i++) {
@@ -128,34 +126,34 @@ function getClosestStations(sortedStations, availabilityKey) {
  * tableID is 'start' for the first table and 'stop' for the second table
  * closestStations[i].distance returns distance in meters --> changed it to walking minutes
  */
-function populateTable(closestStations, tableID) {
-    if (tableID == "start") {
-      for (let i = 0; i < closestStations.length; i++) {
-        const walkingTimeInMinutes = distanceToMinutes(closestStations[i].distance);
-        var chancePrediction = 0;
-        var text = '<td id='+`${tableID}-station-name-${i + 1}`+'>'+`${closestStations[i].station.name}`+'</td><td id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${closestStations[i].station.bikes}`+'</td><td id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}`+'</td><td id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</td><td id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${closestStations[i].distance} m`+'</td>'
-        document.getElementById(`${tableID}-row-${i + 1}`).innerHTML = text;
-        // old version:
-        //document.getElementById(`${tableID}-station-name-${i + 1}`).innerHTML = closestStations[i].station.name;
-        //document.getElementById(`${tableID}-available-bikes-${i + 1}`).innerHTML = closestStations[i].station.bikes;
-        //document.getElementById(`${tableID}-chance-to-get-bike-${i + 1}`).innerHTML = "add func here"; // need to write percentage calculator here
-        //document.getElementById(`${tableID}-walking-distance-${i + 1}`).innerHTML = `${walkingTimeInMinutes} min`;
-        //document.getElementById(`${tableID}-walking-distance-${i + 1}`).innerHTML = `${walkingTimeInMinutes} min`;
-      if (closestStations.length == 4) {
-        var text = '<td colspan="4">No stations with available bikes in this area.</td>';
-        document.getElementById(`${tableID}-row-5`).innerHTML = text;
-      }
+function populateDiv(sortedStations, tableID) {
+  if (tableID == "start") {
+    const parentDiv = document.querySelector(".start-locations-popup-more-info");
+    for (let i = 0; i < sortedStations.length; i++) {
+      // Create a new div element
+      var newDiv = document.createElement("div");
+      newDiv.setAttribute("id", `${tableID}-location-${i + 1}`);
+      // Append the new div element to the parent div
+      parentDiv.appendChild(newDiv);
+      
+      const walkingTimeInMinutes = distanceToMinutes(sortedStations[i].distance);
+      var chancePrediction = 0;
+      var text = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>'
+      newDiv.innerHTML = text;
     }
   } else {
-      for (let i = 0; i < closestStations.length; i++) {
-        const walkingTimeInMinutes = distanceToMinutes(closestStations[i].distance);
-        var chancePrediction = 0;
-        var text = '<td id='+`${tableID}-station-name-${i + 1}`+'>'+`${closestStations[i].station.name}`+'</td><td id='+`${tableID}-available-bike-stands-${i + 1}`+'>'+`${closestStations[i].station.bikes}`+'</td><td id='+`${tableID}-chance-to-store-bike-${i + 1}`+'>'+`${chancePrediction}`+'</td><td id='+`${tableID}-walking-distance-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</td><td id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${closestStations[i].distance} m`+'</td>'
-        document.getElementById(`${tableID}-row-${i + 1}`).innerHTML = text;
-    }
-    if (closestStations.length == 4) {
-      var text = '<td colspan="4">No stations with available bike stands in this area.</td>';
-      document.getElementById(`${tableID}-row-5`).innerHTML = text;
+    const parentDiv = document.querySelector(".stop-locations-popup-more-info");
+    for (let i = 0; i < sortedStations.length; i++) {
+      // Create a new div element
+      var newDiv = document.createElement("div");
+      newDiv.setAttribute("id", `${tableID}-location-${i + 1}`);
+      // Append the new div element to the parent div
+      parentDiv.appendChild(newDiv);
+
+      const walkingTimeInMinutes = distanceToMinutes(sortedStations[i].distance);
+      var chancePrediction = 0;
+      var text = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bike-stands-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span id='+`${tableID}-chance-to-store-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>'
+      newDiv.innerHTML = text;
     }
   }
 }
@@ -168,4 +166,4 @@ function distanceToMinutes(distance) {
   return Math.round(timeInMinutes);
 }
 
-export { findDistances, populateTable };
+export { findDistances, populateDiv };

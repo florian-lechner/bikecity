@@ -1,7 +1,7 @@
 import { context } from "./context.js";
 import { showPredictedWeather }  from "./weather.js"
 import { searchBoxes } from "./search.js";
-import { findDistances, populateTable } from "./distance.js";
+import { findDistances, populateDiv } from "./distance.js";
 
 function nowLaterButton() {
   const laterDropdown = document.getElementById("now-departure-arrival-picker");

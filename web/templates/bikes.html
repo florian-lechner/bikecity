@@ -57,52 +57,17 @@
       <!--Provides the picker with the station location options from database-->
       <div class="location">
         <input id="start-location-field" name="start-location-field" type="text" placeholder="Start location" /><br><br>
+          <span id="start-location-preselect"></span><!--Preselect-->
         <span id="add-destination">+ Add destination</span>
         <input id="end-location-field" name="end-location-field" type="text" placeholder="Destination" /><br><br>
       </div>
     </form>
     <br>
     <br>
-    <div id="distance-calculator">
-      <table id="distance-calculator-table1">
-        <thead>
-          <tr>
-            <th>Station Name</th>
-            <th>Available Bikes</th>
-            <th>Chance to Get Bike</th>
-            <th>Walking Distance (min)</th>
-            <th>Walking Distance (meters)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="start-row-1"></tr>
-          <tr id="start-row-2"></tr>
-          <tr id="start-row-3"></tr>
-          <tr id="start-row-4"></tr>
-          <tr id="start-row-5"></tr>
-        </tbody>
-      </table>
-      <table id="distance-calculator-table2">
-        <thead>
-          <tr>
-            <th>Station Name</th>
-            <th>Available Bike Stands</th>
-            <th>Chance to Store Bike</th>
-            <th>Walking Distance (min)</th>
-            <th>Walking Distance (meters)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="stop-row-1"></tr>
-          <tr id="stop-row-2"></tr>
-          <tr id="stop-row-3"></tr>
-          <tr id="stop-row-4"></tr>
-          <tr id="stop-row-5"></tr>
-        </tbody>
-      </table>
-    </div>
 
-  </div>
+    <div class="start-locations-popup-more-info"></div> <!--Start Popup-->
+
+    <div class="stop-locations-popup-more-info"></div> <!--Stop Popup-->
 
   <div id="map-window">
     <div id="map">

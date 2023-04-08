@@ -1,5 +1,5 @@
 import { context } from "./context.js";
-import { findDistances, populateTable } from "./distance.js";
+import { findDistances, populateDiv } from "./distance.js";
 
 // function that calls findDistances and populates tables
 function place_changed(places, start) {
@@ -9,19 +9,17 @@ function place_changed(places, start) {
     LocationLat = place.geometry.location.lat();
     LocationLng = place.geometry.location.lng();
   });
-
-  //Call the distance method with the given startLocation and endLocation
-  console.log("LAT:", LocationLat)
-  console.log("LNG:", LocationLng)
   
   if (start) {
     findDistances(LocationLat, LocationLng, 'bikes', (closestStations) => {
-      populateTable(closestStations, 'start');
-      document.getElementById("distance-calculator-table1").style.visibility = "visible"; });
+      populateDiv(closestStations, 'start');
+      //document.getElementById("distance-calculator-table1").style.visibility = "visible"; 
+    });
   } else {
     findDistances(LocationLat, LocationLng, 'bike_stands', (closestStations) => {
-      populateTable(closestStations, 'stop');
-      document.getElementById("distance-calculator-table2").style.visibility = "visible"; });
+      populateDiv(closestStations, 'stop');
+      //document.getElementById("distance-calculator-table2").style.visibility = "visible"; 
+    });
   }
 }
 
