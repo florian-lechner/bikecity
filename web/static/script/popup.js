@@ -1,35 +1,5 @@
 import { context } from "./context.js";
-
-function createCharts(stationAvailability) {
-    
-    if (context.openChartWindow == undefined) {
-        console.log("Made it here!");
-        context.openChartWindow = document.getElementById("chart-window");
-        openChartWindow(stationAvailability);
-    }
-
-    else if (context.openChartWindow != undefined){
-        console.log("Made it here!");
-        context.openChartWindow = document.getElementById("chart-window");
-        setTimeout(closeChartWindow, 0);
-        setTimeout(function(){
-            openChartWindow(stationAvailability)
-        },10);
-    }
-    
-}
-
-function closeChartWindow(){
-    context.openChartWindow.style.right ="0px"
-    context.openChartWindow.style.display = "none";
-}
-
-function openChartWindow(stationAvailability){
-    // context.openChartWindow.innerHTML = stationAvailability.name
-    context.openChartWindow.children[1].innerHTML = stationAvailability.name;
-    context.openChartWindow.style.right = "0px";
-    context.openChartWindow.style.display = "block";
-}
+// import { Chart} from "../../node_modules/chart.js/auto/auto.cjs";
 
 
 function createPopUp(marker, stationAvailability) {
@@ -69,4 +39,4 @@ function createPopUpHTML(stationAvailability) { // Function to create a pop up f
     return stationInfo
 }
 
-export { createPopUp, createCharts }
+export { createPopUp }

@@ -1,5 +1,6 @@
 import { context } from "./context.js";
-import { createPopUp, createCharts } from "./popup.js";
+import { createPopUp } from "./popup.js";
+import { createCharts } from "./charts.js";
 import { stylesArray } from "./stylesArray.js";
 
 function drawMap() {
@@ -75,15 +76,24 @@ function availabilityColor(station) {
 
 function addMarkerListener(marker, station) {
   marker.addListener("click", function () {
-    getLiveBikeData(marker, station)
+    getStationData(marker, station);
   });
 }
 
-function getLiveBikeData(marker, station) {
-  fetch("/getLiveBikeData/" + station.id)
-    .then((response) => response.json())
-    .then((stationAvailability) => createCharts(stationAvailability));
+
+function getStationData(marker, station) {
+  let liveData = fetch("/getLiveBikeData/" + station.id)
+    .then((response) => response.json());
+  let historicalData = fetch("/getStationHistoricalData/" + station.id)
+    .then((response) => response.json());
+
+  Promise.all([liveData, historicalData])
+    .then(([stationAvailability, historicalAvailability]) => {
+      createPopUp(marker, stationAvailability);
+      createCharts(stationAvailability, historicalAvailability);
+    });
 }
+
 
 
 export { drawMap };

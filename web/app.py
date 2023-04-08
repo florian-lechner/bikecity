@@ -44,6 +44,16 @@ def get_station_live_data(id):
         return jsonify(live_data)
     except:
         return jsonify({'error': "No data found for station " + str(id)})
+    
+@app.route("/getStationHistoricalData/<int:id>", methods = ['GET'])
+def get_station_historical_data(id):
+    try:
+        dbConnection.main()
+        historical_data = dbConnection.get_station_historical_data(id)
+        return jsonify(historical_data)
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "No data found for station " + str(id)})
 
 
 @app.route("/getLiveWeather", methods= ['GET'])

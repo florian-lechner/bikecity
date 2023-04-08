@@ -404,8 +404,14 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
     width: 20px;
 }
 
+#close-chart-window > img:hover {
+	opacity: .5; 
+	cursor: pointer;
+  }
+
 .chart{
 	display: block;
+	position: relative;
     height: calc((100% - (30px + 40px + 19px + 19px + 10px + 40px)) / 2);
 	box-sizing: border-box;
     margin-top: 20px;
@@ -420,8 +426,11 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	
 }
 
+canvas {
+	position: absolute;
+	bottom: 0px;
+}
+
 #cluster-marker-class {
 	background-color:#232323;
 }
-
-/* end canvas */

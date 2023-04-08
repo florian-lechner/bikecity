@@ -55,7 +55,20 @@ def get_station_live_data(id):
         for line in result:
             live_data = {'id': line[0], 'name': line[1], 'available_bikes': line[3], 'available_stands': line[4]}
         return live_data
-       
+    
+def get_station_historical_data(id):
+    historical_data = []
+    with Session(engine) as session:
+        result = session.execute(text("SELECT CAST(HOUR(last_update) AS SIGNED INT) AS 'Hour', DAYNAME(last_update) as 'Day', \
+                                      CAST(AVG(available_bikes) AS SIGNED INT) AS 'Average_Bikes', CAST(AVG(available_bike_stands) AS SIGNED INT) AS 'Average_Stands' \
+                                      FROM ringringbikes.station_availability \
+                                      WHERE station_id = :id\
+                                      GROUP BY HOUR(last_update), DAYNAME(last_update);"), {"id": id})
+        for line in result:
+            historical_data_entry = {'hour': line[0], 'day': line[1], 'average_bike_availability': line[2], 'average_bike_stand_availability': line[3]}
+            historical_data.append(historical_data_entry)
+        return historical_data
+
 def get_live_weather():
     live_weather = {}
     with Session(engine) as session:
