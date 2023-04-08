@@ -30,16 +30,10 @@ function nowLaterButton() {
     nowLaterButton();
     // Add "+ add destination" button
     addDestination();
-
-    // Initialize search boxes for location input fields
-    //var locations = searchBoxes();
   
     // Limits Date selector
     document.getElementById("time-picker").setAttribute("min", formatDay(0) + "T00:00");
     document.getElementById("time-picker").setAttribute("max", formatDay(3) + "T23:59");
-  
-    // Get the submit button element
-    var submitBtn = document.querySelector('input[type="submit"]');
     
     // Listener Date change
     document.getElementById("time-picker").addEventListener("change", function (event) {
@@ -51,7 +45,6 @@ function nowLaterButton() {
       if (departureOrArrival == "Start Now") {
         // If now, current date as start time
         hoursToTime = 0;
-        console.log("Time: ", hoursToTime);
         departureOrArrival = "Departure";
       }
   
