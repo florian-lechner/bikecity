@@ -21,6 +21,7 @@ function place_changed(places, start) {
       populateDiv(closestStations, 'start', preselectStartBike, preselectEndBike);
       document.getElementById('start-bike-show-more').addEventListener('click', function() {
         document.getElementsByClassName('start-locations-popup-more-info')[0].style.visibility = "visible";
+        document.getElementsByClassName("popup-more-info")[0].style.visibility = "visible";
       });
     });
   } else {
@@ -30,6 +31,7 @@ function place_changed(places, start) {
       populateDiv(closestStations, 'stop', preselectStartBike, preselectEndBike);
       document.getElementById('stop-bike-show-more').addEventListener('click', function() {
         document.getElementsByClassName('stop-locations-popup-more-info')[0].style.visibility = "visible";
+        document.getElementsByClassName("popup-more-info")[0].style.visibility = "visible";
       });
     });
   }

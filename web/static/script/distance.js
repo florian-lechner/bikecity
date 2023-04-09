@@ -114,6 +114,7 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
     // Create a new div element
     var newDiv = document.createElement("div");
     newDiv.setAttribute("id", `${tableID}-station-${i + 1}`);
+    newDiv.setAttribute("class", "bike-box");
     // Append the new div element to the parent div
     parentDiv.appendChild(newDiv);
 
@@ -122,9 +123,9 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
 
     var text;
     if (tableID == "start") {
-      text = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>';
+      text = '<span class="station-name" id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}% Chance to get a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>';
     } else {
-      text = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bike-stands-${i + 1}`+'>'+`${sortedStations[i].station.bike_stands}`+'</span><span id='+`${tableID}-chance-to-store-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>';
+      text = '<span class="station-name" id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bike-stands-${i + 1}`+'>'+`${sortedStations[i].station.bike_stands}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-store-bike-${i + 1}`+'>'+`${chancePrediction}% Chance to store a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>';
     }
 
     newDiv.innerHTML = text;
@@ -139,9 +140,10 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
 
       // Update the preselect div
       const preselectDiv = document.getElementById(`${tableID}-bike-preselect`);
-      const preselectText = '<span id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>';
+      const preselectText = '<span class="station-name" id='+`${tableID}-station-name-${i + 1}`+'>'+`${sortedStations[i].station.name}`+'</span><span id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-get-bike-${i + 1}`+'>'+`${chancePrediction}% Chance to get a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${i + 1}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${i + 1}`+'>'+`${sortedStations[i].distance} m`+'</span>';
       preselectDiv.innerHTML = preselectText;
 
+      document.getElementsByClassName("popup-more-info")[0].style.visibility = "hidden";
       document.getElementsByClassName(`${tableID}-locations-popup-more-info`)[0].style.visibility = "hidden";
     });
   }
@@ -175,8 +177,9 @@ function preselectStation(closestStations, availabilityKey, tableID) {
   if (availableStation) {
     const walkingTimeInMinutes = distanceToMinutes(availableStation.distance);
     var chancePrediction = 0;
-    var text = '<span id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span id='+`${tableID}-available-bikes-${index}`+'>'+`${availableStation.station.bikes}`+'</span><span id='+`${tableID}-chance-to-get-bike-${index}`+'>'+`${chancePrediction}`+'</span><span id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
+    var text = '<span class="station-name" id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span id='+`${tableID}-available-bikes-${index}`+'>'+`${availableStation.station.bikes}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-get-bike-${index}`+'>'+`${chancePrediction}% Chance to get a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
+    document.getElementById(`${tableID}-bike-result`).style.display = "block"; 
   } else { // error message in case no stations available
     var text = '<span id="preselect-no-result">No available stations in your area.</span>';
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;

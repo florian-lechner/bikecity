@@ -138,7 +138,7 @@ input[type="datetime-local"] {
 #window {
 	position: absolute;
 	width: 496px;
-	height: 310px;
+	/*height: 310px;*/
 	left: 27px;
 	top: 127px;
 
@@ -212,6 +212,7 @@ input#time-picker {
 #add-destination {
 	font-weight: 700;
 	margin-left: 15px;
+	margin-top: 25px;
 	display: block;
 	height: 19px;
 	margin-bottom: 27px;
@@ -225,6 +226,133 @@ input#time-picker {
 #end-location-field {
 	display: none;
 }
+
+
+/* Station selection */
+#start-bike-result, #stop-bike-result {
+	display: none;
+}
+
+.bike-preselect, .bike-box {
+	width: 496px;
+	height: 66px;
+	color: #232323;
+
+	background: #B0EFFF;
+	position: relative;
+}
+
+.bike-preselect {
+	margin-left: -30px;
+	box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.16);
+}
+
+.bike-box {
+	top: 56px;
+	border-bottom: 1px solid #232323;
+}
+
+.station-name {
+	display: inline-block;
+	width: 290px;
+	height: 19px;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 19px;
+
+	position: absolute;
+	top: 16px;
+	left: 97px;
+}
+
+.bike-chance {
+	display: inline-block;
+	width: 180px;
+	height: 16px;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16px;
+
+	position: absolute;
+	top: 36px;
+	left: 97px;
+
+}
+
+.station-walking-time {
+	display: inline-block;
+	height: 19px;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 19px;
+
+	text-align: right;
+
+	position: absolute;
+	top: 16px;
+	right: 30px;
+}
+
+.station-distance {
+	display: inline-block;
+	height: 16px;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16px;
+
+	text-align: right;
+
+	position: absolute;
+	top: 36px;
+	right: 30px;
+}
+
+#start-bike-show-more, #stop-bike-show-more {
+	display: block;
+	margin-top: 7px;
+}
+
+
+#start-bike-show-more:hover, #stop-bike-show-more:hover {
+	color: #459CB2;
+	cursor: pointer;
+}
+
+.popup-more-info {
+	visibility: hidden;
+	position: absolute;
+	width: 496px;
+	height: 716px;
+	max-height: 82vh;
+	left: 0px;
+	top: 0px;
+
+	background: #232323;
+	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
+	border-radius: 10px;
+	z-index: 11;
+}
+
+.start-locations-popup-more-info, .stop-locations-popup-more-info {
+	position: absolute;
+	top: 56px;
+	max-height: 70vh;
+	overflow-y: scroll;
+	-ms-overflow-style: scroll;
+}
+
+.popup-title {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 19px;
+	color: #B0EFFF;
+}
+
+/* ---------- */
 
 #map {
 	position: absolute;
