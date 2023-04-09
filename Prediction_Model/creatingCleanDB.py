@@ -1,10 +1,13 @@
-from dbinfo import *
+
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
+import sys
+sys.path.append('../Scraper/')
 import scraperBike
+from dbinfo import *
 
 # Only to be executed once.
 
