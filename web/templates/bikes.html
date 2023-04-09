@@ -18,7 +18,7 @@
     <img src="/static/img/BIKECITY.svg" alt="Bikecity logo">
   </div>
 
-  <div class="current-weather-box">
+  <div id="current-weather-box">
     <div class="temperature-curve">
       <canvas id="current-temp-graph" width="48" height="48"></canvas>
       <canvas id="current-temp-graph-number" width="48" height="48"></canvas>
@@ -78,6 +78,20 @@
   </div>
 
 
+  <div id="predicted-weather-box">
+    <div class="temperature-curve">
+      <canvas id="predicted-temp-graph" width="48" height="48"></canvas>
+      <canvas id="predicted-temp-graph-number" width="48" height="48"></canvas>
+      <span id="predicted-temp">-°C</span><span id="predicted-min">-</span><span id="predicted-max">-</span>
+    </div>
+    <div class="precipitation-curve">
+      <canvas id="predicted-precipitation-graph" width="48" height="48"></canvas>
+      <canvas id="predicted-precipitation-graph-number" width="48" height="48"></canvas>
+      <span id="predicted-precipitation-probability">-%</span><img src="/static/img/umbrella-dark.svg" alt="umbrella icon"
+        id="umbrella-icon">
+    </div>
+    <div class="weather" id="predicted-weather"></div>
+  </div>
 
 
   <div id="map-window">
@@ -89,10 +103,10 @@
                     <div class="bike-availability" id="current-bike-availability"></div>
                     <div class="bike-availability" id="current-bike-availability"></div>
                 </div>-->
-      <div id="weather-display">
-        <!--<div class="weather" id="current-weather"></div>-->
+      <!--<div id="weather-display">
+        <div class="weather" id="current-weather"></div>
         <div class="weather" id="predicted-weather"></div>
-      </div>
+      </div>-->
       <!--<div id="toggle-switches-top">
                     <button id="hide-stations-no-bikes"></button>
                     <button id="show-bus-stations"></button>

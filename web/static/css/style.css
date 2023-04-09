@@ -136,7 +136,7 @@ input[type="datetime-local"] {
 }
 
 #window {
-	position: absolute;
+	position: relative;
 	width: 496px;
 	/*height: 310px;*/
 	left: 27px;
@@ -148,7 +148,7 @@ input[type="datetime-local"] {
 	z-index: 9;
 }
 
-.current-weather-box {
+#current-weather-box {
 	position: absolute;
 	width: 206px;
 	height: 67px;
@@ -161,18 +161,35 @@ input[type="datetime-local"] {
 	z-index: 2;
 }
 
-#current-weather-icon {
+#predicted-weather-box {
+	display: none;
+	position: relative;
+	width: 206px;
+	height: 67px;
+	left: 27px;
+	top: 135px;
+
+	background: #B0EFFF;
+	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
+	border-radius: 10px;
+	z-index: 2;
+	color: #232323;
+}
+
+#current-weather-icon, #predicted-weather-icon {
 	position: absolute;
 	width: 44px;
 	height: 44px;
 	left: 144px;
-	top: 9px;
+	top: 12px;
 }
 
 /* Form: */
 
 form {
-	margin-top: 30px;
+	position: relative;
+    top: 30px;
+	display:block;
 	margin-left: 30px;
 	margin-right: 30px;
 }
@@ -361,6 +378,7 @@ input#time-picker {
 
 #map {
 	position: absolute;
+	top: 0px;
 	height: 100vh;
 	width: 100vw;
 	z-index: 0;
@@ -449,7 +467,7 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 .temperature-curve {
 	width: 48px;
 	height: 48px;
-	display: box;
+	/* display: box;*/
 	position: absolute;
 	left: 18px;
 	font-weight: 700;
@@ -458,7 +476,7 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 .precipitation-curve{
 	width: 48px;
 	height: 48px;
-	display: box;
+	/* display: box;*/
 	position: absolute;
 	left: 81px;
 	font-weight: 700;
@@ -468,7 +486,7 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	position: absolute;
 }
 
-#current-temp, #current-precipitation-probability {
+#current-temp, #predicted-temp, #current-precipitation-probability, #predicted-precipitation-probability {
 	position: absolute;
 	left: 50%;
     transform: translate(-50%, 0);
@@ -477,14 +495,14 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	text-align: center;
 }
 
-#current-min {
+#current-min, #predicted-min {
 	position: absolute;
 	left: 7px;
 	top: 46px;
 	font-size: 10px;
 }
 
-#current-max {
+#current-max, #predicted-max {
 	position: absolute;
 	right: 8px;
 	top: 46px;

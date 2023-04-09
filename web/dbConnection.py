@@ -112,9 +112,10 @@ def get_live_weather():
         return live_weather
 
 def get_forecast_weather(hours): # time taken from input form
+   forecast_weather = {}
    hours = int(hours)
    with Session(engine) as session:
-        result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.sunrise, T2.sunset, T2.temperature_feels_like, T2.day_flag\
+        result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.sunrise, T2.sunset, T2.temperature_feels_like, T2.day_flag,  T1.precipitation_probability\
                                     FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
                                     WHERE CONCAT(DATE_FORMAT(T1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(T2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T2.request_time) / 5) * 5, 2, '0'), '\:00') AND T1.request_time = (\
 	                                    SELECT MAX(T1.request_time)\
@@ -124,8 +125,39 @@ def get_forecast_weather(hours): # time taken from input form
         for i, line in enumerate(result):
             if i ==int(hours):
                 ico = util.icon_to_file_name(line[4], line[8])
-                return {'forecast_temp': line[2], 'weather_type': line[3], 'icon_number': ico}
-        return {'No forecast found for %f hours from now', hours}
+                forecast_weather = {'forecast_temp': round(line[2]), 'weather_type': line[3], 'icon_number': ico, 'precipitation_probability': round(line[9])}
+        
+        # Get min / max weather:
+        #Test date:
+        today_time =  datetime(2023, 3, 8, 8, 0, 0) #datetime.datetime.now()
+        today = str(today_time.date())
+        min_max_temp = []
+        try:
+            result = session.execute(text("SELECT W1.temperature\
+                                        FROM ringringbikes.weather AS W1\
+                                        WHERE CONCAT(DATE_FORMAT(W1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(W1.request_time) / 5) * 5, 2, '0'), '\:00') = '" + today + " 00:00:00'\
+                                        ORDER BY W1.forecast_time ASC;"))
+            
+            start_day = 24 - today_time.hour - 1
+
+            for i, line in enumerate(result):
+                if start_day < i < start_day+24:
+                    min_max_temp.append(line[0])
+
+            forecast_weather["min_temp"] = round(min(min_max_temp))
+            forecast_weather["max_temp"] = round(max(min_max_temp))
+        except:
+            print("Error getting current min/max weather")
+
+        return forecast_weather
+        #return {'No forecast found for %f hours from now', hours}
+
+
+def get_clean_db():
+    connect_db()
+    with Session(engine) as session:
+        result = session.execute(text("SELECT * FROM ringringbikes.clean_DB"))
+        return result
 
 def main():
     connect_db()

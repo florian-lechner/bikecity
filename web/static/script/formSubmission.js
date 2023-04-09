@@ -82,7 +82,7 @@ function formatDay(add){
 // Helper function to convert time from timepicker to database format
 function convertTimeToHours(time){
     let now =  new Date();
-    let hoursToPlannedTime = Math.ceil(Math.abs(date - now) / 36e5);
+    let hoursToPlannedTime = Math.ceil(Math.abs(time - now) / 36e5);
     return hoursToPlannedTime; 
 }
 
