@@ -242,6 +242,11 @@ input#time-picker {
 	position: relative;
 }
 
+.bike-box:hover {
+	background: #459CB2;
+	cursor: pointer;
+}
+
 .bike-preselect {
 	margin-left: -30px;
 	box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.16);
