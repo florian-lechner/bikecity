@@ -1,16 +1,16 @@
 import { drawMap } from "./map.js";
-import { searchBoxes } from "./search.js";
+import { searchBoxes, checkRouteStatus } from "./search.js";
 import { formSubmission } from "./formSubmission.js";
 import { showLiveWeather } from "./weather.js";
-import { requestRouteDrawPolyline } from "./route.js";
-import { context, routeParams } from "./context.js";
+import { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute } from "./route.js";
+import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 
 function main()  {
     drawMap();
     searchBoxes();
     formSubmission();
     showLiveWeather();
-    requestRouteDrawPolyline(routeParams.origin, routeParams.destination, 'BICYCLING');
+    //requestRouteDrawPolyline(routeParams.originLoc, routeParams.destinationLoc, 'BICYCLING');
 }
 
 window.initMap = main;
