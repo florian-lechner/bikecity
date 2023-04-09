@@ -46,3 +46,13 @@ WHERE timestamp > "2023-03-26 02:00:00";
 UPDATE ringringbikes.clean_DB 
 SET status = "CLOSED"
 WHERE TIME(timestamp) BETWEEN "00:31:00" AND "04:59:00";
+
+-- adding time column 
+
+ALTER TABLE `ringringbikes`.`clean_DB` 
+ADD COLUMN `time` VARCHAR(45) NULL AFTER `day_flag`;
+
+SET SQL_SAFE_UPDATES = 0;
+
+Update ringringbikes.clean_DB 
+SET time = TIME(timestamp)
