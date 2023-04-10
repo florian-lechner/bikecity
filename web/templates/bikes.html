@@ -108,68 +108,58 @@
     <div id="map">
     </div>
 
-    <div id="google-map-overlays">
-      <!--<div id="station-info-panel">
-                    <div class="bike-availability" id="current-bike-availability"></div>
-                    <div class="bike-availability" id="current-bike-availability"></div>
-                </div>-->
-      <!--<div id="weather-display">
-        <div class="weather" id="current-weather"></div>
-        <div class="weather" id="predicted-weather"></div>
-      </div>-->
-      <!--<div id="toggle-switches-top">
-                    <button id="hide-stations-no-bikes"></button>
-                    <button id="show-bus-stations"></button>
-                    <button id="show-train-stations"></button>
-                </div>
-                <div id="toggle-switch-bottom">
-                    <button id="stats-for-nerds"></button>
-                </div>
-                <div id="popularity-diagram">
-                    <image id="bike"></image>
-                </div>-->
-      <div id="heat-map-slider">
-        <form action="/action_page.php">
-          <!--HeatMap min/max are times, step is minute, value is default for current user time-->
-          <label for="heat-map-slider">HeatMap Time:</label>
-          <input type="range" id="heat-map-slider" name="heat-map-slider" min="00:00" max="23:59" step="00:01" value="">
-        </form>
-      </div>
-      <div id="recommendation-window">
-        <p id="rec-message"></p>
-      </div>
-    </div>
-  </div>
+    <div id="toggle-and-slider">
 
-  <div id="chart-window">
-    <div id="close-chart-window">
-      <img src="../static/img/x.svg" alt="icon">
-    </div>
-    <div id="chart-station-title"> Placeholder Station Name</div>
+      <div id="toggle">
+          <label id="pins-label" for="marker-toggle">Pins</label>
+          <div id="toggle-bike-icon"><img src="..\static\img\toggle-bike.svg" alt="bike icon"></div>
+          <input type="checkbox" id="marker-toggle">
+          <div id="toggle-stands-icon">
+            <img src="..\static\img\toggle-stands.svg" alt="park icon"></div>
+        </div>
 
+      <div id="divider"></div>
 
-    <div class="chart-container">
-      <div class="chart-title">Daily Bike Availability</div>
-      <div class="chart-container" id="daily-chart">
-        <canvas id="daily"></canvas>
+      <div id="slider">
+        <!--HeatMap min/max are times, step is minute, value is default for current user time-->
+        <label for="heat-map-slider">HeatMap</label>
+        <input type="range" id="heat-map-slider" name="heat-map-slider" min="00:00" max="23:59" step="00:01" value="">
       </div>
     </div>
 
-    <div class="chart-container">
-      <div class="chart-title">Weekly Bike Availability</div>
-      <div class="chart-container" id="weekly-chart">
-        <canvas id="weekly"></canvas>
+    <div id="chart-window">
+      <div id="close-chart-window">
+        <img src="../static/img/x.svg" alt="icon">
       </div>
+      <div id="chart-station-title"> Placeholder Station Name</div>
+
+
+      <div class="chart-container">
+        <div class="chart-title">Daily Bike Availability</div>
+        <div class="chart-container" id="daily-chart">
+          <canvas id="daily"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-title">Weekly Bike Availability</div>
+        <div class="chart-container" id="weekly-chart">
+          <canvas id="weekly"></canvas>
+        </div>
+      </div>
+
+      <script
+        src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places,visualization,geometry&callback=initMap"
+        defer>
+        </script>
+
+
+
     </div>
 
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places,visualization,geometry&callback=initMap"
-    defer>
-    </script>
 
 
 
-  </div>
 
 </body>
 

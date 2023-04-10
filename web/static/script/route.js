@@ -87,17 +87,17 @@ function zoomOnPolyline(polyline) {
 
     let paddingRight = 0;
     if (context.openChartWindow != undefined) {
-        paddingRight = 400;
+        paddingRight = 425;
     }
     else {
         paddingRight = 100;
     }
 
     let padding = {
-        top: 50,
+        top: 100,
         right: paddingRight,
-        bottom: 150,
-        left: 500
+        bottom: 100,
+        left: 525
     };
 
 
