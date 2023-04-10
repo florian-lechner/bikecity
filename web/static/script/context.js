@@ -56,5 +56,5 @@ function updateTotalValues(totals) {
   routeParams.totalValues = totals;
 }
 
-  
+ 
 export { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues };

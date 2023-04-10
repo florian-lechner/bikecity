@@ -1,4 +1,5 @@
-import { context } from "./context.js";
+import { context, routeParams } from "./context.js";
+import { zoomOnPolyline } from "./route.js";
 
 var dailyChart;
 var weeklyChart;
@@ -92,7 +93,7 @@ function displayChart(chartId, chartLabels, chartTitle, chartData) {
 function populateBarColors(labels, mainColor, highlightColor, highlightCondition) {
     backgroundColors = []
     dataset.map((dataItem) => {
-        if (dataItem == highlightCondition){
+        if (dataItem == highlightCondition) {
             backgroundColors.push(highlightColor);
         }
         else {
@@ -106,6 +107,9 @@ function populateBarColors(labels, mainColor, highlightColor, highlightCondition
 function openChartWindow() {
     context.openChartWindow.style.right = "30px";
     context.openChartWindow.style.display = "block";
+    if (routeParams.routePolylines != undefined) {
+        zoomOnPolyline(routeParams.routePolylines);
+    }
 }
 
 function closeChartWindow() {
@@ -117,6 +121,9 @@ function closeChartWindow() {
             clearInterval(id);
             context.openChartWindow.style.display = "none";
             context.openChartWindow = undefined;
+            if (routeParams.routePolylines != undefined) {
+                zoomOnPolyline(routeParams.routePolylines);
+            }
         } else {
             pos -= 20;
             context.openChartWindow.style.right = pos + "px";
