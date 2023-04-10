@@ -115,7 +115,7 @@ def get_forecast_weather(hours): # time taken from input form
    forecast_weather = {}
    hours = int(hours)
    with Session(engine) as session:
-        result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.sunrise, T2.sunset, T2.temperature_feels_like, T2.day_flag,  T1.precipitation_probability\
+        result = session.execute(text("SELECT T1.request_time, T1.forecast_time, T1.temperature, T1.weather_type, T1.icon_number, T2.sunrise, T2.sunset, T2.temperature_feels_like, T2.day_flag,  T1.precipitation_probability, T1.pressure, T1.humidity, T1.clouds, T1.precipitation_value\
                                     FROM ringringbikes.weather AS T1, ringringbikes.weather_extra AS T2\
                                     WHERE CONCAT(DATE_FORMAT(T1.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T1.request_time) / 5) * 5, 2, '0'), '\:00') = CONCAT(DATE_FORMAT(T2.request_time, '%Y-%m-%d %H:'), LPAD(ROUND(MINUTE(T2.request_time) / 5) * 5, 2, '0'), '\:00') AND T1.request_time = (\
 	                                    SELECT MAX(T1.request_time)\
@@ -125,7 +125,7 @@ def get_forecast_weather(hours): # time taken from input form
         for i, line in enumerate(result):
             if i ==int(hours):
                 ico = util.icon_to_file_name(line[4], line[8])
-                forecast_weather = {'forecast_temp': round(line[2]), 'weather_type': line[3], 'icon_number': ico, 'precipitation_probability': round(line[9])}
+                forecast_weather = {'forecast_temp': round(line[2]), 'weather_type': line[3], 'icon_number': ico, 'precipitation_probability': round(line[9]), 'pressure': line[10], 'humidity':line[11], 'clouds':line[12], 'precipitation_value':line[13]}
         
         # Get min / max weather:
         #Test date:
