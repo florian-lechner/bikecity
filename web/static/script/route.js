@@ -112,6 +112,33 @@ function showCompleteRoute() {
         });
 }
 
+// ORIGINAL VERSION WITHOUT .THEN
+//function showCompleteRoute() {
+//    // Reset total distance and duration
+//    totalDistance = 0;
+//    totalDuration = 0;
+    // Draw and save walking section between originLoc and startBikeLoc
+//    console.log("walk to bike");
+//    console.log(routeParams);
+//    requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc,"WALKING", "#B0EFFF", (result) => {
+//      updateWalkDistDur1(result);
+//      });
+    // Draw and save biking section between startBikeLoc and stopBikeLoc
+//    console.log("bike to bike");
+//    console.log(routeParams);
+//    requestRouteDrawPolyline(routeParams.startBikeLoc, routeParams.stopBikeLoc, "BICYCLING", "#459CB2", (result) => {
+//      updateBikeDistDur(result);
+//    });
+    // Draw and save walking section between stopBikeLoc and destinationLoc
+//    console.log("bike to walk");
+//    console.log(routeParams);
+//    requestRouteDrawPolyline(routeParams.stopBikeLoc, routeParams.destinationLoc, "WALKING", "#B0EFFF", (result) => {
+//      updateWalkDistDur2(result);
+//    });
+    // Update total distance and duration
+//    updateTotalValues({ Dist: totalDistance, Dur: totalDuration });
+//  }
+
 // Function to show partial route (startLocation to startBikeLoc) only
 function showPartialRoute() {
     requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc,"WALKING", "#B0EFFF", (result) => {
