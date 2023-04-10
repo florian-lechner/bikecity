@@ -1,5 +1,6 @@
-import { context } from "./context.js";
+import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 import { findDistances, populateDiv, preselectStation } from "./distance.js";
+import { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute } from "./route.js";
 
 // Preselects
 var preselectStartBike, preselectEndBike;
@@ -15,7 +16,10 @@ function place_changed(places, start) {
   });
   
   if (start) {
-    findDistances(LocationLat, LocationLng, (closestStations) => {
+    // Update the walk origin
+    updateWalkOrigin({ Lat: LocationLat, Long: LocationLng });
+    // find distances to bike station and create popup
+    return findDistances(LocationLat, LocationLng, (closestStations) => {
       // preselect func, availabilityKey 'bikes'
       preselectStartBike = preselectStation(closestStations, 'bikes', 'start');
       populateDiv(closestStations, 'start', preselectStartBike, preselectEndBike);
@@ -24,8 +28,12 @@ function place_changed(places, start) {
         document.getElementsByClassName("popup-more-info")[0].style.visibility = "visible";
       });
     });
+    
   } else {
-    findDistances(LocationLat, LocationLng, (closestStations) => {
+    // Update the walk destination
+    updateWalkDestination({ Lat: LocationLat, Long: LocationLng });
+    // find distances to bike station and create popup
+    return findDistances(LocationLat, LocationLng, (closestStations) => {
       // preselect func, availabilityKey 'bike_stands'
       preselectEndBike = preselectStation(closestStations, 'bike_stands', 'stop');
       populateDiv(closestStations, 'stop', preselectStartBike, preselectEndBike);
@@ -53,13 +61,25 @@ function searchBoxes() {
     });
   
     searchBox_start.addListener("places_changed", () => {
-      place_changed(searchBox_start.getPlaces(), true);
-
+      place_changed(searchBox_start.getPlaces(), true)
+      .then(result => checkRouteStatus()); 
     });
   
     searchBox_end.addListener("places_changed", () => {
-      place_changed(searchBox_end.getPlaces(), false);
+      place_changed(searchBox_end.getPlaces(), false)
+      .then(result => checkRouteStatus()); 
     });
   }
 
-export { searchBoxes };
+// function that checks which parameters the current selection is fulfilling
+function checkRouteStatus() {
+    if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat != 0) {
+      console.log("Both origin and destination set: ", routeParams);
+      showCompleteRoute();
+    } else if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat == 0) {
+      console.log("Only origin set: ", routeParams);
+      showPartialRoute();
+    }
+  }
+
+export { searchBoxes, checkRouteStatus };

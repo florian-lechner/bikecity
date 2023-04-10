@@ -1,4 +1,4 @@
-import { context } from "./context.js";
+import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 import { showPredictedWeather }  from "./weather.js"
 import { searchBoxes } from "./search.js";
 import { findDistances, populateDiv } from "./distance.js";
