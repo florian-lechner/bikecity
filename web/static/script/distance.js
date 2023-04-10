@@ -181,17 +181,23 @@ function preselectStation(closestStations, availabilityKey, tableID) {
   if (availableStation) {
     const walkingTimeInMinutes = distanceToMinutes(availableStation.distance);
     var chancePrediction = 0;  // to be implemented with prediction function; placeholder
+    var canvas_text = '<div class="station-curve"><canvas class="background-canvas" id="' + `${tableID}-graph"`+ ' width="48" height="48"></canvas><canvas class="station-number-canvas" id="' + `${tableID}-graph-number"`+ ' width="48" height="48"></canvas><object class="background-station" id="' + `${tableID}-bg"`+ '" type="image/svg+xml" data="/static/img/availability-background.svg"></object>';
     if (tableID == "start") {
-      var text = '<span class="station-name" id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span id='+`${tableID}-available-bikes-${index}`+'>'+`${availableStation.station.bikes}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-get-bike-${index}`+'>'+`${chancePrediction}% Chance to get a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
+      var text = canvas_text +'<img src="/static/img/toggle-bike-dark.svg" alt="icon" class="icon"><span class="available-number" id='+`${tableID}-available-bikes-${index}`+'>'+`${availableStation.station.bikes}`+'</span></div><span class="station-name" id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-get-bike-${index}`+'>'+`${chancePrediction}% Chance to get a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
       updateStartBike({ Lat: availableStation.station.position_lat, Long: availableStation.station.position_lng });
       updateWalkDistDur1({ Dist : availableStation.distance, Dur: walkingTimeInMinutes });
+      var id = "preselect-start";
+      var available = availableStation.station.bikes;
     } else if (tableID == "stop") {
-      var text = '<span class="station-name" id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span id='+`${tableID}-available-bike-stands-${index}`+'>'+`${availableStation.station.bike_stands}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-store-bike-${index}`+'>'+`${chancePrediction}% Chance to store a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
+      var text = canvas_text + '<img src="/static/img/toggle-stands-dark.svg" alt="icon" class="icon"><span class="available-number" id='+`${tableID}-available-bike-stands-${index}`+'>'+`${availableStation.station.bike_stands}`+'</span></div><span class="station-name" id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-store-bike-${index}`+'>'+`${chancePrediction}% Chance to store a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
       updateStopBike({ Lat: availableStation.station.position_lat, Long: availableStation.station.position_lng });
       updateWalkDistDur2({ Dist : availableStation.distance, Dur: walkingTimeInMinutes });
+      var id = "preselect-stop";
+      var available = availableStation.station.bike_stands;
     }
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
     document.getElementById(`${tableID}-bike-result`).style.display = "block"; 
+    availabilityCanvas(tableID, available, 30);
   } else { // error message in case no stations available
     var text = '<span id="preselect-no-result">No available stations in your area.</span>';
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
@@ -199,5 +205,96 @@ function preselectStation(closestStations, availabilityKey, tableID) {
   return availableStation;
 }
 
+
+var station_canvases = {};
+function availabilityCanvas(id, availability, max){
+
+  var border_color = 'rgba(176, 239, 255,1)';
+  var background_color = 'rgba(69, 156, 178, 1)';
+  var front_color = 'rgba(35, 35, 35, 1)';
+
+  // destroy previous graphs:
+  if (id in station_canvases) {
+    station_canvases[id][0].destroy();
+    station_canvases[id][1].destroy();
+  }
+  
+
+  // Background
+  var availability_graph = document.getElementById(id + "-graph");
+  var background = {
+    type: 'doughnut',
+    data: {
+        datasets: [{
+            data: [10],
+            backgroundColor: [
+              background_color,
+            ],
+            borderColor: [
+              border_color,
+            ],
+            borderWidth: 1,
+            borderRadius: 4             
+        }]
+
+    },
+    options: {
+        rotation: -120,
+        circumference: 240,
+        legend: {
+            display: false
+        },
+        tooltip: {
+            enabled: false
+        },
+        events: [],
+        cutout: "82%"
+    }
+  };
+  var background_canvas_temp = new Chart(availability_graph, background);
+  
+  // value on graph
+  var step_lower = availability;
+  var step_upper = max - availability;
+  // display it
+  var availability_graph_number = document.getElementById(id + "-graph-number");
+  var availability_graph_number_canvas = new Chart(availability_graph_number, {
+    type: 'doughnut',
+    data: {
+        datasets: [{
+            data: [step_lower,step_upper],
+            backgroundColor: [
+              front_color,
+              "rgba(0,0,0,0)",
+            ],
+            borderColor: [
+              front_color,
+              'rgba(0, 0, 0 ,0)'
+            ],
+            borderWidth: 4,
+            borderRadius: 5             
+        }]
+
+    },
+    options: {
+        rotation: -120,
+        circumference: 240,
+        legend: {
+            display: false
+        },
+        tooltip: {
+            enabled: false
+        },
+        events: [],
+        cutout: "90%"
+    }
+  });
+  station_canvases[id] = [background_canvas_temp ,availability_graph_number_canvas];
+
+  // Background:
+  var hue = ((availability/max)*120).toString(10);
+  var color_bg = ["hsl(",hue,",100%,70%)"].join("");
+  document.getElementById(id+ "-bg").getSVGDocument().getElementById("svgInternalID").setAttribute("fill", color_bg)
+}
 
 export { findDistances, distanceToMinutes, populateDiv, preselectStation };
