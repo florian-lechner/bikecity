@@ -523,19 +523,19 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	position: absolute;
     width: 300px;
     height: 700px;
-    right: 0px;
+    right: 30px;
     top: 33px;
     box-shadow: rgba(35, 35, 35, 0.16) 2px 4px 6px;
     z-index: 9;
     background: rgb(35, 35, 35);
-    border-radius: 10px 0px 0px 10px;
+    border-radius: 10px;
 	padding: 30px;
 }
 
 #chart-station-title{
 	display: block;
 	font-weight: 700;
-	height: 40px;
+	height: 20px;
 }
 
 #chart-title {
@@ -558,26 +558,30 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	cursor: pointer;
   }
 
-.chart{
-	display: block;
-	position: relative;
-    height: calc((100% - (30px + 40px + 19px + 19px + 10px + 40px)) / 2);
-	box-sizing: border-box;
+.chart-container{
+    display: block;
+    position: relative;
+    height: calc((100% - (30px + 10px + 20px)) / 2);
+    box-sizing: border-box;
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 5px;
     background: #232323;
     border: 2px solid #B0EFFF;
-    padding: 12px;
+    padding: 12px 12px 0px 12px;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
-	
 }
 
-canvas {
-	position: absolute;
-	bottom: 0px;
+.chart-container > .chart-container {
+	border: 0px;
+    position: relative;
+    height: 85%;	
+}
+
+.chart-container > canvas {
+	position: relative;
 }
 
 #cluster-marker-class {

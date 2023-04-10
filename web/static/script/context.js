@@ -15,9 +15,12 @@ let routeParams = {  // zero as default state
   walkDistDur1: { Dist : 0, Dur: 0 },
   bikeDistDur: { Dist : 0, Dur: 0 },
   walkDistDur2: { Dist : 0, Dur: 0 },
-  totalValues: {Dist: 0, Dur: 0}
+  totalValues: {Dist: 0, Dur: 0},
+
+  routePolylines: undefined,
 }
-window.routeParams = routeParams;
+
+// window.routeParams = routeParams;
 
 
 // setters for updating locations and distance/duration values

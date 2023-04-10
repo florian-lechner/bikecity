@@ -1,4 +1,5 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
+import { checkRouteStatus } from "./search.js";
 
 // This function finds the closest stations to a given location
 function findDistances(locationLat, locationLng, callback) {
@@ -6,7 +7,7 @@ function findDistances(locationLat, locationLng, callback) {
  * availabilityKey is 'bike' for the origin to bike, and 'bike_stations' for bike to dest
  */
     // Fetch the stations data
-    fetch("/getStations")
+    return fetch("/getStations")
     .then((response) => response.json())
     .then((stationsData) => {
         // Create a LatLng object for the given location
@@ -14,7 +15,7 @@ function findDistances(locationLat, locationLng, callback) {
         // Get the 20 closest stations (haversine distance)
         let nearbyStations = filterClosestStations(location, stationsData);
         // Sort the stations by distance from the location
-        sortStationsByDistance(location, nearbyStations, (error, sortedStations) => {
+        return sortStationsByDistance(location, nearbyStations, (error, sortedStations) => {
             if (error) {
                 console.error("Error while sorting stations:", error);
                 return;
@@ -86,7 +87,7 @@ function sortStationsByDistance(location, stations, callback) {
       avoidTolls: true,
     };
     // Call DistanceMatrixService with the prepared requestOptions
-    service.getDistanceMatrix(requestOptions, (response, status) => {
+    return service.getDistanceMatrix(requestOptions, (response, status) => {
         if (status === google.maps.DistanceMatrixStatus.OK) {
           const distances = response.rows[0].elements;
           const sortedStations = stations
@@ -135,10 +136,12 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
         preselectStartBike = sortedStations[i];
         updateStartBike({ Lat: preselectStartBike.station.position_lat, Long: preselectStartBike.station.position_lng });
         updateWalkDistDur1({ Dist : preselectStartBike.distance, Dur: distanceToMinutes(preselectStartBike.distance) });
+        checkRouteStatus();
       } else {
         preselectEndBike = sortedStations[i];
         updateStopBike({ Lat: preselectEndBike.station.position_lat, Long: preselectEndBike.station.position_lng });
         updateWalkDistDur2({ Dist : preselectEndBike.distance, Dur: distanceToMinutes(preselectEndBike.distance) });
+        checkRouteStatus();
       }
 
       // Update the preselect div
@@ -197,4 +200,4 @@ function preselectStation(closestStations, availabilityKey, tableID) {
 }
 
 
-export { findDistances, populateDiv, preselectStation };
+export { findDistances, distanceToMinutes, populateDiv, preselectStation };

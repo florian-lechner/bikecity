@@ -57,10 +57,10 @@
       <!--Provides the picker with the station location options from database-->
       <div class="location">
         <input id="start-location-field" name="start-location-field" type="text" placeholder="Start location" /><br><br>
-          <div id="start-bike-result"><!--Start Preselect-->
-            <div class="bike-preselect" id="start-bike-preselect"></div>
-            <div id="start-bike-show-more">Show more stations</div>
-          </div>
+        <div id="start-bike-result"><!--Start Preselect-->
+          <div class="bike-preselect" id="start-bike-preselect"></div>
+          <div id="start-bike-show-more">Show more stations</div>
+        </div>
         <span id="add-destination">+ Add destination</span>
         <input id="end-location-field" name="end-location-field" type="text" placeholder="Destination" /><br><br>
         <div id="stop-bike-result"><!--Stop Preselect-->
@@ -72,8 +72,11 @@
     <br>
     <br>
 
-    <div class="popup-more-info"><div class="popup-title">Select station:</div><div class="start-locations-popup-more-info"></div> <!--Start Popup-->
-    <div class="stop-locations-popup-more-info"></div></div> <!--Stop Popup-->
+    <div class="popup-more-info">
+      <div class="popup-title">Select station:</div>
+      <div class="start-locations-popup-more-info"></div> <!--Start Popup-->
+      <div class="stop-locations-popup-more-info"></div>
+    </div> <!--Stop Popup-->
 
   </div>
 
@@ -87,8 +90,8 @@
     <div class="precipitation-curve">
       <canvas id="predicted-precipitation-graph" width="48" height="48"></canvas>
       <canvas id="predicted-precipitation-graph-number" width="48" height="48"></canvas>
-      <span id="predicted-precipitation-probability">-%</span><img src="/static/img/umbrella-dark.svg" alt="umbrella icon"
-        id="umbrella-icon">
+      <span id="predicted-precipitation-probability">-%</span><img src="/static/img/umbrella-dark.svg"
+        alt="umbrella icon" id="umbrella-icon">
     </div>
     <div class="weather" id="predicted-weather"></div>
     <div class="departure-arrival-times"></div>
@@ -144,15 +147,20 @@
     </div>
     <div id="chart-station-title"> Placeholder Station Name</div>
 
-    <div class="chart-title">Daily Bike Availability</div>
-    <div class="chart" id="daily-chart">
-      <canvas id="daily"></canvas>
-    </div> 
-    <div class="chart-title">Weekly Bike Availability</div>
-    <div class="chart" id="weekly-chart">
-      <canvas id="weekly"></canvas>
+
+    <div class="chart-container">
+      <div class="chart-title">Daily Bike Availability</div>
+      <div class="chart-container" id="daily-chart">
+        <canvas id="daily"></canvas>
+      </div>
     </div>
-  </div>
+
+    <div class="chart-container">
+      <div class="chart-title">Weekly Bike Availability</div>
+      <div class="chart-container" id="weekly-chart">
+        <canvas id="weekly"></canvas>
+      </div>
+    </div>
 
   <script
     src="https://maps.googleapis.com/maps/api/js?key={{GOOGLEAPI_KEY}}&libraries=places,visualization,geometry&callback=initMap"

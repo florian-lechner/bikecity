@@ -19,7 +19,7 @@ function place_changed(places, start) {
     // Update the walk origin
     updateWalkOrigin({ Lat: LocationLat, Long: LocationLng });
     // find distances to bike station and create popup
-    findDistances(LocationLat, LocationLng, (closestStations) => {
+    return findDistances(LocationLat, LocationLng, (closestStations) => {
       // preselect func, availabilityKey 'bikes'
       preselectStartBike = preselectStation(closestStations, 'bikes', 'start');
       populateDiv(closestStations, 'start', preselectStartBike, preselectEndBike);
@@ -33,7 +33,7 @@ function place_changed(places, start) {
     // Update the walk destination
     updateWalkDestination({ Lat: LocationLat, Long: LocationLng });
     // find distances to bike station and create popup
-    findDistances(LocationLat, LocationLng, (closestStations) => {
+    return findDistances(LocationLat, LocationLng, (closestStations) => {
       // preselect func, availabilityKey 'bike_stands'
       preselectEndBike = preselectStation(closestStations, 'bike_stands', 'stop');
       populateDiv(closestStations, 'stop', preselectStartBike, preselectEndBike);
@@ -61,13 +61,13 @@ function searchBoxes() {
     });
   
     searchBox_start.addListener("places_changed", () => {
-      place_changed(searchBox_start.getPlaces(), true);
-      checkRouteStatus(); 
+      place_changed(searchBox_start.getPlaces(), true)
+      .then(result => checkRouteStatus()); 
     });
   
     searchBox_end.addListener("places_changed", () => {
-      place_changed(searchBox_end.getPlaces(), false);
-      checkRouteStatus(); 
+      place_changed(searchBox_end.getPlaces(), false)
+      .then(result => checkRouteStatus()); 
     });
   }
 
