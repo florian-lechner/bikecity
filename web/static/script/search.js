@@ -14,7 +14,7 @@ function place_changed(places, start) {
     LocationLat = place.geometry.location.lat();
     LocationLng = place.geometry.location.lng();
   });
-  
+
   if (start) {
     // Update the walk origin
     updateWalkOrigin({ Lat: LocationLat, Long: LocationLng });
