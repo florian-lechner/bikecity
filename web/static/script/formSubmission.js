@@ -133,4 +133,4 @@ function updateDepArrBox(duration) {
 }
 
 
-export { formSubmission, calculateDepartureArrivalTimes, formatDateTime };
+export { formSubmission, calculateDepartureArrivalTimes, formatDateTime, updateDepArrBox };

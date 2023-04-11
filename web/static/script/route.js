@@ -1,5 +1,5 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
-import { formSubmission, calculateDepartureArrivalTimes, formatDateTime } from "./formSubmission.js"
+import { formSubmission, calculateDepartureArrivalTimes, formatDateTime, updateDepArrBox } from "./formSubmission.js"
 
 function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
     /**
@@ -131,6 +131,7 @@ function showCompleteRoute() {
         var durationBox = document.getElementById("duration-calculation-box");
         durationBox.innerHTML = `<span id="start-walking-distance-display-min">${routeParams.walkDistDur1.Dur} min</span><span id="start-walking-distance-display-m">${routeParams.walkDistDur1.Dist} m</span><span id="biking-distance-display-min">${routeParams.bikeDistDur.Dur} min</span><span id="biking-distance-display-m">${routeParams.bikeDistDur.Dist} m</span><span id="stop-walking-distance-display-min">${routeParams.walkDistDur2.Dur} min</span><span id="stop-walking-distance-display-m">${routeParams.walkDistDur2.Dist} m</span><span id="total-distance-display-min">${routeParams.totalValues.Dur}min</span><span id="total-distance-display-m">${routeParams.totalValues.Dist} m</span>`;
         // durationBox.style.visibility = "visible";
+        updateDepArrBox(routeParams.totalValues.Dur);
         });
 }
 
@@ -142,6 +143,7 @@ function showPartialRoute() {
     }).then(result => {
         routeParams.routePolylines = [result];
         zoomOnPolyline(result);
+        updateDepArrBox(routeParams.walkDistDur1.Dur);
         });
 }
 
