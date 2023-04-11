@@ -6,6 +6,8 @@ let context = {
     applicationTime: new Date(Date.now())
   };
 
+// window.context = context;
+
 let routeParams = {  // zero as default state
   originLoc: { Lat : 0, Long :	0 },
   startBikeLoc: { Lat : 0, Long :	0 },

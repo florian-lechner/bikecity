@@ -16,7 +16,7 @@ function nowLaterButton() {
   });
   }
   
-  function addDestination() {
+function addDestination() {
     const addDestination = document.getElementById("add-destination");
 
     addDestination.addEventListener("click", (event) => {
@@ -25,7 +25,7 @@ function nowLaterButton() {
     })
   }
 
-  function formSubmission() {
+function formSubmission() {
     // Call nowLaterButton function to add event listeners to the buttons
     nowLaterButton();
     // Add "+ add destination" button
@@ -87,6 +87,50 @@ function convertTimeToHours(time){
     return hoursToPlannedTime; 
 }
 
+// Function to calculate the departure or arrival times 
+function calculateDepartureArrivalTimes(totalDuration) {
+  const departureOrArrival = document.getElementById("now-departure-arrival-picker").value;
+  let departureTime;
+  let arrivalTime;
+
+  if (departureOrArrival === "Departure") {
+    departureTime = context.applicationTime;
+    arrivalTime = new Date(departureTime.getTime() + totalDuration * 60000);
+  } else if (departureOrArrival === "Arrival") {
+    arrivalTime = context.applicationTime;
+    departureTime = new Date(arrivalTime.getTime() - totalDuration * 60000);
+  }
+
+  return { departureTime, arrivalTime };
+}
+
+// Helper funtion to format datetime in the correct format for departure-arrival-times div
+function formatDateTime(date) {
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+
+  return `${day}-${month}-${year}, ${hours}:${minutes}`;
+}
+
+// Helper function to display times for the Departure Arrival display
+function updateDepArrBox(duration) {
+  const departureArrivalPicker = document.getElementById("now-departure-arrival-picker");
+
+  departureArrivalPicker.addEventListener("change", (event) => {
+    if (event.target.value === "Departure" || event.target.value === "Arrival") {
+      const times = calculateDepartureArrivalTimes(duration);
+      const formattedDepartureTime = formatDateTime(times.departureTime);
+      const formattedArrivalTime = formatDateTime(times.arrivalTime);
+      var depArrBox = document.getElementsByClassName("departure-arrival-times")[0];
+      depArrBox.innerHTML = `<span id="departure-date-time">Depature:\t ${formattedDepartureTime}</span><span id="arrival-date-time">Arrival:\t ${formattedArrivalTime}</span>`;
+      console.log(`<span id="departure-date-time">Depature:\t ${formattedDepartureTime}</span><span id="arrival-date-time">Arrival:\t ${formattedArrivalTime}</span>`);
+      depArrBox.style.visibility = "visible";
+    }
+  });
+}
 
 
-export { formSubmission };
+export { formSubmission, calculateDepartureArrivalTimes, formatDateTime };
