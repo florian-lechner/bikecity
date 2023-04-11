@@ -128,7 +128,7 @@ function showCompleteRoute() {
         routeParams.routePolylines = values;
         zoomOnPolyline(values);
         // fill duration-calculation-box with values from routeParams
-        var durationBox = document.getElementsByClassName("popup-more-info")[0];
+        var durationBox = document.getElementById("duration-calculation-box");
         durationBox.innerHTML = `<span id="start-walking-distance-display-min">${routeParams.walkDistDur1.Dur} min</span><span id="start-walking-distance-display-m">${routeParams.walkDistDur1.Dist} m</span><span id="biking-distance-display-min">${routeParams.bikeDistDur.Dur} min</span><span id="biking-distance-display-m">${routeParams.bikeDistDur.Dist} m</span><span id="stop-walking-distance-display-min">${routeParams.walkDistDur2.Dur} min</span><span id="stop-walking-distance-display-m">${routeParams.walkDistDur2.Dist} m</span><span id="total-distance-display-min">${routeParams.totalValues.Dur}min</span><span id="total-distance-display-m">${routeParams.totalValues.Dist} m</span>`;
         // durationBox.style.visibility = "visible";
     });
