@@ -313,23 +313,8 @@ function availabilityCanvas(id, availability, max){
   var hue = ((availability/max)*120).toString(10);
   var color_bg = ["hsl(",hue,",100%,70%)"].join("");
   var svgBg = document.getElementById(id+ "-bg").getElementById("svgInternalID");
-  //var svgBg = document.getElementById("svgInternalID");
   svgBg.setAttribute("fill", color_bg)
 
-  //document.addEventListener('DOMContentLoaded', function() {
-  //  var svgBg = document.querySelector(id+ "-bg path");;
-  //  var svgDoc = svgBg.contentDocument;
-  //  var internalID = svgDoc.querySelector("svgInternalID");
-  //  svgBg.setAttribute("fill", "#111111");
-  //});
-  // Wait for the SVG to load
-  //var svgBg = document.querySelector(id+ "-bg path");
-  //svgBg.addEventListener("load", () => {
-    //var svgDoc = svgBg.contentDocument;
-    //var internalID = svgDoc.querySelector("svgInternalID");
-    //internalID.setAttribute("fill", color_bg);
-    //svgBg.setAttribute("fill", color_bg);
-  //});
 }
 
 export { findDistances, distanceToMinutes, populateDiv, preselectStation };
