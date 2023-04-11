@@ -497,10 +497,14 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	font-weight: 700;
 }
 
+.available-number {
+	top: 24px;
+}
+
 .background-station {
     position: relative;
-    top: 11px;
-    left: 4px;
+    top: 12px;
+    left: 2px;
 	z-index: 0;
 }
 
