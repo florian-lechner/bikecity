@@ -1,7 +1,6 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 
 
-
 function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
     /**
      * mode as 'BICYCLING' or 'WALKING' parameters
@@ -15,8 +14,6 @@ function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
         })
     }
 
-    console.log("origin: ", origin);
-    console.log("destination: ", destination);
     const start = new google.maps.LatLng(origin.Lat, origin.Long);
     const end = new google.maps.LatLng(destination.Lat, destination.Long);
     // Initialize the direction service
@@ -30,13 +27,13 @@ function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
             travelMode: google.maps.TravelMode[mode]
         })
         .then(response => {
-            console.log("response: ", response);
+
             const distance = response.routes[0].legs[0].distance.value;
             const duration = response.routes[0].legs[0].duration.value;
 
             // Update total distance and duration
-            totalDistance += distance;
-            totalDuration += duration;
+            routeParams.totalValues.Dist += distance;
+            routeParams.totalValues.Dur += duration;
 
             let polyline = drawPolyline(response.routes[0].overview_polyline, color);
 
@@ -90,15 +87,10 @@ function zoomOnPolyline(polyline) {
 }
 
 
-// totalDistance variables
-let totalDistance, totalDuration;
-
-
-// ORIGINAL VERSION WITHOUT .THEN
 function showCompleteRoute() {
     // Reset total distance and duration
-    totalDistance = 0;
-    totalDuration = 0;
+    routeParams.totalValues.Dist = 0;
+    routeParams.totalValues.Dur = 0;
 
     // Draw and save walking section between originLoc and startBikeLoc
     let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#B0EFFF", (result) => {
@@ -110,22 +102,24 @@ function showCompleteRoute() {
         updateBikeDistDur(result);
     });
 
-
     // Draw and save walking section between stopBikeLoc and destinationLoc
     let walk2 = requestRouteDrawPolyline(routeParams.stopBikeLoc, routeParams.destinationLoc, "WALKING", "#B0EFFF", (result) => {
         updateWalkDistDur2(result);
     });
-    // Update total distance and duration
-    updateTotalValues({ Dist: totalDistance, Dur: totalDuration });
+
     Promise.all([walk1, bike, walk2]).then(values => {
         routeParams.routePolylines = values;
         zoomOnPolyline(values);
+        // fill duration-calculation-box with values from routeParams
+        var durationBox = document.getElementsByClassName("popup-more-info")[0];
+        durationBox.innerHTML = `<span id="start-walking-distance-display-min">${routeParams.walkDistDur1.Dur} min</span><span id="start-walking-distance-display-m">${routeParams.walkDistDur1.Dist} m</span><span id="biking-distance-display-min">${routeParams.bikeDistDur.Dur} min</span><span id="biking-distance-display-m">${routeParams.bikeDistDur.Dist} m</span><span id="stop-walking-distance-display-min">${routeParams.walkDistDur2.Dur} min</span><span id="stop-walking-distance-display-m">${routeParams.walkDistDur2.Dist} m</span><span id="total-distance-display-min">${routeParams.totalValues.Dur}min</span><span id="total-distance-display-m">${routeParams.totalValues.Dist} m</span>`;
+        // durationBox.style.visibility = "visible";
     });
 }
 
 // Function to show partial route (startLocation to startBikeLoc) only
 function showPartialRoute() {
-    debugger
+
     let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#B0EFFF", (result) => {
         updateWalkDistDur1(result);
     }).then(result => {
@@ -133,7 +127,6 @@ function showPartialRoute() {
         zoomOnPolyline(result);
     });
 }
-
 
 
 export { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute };

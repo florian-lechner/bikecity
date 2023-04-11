@@ -1,5 +1,5 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
-import { findDistances, populateDiv, preselectStation } from "./distance.js";
+import { findDistances, distanceToMinutes, populateDiv, preselectStation } from "./distance.js";
 import { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute } from "./route.js";
 
 // Preselects
@@ -74,10 +74,10 @@ function searchBoxes() {
 // function that checks which parameters the current selection is fulfilling
 function checkRouteStatus() {
     if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat != 0) {
-      console.log("Both origin and destination set: ", routeParams);
+      //console.log("Both origin and destination set: ", routeParams);
       showCompleteRoute();
     } else if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat == 0) {
-      console.log("Only origin set: ", routeParams);
+      //console.log("Only origin set: ", routeParams);
       showPartialRoute();
     }
   }
