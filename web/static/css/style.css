@@ -499,7 +499,7 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 
 .background-station {
     position: relative;
-    top: 12px;
+    top: 11px;
     left: 4px;
 	z-index: 0;
 }
