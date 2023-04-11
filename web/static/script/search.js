@@ -1,6 +1,6 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 import { findDistances, distanceToMinutes, populateDiv, preselectStation } from "./distance.js";
-import { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute } from "./route.js";
+import { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute, zoomOnPolyline } from "./route.js";
 
 // Preselects
 var preselectStartBike, preselectEndBike;
