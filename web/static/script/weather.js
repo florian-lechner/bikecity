@@ -181,11 +181,6 @@ function predictedWeather(weatherData) {
   // Generate predicted weather HTML
   var predictedWeather_text = 
     '<img id="predicted-weather-icon" src="/static/weather_icons_dark/' + weatherData.icon_number + '.svg" alt="Predicted weather icon">';
-  //  '<div id="predicted-weather-text">' +
-  //  '<p> Forecast <p>' +                 
-  //  '<p><img id="predicted-weather-icon" src="/static/weather_icons/' + weatherData.icon_number + '.svg" alt="Predicted weather icon"><p>' +
-  //  '<p>  ' + weatherData.forecast_temp + '°C';
-  // Insert the predicted weather html
   var current_temp_graph = document.getElementById("predicted-precipitation-graph");
   predictedWeather.innerHTML = predictedWeather_text;
 

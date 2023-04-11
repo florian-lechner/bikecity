@@ -7,7 +7,7 @@ function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
      */
     // Convert position objects to google maps position objects
 
-    if (routeParams.routePolylines != undefined){
+    if (routeParams.routePolylines != undefined) {
         let isArray = Array.isArray(routeParams.routePolylines);
         routeParams.routePolylines.forEach(polyline => {
             polyline.setMap(null);
@@ -82,8 +82,25 @@ function zoomOnPolyline(polyline) {
         }
     });
 
+    let paddingRight = 0;
+    if (context.openChartWindow != undefined) {
+        paddingRight = 425;
+    }
+    else {
+        paddingRight = 100;
+    }
+
+    let padding = {
+        top: 100,
+        right: paddingRight,
+        bottom: 100,
+        left: 525
+    };
+
+
+
     // Fit the map viewport to the bounds
-    context.map.fitBounds(bounds);
+    context.map.fitBounds(bounds, padding);
 }
 
 
@@ -128,5 +145,4 @@ function showPartialRoute() {
     });
 }
 
-
-export { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute };
+export { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute, zoomOnPolyline};
