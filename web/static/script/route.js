@@ -27,9 +27,9 @@ function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
             travelMode: google.maps.TravelMode[mode]
         })
         .then(response => {
-
+            console.log("response: ", response);
             const distance = response.routes[0].legs[0].distance.value;
-            const duration = response.routes[0].legs[0].duration.value;
+            const duration = Math.ceil(response.routes[0].legs[0].duration.value/ 60);  // returns time in seconds!!! 
 
             // Update total distance and duration
             routeParams.totalValues.Dist += distance;
@@ -38,11 +38,11 @@ function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
             let polyline = drawPolyline(response.routes[0].overview_polyline, color);
 
             // Pass the distance and duration to the callback function
+            
             callback({
-                Dist: response.routes[0].legs[0].distance.value,
-                Dur: response.routes[0].legs[0].duration.value,
+                Dist: distance,
+                Dur: duration,
             });
-
             return polyline;
         });
 }
@@ -137,7 +137,6 @@ function showCompleteRoute() {
 
 // Function to show partial route (startLocation to startBikeLoc) only
 function showPartialRoute() {
-
     let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#B0EFFF", (result) => {
         updateWalkDistDur1(result);
     }).then(result => {
