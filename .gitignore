@@ -4,3 +4,4 @@ desktop.ini
 **.pyc
 web/personalConfig.py
 web/__pycache__/*.pyc
+Prediction_Model/prediction_models.pkl

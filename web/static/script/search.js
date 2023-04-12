@@ -23,7 +23,7 @@ function place_changed(places, start) {
       // preselect func, availabilityKey 'bikes'
       preselectStartBike = preselectStation(closestStations, 'bikes', 'start');
       populateDiv(closestStations, 'start', preselectStartBike, preselectEndBike);
-      document.getElementById('start-bike-show-more').addEventListener('click', function() {
+      document.getElementById('start-bike-result').addEventListener('click', function() {
         document.getElementsByClassName('start-locations-popup-more-info')[0].style.visibility = "visible";
         document.getElementsByClassName("popup-more-info")[0].style.visibility = "visible";
       });
@@ -37,7 +37,7 @@ function place_changed(places, start) {
       // preselect func, availabilityKey 'bike_stands'
       preselectEndBike = preselectStation(closestStations, 'bike_stands', 'stop');
       populateDiv(closestStations, 'stop', preselectStartBike, preselectEndBike);
-      document.getElementById('stop-bike-show-more').addEventListener('click', function() {
+      document.getElementById('stop-bike-result').addEventListener('click', function() {
         document.getElementsByClassName('stop-locations-popup-more-info')[0].style.visibility = "visible";
         document.getElementsByClassName("popup-more-info")[0].style.visibility = "visible";
       });

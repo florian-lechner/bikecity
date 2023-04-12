@@ -1,6 +1,10 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 import { checkRouteStatus } from "./search.js";
 
+
+let svgBG = ' class="background-station" width="44" height="33" viewBox="0 0 44 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path id="svgInternalID" fill-rule="evenodd" clip-rule="evenodd" d="M38.9671 31.9137C42.111 28.5415 44 24.2163 44 19.5C44 8.73045 34.1503 0 22 0C9.84974 0 0 8.73045 0 19.5C0 24.6369 2.24099 29.31 5.9037 32.7929C16.3968 28.1295 28.2971 27.8365 38.9671 31.9137Z" fill="hsl(1,100%,70%)"/></svg>'
+
+
 // This function finds the closest stations to a given location
 function findDistances(locationLat, locationLng, callback) {
 /**
@@ -122,13 +126,20 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
     var chancePrediction = 0;
 
     var text;
+    var available;
+    //var canvas_text = '<div class="station-curve"><canvas class="background-canvas" id="' + `${tableID}-${i + 1}-graph"` + ' width="48" height="48"></canvas><canvas class="station-number-canvas" id="' + `${tableID}-${i + 1}-graph-number"` + ' width="48" height="48"></canvas><object class="background-station" id="' + `${tableID}-${i + 1}-bg"` + '" type="image/svg+xml" data="/static/img/availability-background.svg"></object>';
+    var canvas_text = '<div class="station-curve"><canvas class="background-canvas" id="' + `${tableID}-${i + 1}-graph"` + ' width="48" height="48"></canvas><canvas class="station-number-canvas" id="' + `${tableID}-${i + 1}-graph-number"` + ' width="48" height="48"></canvas><svg id="' + `${tableID}-${i + 1}-bg"` + svgBG;
     if (tableID == "start") {
-      text = `<span class="station-name" id=${tableID}-station-name-${i + 1}>${sortedStations[i].station.name}</span><span id=${tableID}-available-bikes-${i + 1}>${sortedStations[i].station.bikes}</span><span class="bike-chance" id=${tableID}-chance-to-get-bike-${i + 1}>${chancePrediction}% Chance to get a bike</span><span class="station-walking-time" id=${tableID}-walking-distance-min-${i + 1}>${walkingTimeInMinutes} min</span><span class="station-distance" id=${tableID}-walking-distance-m-${i + 1}>${sortedStations[i].distance} m</span>`;
+      available = sortedStations[i].station.bikes;
+      text = canvas_text +'<img src="/static/img/toggle-bike-dark.svg" alt="icon" class="icon"><span class="available-number" id='+`${tableID}-available-bikes-${i + 1}`+'>'+`${sortedStations[i].station.bikes}`+'</span></div>' + `<span class="station-name" id=${tableID}-station-name-${i + 1}>${sortedStations[i].station.name}</span><span class="bike-chance" id=${tableID}-chance-to-get-bike-${i + 1}>${chancePrediction}% Chance to get a bike</span><span class="station-walking-time" id=${tableID}-walking-distance-min-${i + 1}>${walkingTimeInMinutes} min</span><span class="station-distance" id=${tableID}-walking-distance-m-${i + 1}>${sortedStations[i].distance} m</span>`;
     } else {
-      text = `<span class="station-name" id=${tableID}-station-name-${i + 1}>${sortedStations[i].station.name}</span><span id=${tableID}-available-bike-stands-${i + 1}>${sortedStations[i].station.bike_stands}</span><span class="bike-chance" id=${tableID}-chance-to-store-bike-${i + 1}>${chancePrediction}% Chance to store a bike</span><span class="station-walking-time" id=${tableID}-walking-distance-${i + 1}>${walkingTimeInMinutes} min</span><span class="station-distance" id=${tableID}-walking-distance-m-${i + 1}>${sortedStations[i].distance} m</span>`;
+      available = sortedStations[i].station.bike_stands;
+      text = canvas_text + '<img src="/static/img/toggle-stands-dark.svg" alt="icon" class="icon"><span class="available-number" id='+`${tableID}-available-bike-stands-${i + 1}`+'>'+`${sortedStations[i].station.bike_stands}`+'</span></div>' + `<span class="station-name" id=${tableID}-station-name-${i + 1}>${sortedStations[i].station.name}</span><span class="bike-chance" id=${tableID}-chance-to-store-bike-${i + 1}>${chancePrediction}% Chance to store a bike</span><span class="station-walking-time" id=${tableID}-walking-distance-${i + 1}>${walkingTimeInMinutes} min</span><span class="station-distance" id=${tableID}-walking-distance-m-${i + 1}>${sortedStations[i].distance} m</span>`;
     }
 
     newDiv.innerHTML = text;
+
+    availabilityCanvas(`${tableID}-${i + 1}`, available, 30); //  ############# add max
 
     // Add event listener to the new div
     newDiv.addEventListener('click', function() {
@@ -145,9 +156,7 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
       }
 
       // Update the preselect div
-      const preselectDiv = document.getElementById(`${tableID}-bike-preselect`);
-      const preselectText = `<span class="station-name" id=${tableID}-station-name-${i + 1}>${sortedStations[i].station.name}</span><span id=${tableID}-available-bikes-${i + 1}>${sortedStations[i].station.bikes}</span><span class="bike-chance" id=${tableID}-chance-to-get-bike-${i + 1}>${chancePrediction}% Chance to get a bike</span><span class="station-walking-time" id=${tableID}-walking-distance-min-${i + 1}>${walkingTimeInMinutes} min</span><span class="station-distance" id=${tableID}-walking-distance-m-${i + 1}>${sortedStations[i].distance} m</span>`;
-      preselectDiv.innerHTML = preselectText;
+      preselectStation(sortedStations[i], toString(i), tableID)
 
       document.getElementsByClassName("popup-more-info")[0].style.visibility = "hidden";
       document.getElementsByClassName(`${tableID}-locations-popup-more-info`)[0].style.visibility = "hidden";
@@ -171,17 +180,26 @@ function preselectStation(closestStations, availabilityKey, tableID) {
   var stations = closestStations;
   var availableStation;
   var index;
-  for (let i = 0; i < stations.length; i++) {
-    if (stations[i].station[availabilityKey] > 0) {
-       availableStation = stations[i];
-       index = i;
-       break;
+  
+  if(availabilityKey == "bikes" || availabilityKey == "bike_stands" ) {
+    // Select closest one
+    for (let i = 0; i < stations.length; i++) {
+      if (stations[i].station[availabilityKey] > 0) {
+        availableStation = stations[i];
+        index = i;
+        break;
+      }
     }
+  } else {
+    availableStation = stations;
+    index = Number(availabilityKey);
   }
+
   if (availableStation) {
     const walkingTimeInMinutes = distanceToMinutes(availableStation.distance);
     var chancePrediction = 0;  // to be implemented with prediction function; placeholder
-    var canvas_text = `<div class="station-curve"><canvas class="background-canvas" id="${tableID}-graph" width="48" height="48"></canvas><canvas class="station-number-canvas" id="${tableID}-graph-number" width="48" height="48"></canvas><object class="background-station" id="${tableID}-bg"" type="image/svg+xml" data="/static/img/availability-background.svg"></object>`;
+    var canvas_text = '<div class="station-curve"><canvas class="background-canvas" id="' + `${tableID}-graph"`+ ' width="48" height="48"></canvas><canvas class="station-number-canvas" id="' + `${tableID}-graph-number"`+ ' width="48" height="48"></canvas><svg id="' + `${tableID}-bg"` + svgBG;
+    //var canvas_text = '<div class="station-curve"><canvas class="background-canvas" id="' + `${tableID}-graph"`+ ' width="48" height="48"></canvas><canvas class="station-number-canvas" id="' + `${tableID}-graph-number"`+ ' width="48" height="48"></canvas><object class="background-station" id="' + `${tableID}-bg"`+ '" type="image/svg+xml" data="/static/img/availability-background.svg"></object>';
     if (tableID == "start") {
       var text = `${canvas_text}<img src="/static/img/toggle-bike-dark.svg" alt="icon" class="icon"><span class="available-number" id=${tableID}-available-bikes-${index}>${availableStation.station.bikes}</span></div><span class="station-name" id=${tableID}-station-name-${index}>${availableStation.station.name}</span><span class="bike-chance" id=${tableID}-chance-to-get-bike-${index}>${chancePrediction}% Chance to get a bike</span><span class="station-walking-time" id=${tableID}-walking-distance-min-${index}>${walkingTimeInMinutes} min</span><span class="station-distance" id=${tableID}-walking-distance-m-${index}>${availableStation.distance} m</span>`
       updateStartBike({ Lat: availableStation.station.position_lat, Long: availableStation.station.position_lng });
@@ -197,7 +215,7 @@ function preselectStation(closestStations, availabilityKey, tableID) {
     }
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
     document.getElementById(`${tableID}-bike-result`).style.display = "block"; 
-    availabilityCanvas(tableID, available, 30);
+    availabilityCanvas(tableID, available, 30); //  ############# add max
   } else { // error message in case no stations available
     var text = '<span id="preselect-no-result">No available stations in your area.</span>';
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
@@ -209,7 +227,7 @@ function preselectStation(closestStations, availabilityKey, tableID) {
 var station_canvases = {};
 function availabilityCanvas(id, availability, max){
 
-  var border_color = 'rgba(176, 239, 255,1)';
+  var border_color = 'rgba(176, 239, 255, 0)';
   var background_color = 'rgba(69, 156, 178, 1)';
   var front_color = 'rgba(35, 35, 35, 1)';
 
@@ -292,9 +310,11 @@ function availabilityCanvas(id, availability, max){
   station_canvases[id] = [background_canvas_temp ,availability_graph_number_canvas];
 
   // Background:
-  //var hue = ((availability/max)*120).toString(10);
-  //var color_bg = ["hsl(",hue,",100%,70%)"].join("");
-  //document.getElementById(id+ "-bg").getSVGDocument().getElementById("svgInternalID").setAttribute("fill", color_bg)
+  var hue = ((availability/max)*120).toString(10);
+  var color_bg = ["hsl(",hue,",100%,70%)"].join("");
+  var svgBg = document.getElementById(id+ "-bg").getElementById("svgInternalID");
+  svgBg.setAttribute("fill", color_bg)
+
 }
 
 export { findDistances, distanceToMinutes, populateDiv, preselectStation };
