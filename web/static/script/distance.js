@@ -158,7 +158,7 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
     newDiv.innerHTML = text;
 
     availabilityCanvas(`${tableID}-${i + 1}`, available, 30); //  ############# add max
-
+    addCloseSelectionEvent();
     // Add event listener to the new div
     newDiv.addEventListener('click', function() {
       if (tableID === 'start') {
@@ -182,7 +182,16 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
   }
   document.getElementsByClassName(`${tableID}-locations-popup-more-info`)[0].style.visibility = "hidden";
 }
+function closeSelectionPopup(){
+  document.getElementsByClassName("popup-more-info")[0].style.visibility = "hidden";
+  document.getElementsByClassName(`start-locations-popup-more-info`)[0].style.visibility = "hidden";
+  document.getElementsByClassName(`stop-locations-popup-more-info`)[0].style.visibility = "hidden";
+};
 
+
+function addCloseSelectionEvent() {
+  document.getElementById("close-popup").addEventListener("click", closeSelectionPopup);
+}
 
 // function to change meter distance to walking minutes
 function distanceToMinutes(distance) {

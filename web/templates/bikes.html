@@ -56,13 +56,13 @@
 
       <!--Provides the picker with the station location options from database-->
       <div class="location">
-        <input id="start-location-field" name="start-location-field" type="text" placeholder="Start location" /><br><br>
+        <input id="start-location-field" name="start-location-field" type="text" placeholder="Start location" />
         <div id="start-bike-result"><!--Start Preselect-->
           <div class="bike-preselect" id="start-bike-preselect"></div>
           <div id="start-bike-show-more">Show more stations</div>
         </div>
         <span id="add-destination">+ Add destination</span>
-        <input id="end-location-field" name="end-location-field" type="text" placeholder="Destination" /><br><br>
+        <input id="end-location-field" name="end-location-field" type="text" placeholder="Destination" />
         <div id="stop-bike-result"><!--Stop Preselect-->
           <div class="bike-preselect" id="stop-bike-preselect"></div>
           <div id="stop-bike-show-more">Show more stations</div>
@@ -74,8 +74,11 @@
 
     <div class="popup-more-info">
       <div class="popup-title">Select station:</div>
-      <div class="start-locations-popup-more-info"></div> <!--Start Popup-->
-      <div class="stop-locations-popup-more-info"></div> <!--Stop Popup-->
+      <img id="close-popup" src="../static/img/x.svg" alt="icon">
+      <div class="scrollbox">
+        <div class="start-locations-popup-more-info"></div> <!--Start Popup-->
+        <div class="stop-locations-popup-more-info"></div> <!--Stop Popup-->
+      </div>
     </div> 
 
   </div>
