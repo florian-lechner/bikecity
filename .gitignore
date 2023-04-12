@@ -6,3 +6,4 @@ web/personalConfig.py
 web/__pycache__/*.pyc
 Prediction_Model/prediction_models.pkl
 Prediction_Model/prediction_models_test.pkl
+Prediction_Model/predictionModels.pkl

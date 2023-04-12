@@ -6,7 +6,7 @@ import numpy as np
 
 import pickle
 
-with open('../Prediction_Model/prediction_models_test.pkl', 'rb') as file:
+with open('../Prediction_Model/predictionModels.pkl', 'rb') as file:
     prediction_models = pickle.load(file)
 
 def get_available_bike_prediction(station_id, date, temperature, pressure, humidity, clouds, precipitation_value, precipitation_probability):
