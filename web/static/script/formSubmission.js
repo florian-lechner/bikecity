@@ -1,6 +1,6 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 import { showPredictedWeather }  from "./weather.js"
-import { searchBoxes } from "./search.js";
+import { searchBoxes, refreshBox } from "./search.js";
 import { findDistances, populateDiv } from "./distance.js";
 
 
@@ -59,7 +59,8 @@ function formSubmission() {
         hoursToTime = 0;
       }
       context.forecast_hour = hoursToTime;
-
+      
+      refreshBox();
       // Call the method to get the predicted weather
       showPredictedWeather(hoursToTime);
     });
