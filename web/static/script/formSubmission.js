@@ -3,6 +3,7 @@ import { showPredictedWeather }  from "./weather.js"
 import { searchBoxes } from "./search.js";
 import { findDistances, populateDiv } from "./distance.js";
 
+
 function nowLaterButton() {
   const laterDropdown = document.getElementById("now-departure-arrival-picker");
 
@@ -41,6 +42,7 @@ function formSubmission() {
       let time = new Date(document.getElementById("time-picker").value);
       let hoursToTime = convertTimeToHours(time);
       context.applicationTime = time;
+      console.log(context.applicationTime);
       let departureOrArrival = document.getElementById("now-departure-arrival-picker").value;
   
       if (departureOrArrival == "Start Now") {
@@ -55,6 +57,7 @@ function formSubmission() {
       else if (hoursToTime < 1) {
         hoursToTime = 0;
       }
+      context.forecast_hour = hoursToTime;
 
       // Call the method to get the predicted weather
       showPredictedWeather(hoursToTime);

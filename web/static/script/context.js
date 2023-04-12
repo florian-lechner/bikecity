@@ -3,7 +3,8 @@ let context = {
     openChartWindow: undefined,
     openInfoWindow: undefined,
     markers: [],         
-    applicationTime: new Date(Date.now())
+    applicationTime: new Date(Date.now()),
+    forecast_hour: 0
   };
 
 // window.context = context;

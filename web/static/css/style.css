@@ -254,6 +254,13 @@ input#time-picker {
 	display: none;
 }
 
+#preselect-no-result {
+	position: absolute;
+	weight: 700;
+	left: 30px;
+	top: 14px;
+}
+
 .bike-preselect, .bike-box {
 	width: 496px;
 	height: 66px;

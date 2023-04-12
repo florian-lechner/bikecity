@@ -1,5 +1,6 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 import { checkRouteStatus } from "./search.js";
+import { formatDateTime } from "./formSubmission.js";
 
 
 let svgBG = ' class="background-station" width="44" height="33" viewBox="0 0 44 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path id="svgInternalID" fill-rule="evenodd" clip-rule="evenodd" d="M38.9671 31.9137C42.111 28.5415 44 24.2163 44 19.5C44 8.73045 34.1503 0 22 0C9.84974 0 0 8.73045 0 19.5C0 24.6369 2.24099 29.31 5.9037 32.7929C16.3968 28.1295 28.2971 27.8365 38.9671 31.9137Z" fill="hsl(1,100%,70%)"/></svg>'
@@ -18,16 +19,33 @@ function findDistances(locationLat, locationLng, callback) {
         let location = new google.maps.LatLng(locationLat, locationLng);
         // Get the 20 closest stations (haversine distance)
         let nearbyStations = filterClosestStations(location, stationsData);
-        // Sort the stations by distance from the location
-        return sortStationsByDistance(location, nearbyStations, (error, sortedStations) => {
+        // get prediction for each station
+        let promises = nearbyStations.map(station => get_station_prediction(station.id, station.bikes, station.bike_stands));
+        Promise.all(promises)
+        .then(results => {
+          // Update the nearbyStations array with the results
+          for (let i = 0; i < nearbyStations.length; i++) {
+            nearbyStations[i].bikes = results[i].bikes;
+            nearbyStations[i].bike_stands = results[i].stands;
+          }
+          console.log(nearbyStations);
+          return nearbyStations;
+        })
+        .then(nearbyStations => {
+          // Sort the stations by distance from the location
+          return sortStationsByDistance(location, nearbyStations, (error, sortedStations) => {
             if (error) {
-                console.error("Error while sorting stations:", error);
-                return;
+              console.error("Error while sorting stations:", error);
+              return;
             }
             // Get the closest stations based on the specified criteria
             //let closestStations = getClosestStations(sortedStations, availabilityKey);
             // Call populateTable() function to update the table with closest stations data
             callback(sortedStations);
+          });
+        })
+        .catch(error => {
+          console.error("Error while getting station predictions:", error);
         });
     });
 }
@@ -178,49 +196,63 @@ function distanceToMinutes(distance) {
 // function to create preselected station
 function preselectStation(closestStations, availabilityKey, tableID) {
   var stations = closestStations;
-  var availableStation;
   var index;
   
   if(availabilityKey == "bikes" || availabilityKey == "bike_stands" ) {
     // Select closest one
     for (let i = 0; i < stations.length; i++) {
       if (stations[i].station[availabilityKey] > 0) {
-        availableStation = stations[i];
+        var availableStation = stations[i];
         index = i;
         break;
       }
     }
   } else {
-    availableStation = stations;
+    var availableStation = stations;
     index = Number(availabilityKey);
   }
+
 
   if (availableStation) {
     const walkingTimeInMinutes = distanceToMinutes(availableStation.distance);
     var chancePrediction = 0;  // to be implemented with prediction function; placeholder
     var canvas_text = '<div class="station-curve"><canvas class="background-canvas" id="' + `${tableID}-graph"`+ ' width="48" height="48"></canvas><canvas class="station-number-canvas" id="' + `${tableID}-graph-number"`+ ' width="48" height="48"></canvas><svg id="' + `${tableID}-bg"` + svgBG;
-    //var canvas_text = '<div class="station-curve"><canvas class="background-canvas" id="' + `${tableID}-graph"`+ ' width="48" height="48"></canvas><canvas class="station-number-canvas" id="' + `${tableID}-graph-number"`+ ' width="48" height="48"></canvas><object class="background-station" id="' + `${tableID}-bg"`+ '" type="image/svg+xml" data="/static/img/availability-background.svg"></object>';
+    
+    let max = availableStation.station.bikes + availableStation.station.bike_stands;
+    let bikes = availableStation.station.bikes;
+    let stands= availableStation.station.bike_stands;
+    // get prediciton
+    //get_station_prediction(availableStation.station.id)
+    //.then(result => {
+    //  max  = result.max;
+    //  bikes = result.bikes;
+    //  stands = result.stands;
+    
+
     if (tableID == "start") {
-      var text = canvas_text +'<img src="/static/img/toggle-bike-dark.svg" alt="icon" class="icon"><span class="available-number" id='+`${tableID}-available-bikes-${index}`+'>'+`${availableStation.station.bikes}`+'</span></div><span class="station-name" id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-get-bike-${index}`+'>'+`${chancePrediction}% Chance to get a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
+      var available = bikes;
+      var text = canvas_text +'<img src="/static/img/toggle-bike-dark.svg" alt="icon" class="icon"><span class="available-number" id='+`${tableID}-available-bikes-${index}`+'>'+`${available}`+'</span></div><span class="station-name" id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-get-bike-${index}`+'>'+`${chancePrediction}% Chance to get a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
       updateStartBike({ Lat: availableStation.station.position_lat, Long: availableStation.station.position_lng });
       updateWalkDistDur1({ Dist : availableStation.distance, Dur: walkingTimeInMinutes });
       var id = "preselect-start";
-      var available = availableStation.station.bikes;
     } else if (tableID == "stop") {
-      var text = canvas_text + '<img src="/static/img/toggle-stands-dark.svg" alt="icon" class="icon"><span class="available-number" id='+`${tableID}-available-bike-stands-${index}`+'>'+`${availableStation.station.bike_stands}`+'</span></div><span class="station-name" id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-store-bike-${index}`+'>'+`${chancePrediction}% Chance to store a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
+      var available = stands;
+      var text = canvas_text + '<img src="/static/img/toggle-stands-dark.svg" alt="icon" class="icon"><span class="available-number" id='+`${tableID}-available-bike-stands-${index}`+'>'+`${available}`+'</span></div><span class="station-name" id='+`${tableID}-station-name-${index}`+'>'+`${availableStation.station.name}`+'</span><span class="bike-chance" id='+`${tableID}-chance-to-store-bike-${index}`+'>'+`${chancePrediction}% Chance to store a bike`+'</span><span class="station-walking-time" id='+`${tableID}-walking-distance-min-${index}`+'>'+`${walkingTimeInMinutes} min`+'</span><span class="station-distance" id='+`${tableID}-walking-distance-m-${index}`+'>'+`${availableStation.distance} m`+'</span>'
       updateStopBike({ Lat: availableStation.station.position_lat, Long: availableStation.station.position_lng });
       updateWalkDistDur2({ Dist : availableStation.distance, Dur: walkingTimeInMinutes });
       var id = "preselect-stop";
-      var available = availableStation.station.bike_stands;
     }
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
     document.getElementById(`${tableID}-bike-result`).style.display = "block"; 
     availabilityCanvas(tableID, available, 30); //  ############# add max
+  //});
   } else { // error message in case no stations available
-    var text = '<span id="preselect-no-result">No available stations in your area.</span>';
+    var text = '<span id="preselect-no-result">There are no available stations in your area.<br>Stations are closed between 0:30am and 5:00am.</span>';
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
+    document.getElementById(`${tableID}-bike-result`).style.display = "block";
   }
   return availableStation;
+  
 }
 
 
@@ -315,6 +347,33 @@ function availabilityCanvas(id, availability, max){
   var svgBg = document.getElementById(id+ "-bg").getElementById("svgInternalID");
   svgBg.setAttribute("fill", color_bg)
 
+}
+
+async function get_station_prediction(id, bike_org, stands_org) {
+  try {
+    // get prediction
+    let date = formatDateTime(context.applicationTime).split(' ').join('');
+
+    if (context.forecast_hour == 0) {
+      const bikes = bike_org;
+      const stands = stands_org;
+      const max = bikes + stands;
+      return { bikes, stands, max };
+    } else {
+      const response = await fetch("/getBikePrediction/" + id + "/" + context.forecast_hour + "/" + date);
+      const availability = await response.json();
+      const bikes = availability.bikes;
+      const stands = availability.stands;
+      const max = bikes + stands;
+      return { bikes, stands, max };
+    }
+  } catch (error) {
+    console.error('Error fetching bike prediction:', error);
+    const bikes = 0;
+    const stands = 0;
+    const max = bikes + stands;
+    return { bikes, stands, max };
+  }
 }
 
 export { findDistances, distanceToMinutes, populateDiv, preselectStation };
