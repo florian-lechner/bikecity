@@ -258,9 +258,9 @@ input#time-picker {
 
 #preselect-no-result {
 	position: absolute;
-	weight: 700;
 	left: 30px;
-	top: 14px;
+	line-height: 22px;
+	top: 12px;
 }
 
 .bike-preselect, .bike-box {

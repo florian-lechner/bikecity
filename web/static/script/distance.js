@@ -20,33 +20,40 @@ function findDistances(locationLat, locationLng, callback) {
         // Get the 20 closest stations (haversine distance)
         let nearbyStations = filterClosestStations(location, stationsData);
         // get prediction for each station
-        let promises = nearbyStations.map(station => get_station_prediction(station.id, station.bikes, station.bike_stands));
-        Promise.all(promises)
-        .then(results => {
-          // Update the nearbyStations array with the results
-          for (let i = 0; i < nearbyStations.length; i++) {
-            nearbyStations[i].bikes = results[i].bikes;
-            nearbyStations[i].bike_stands = results[i].stands;
-          }
-          console.log(nearbyStations);
-          return nearbyStations;
-        })
-        .then(nearbyStations => {
-          // Sort the stations by distance from the location
-          return sortStationsByDistance(location, nearbyStations, (error, sortedStations) => {
-            if (error) {
-              console.error("Error while sorting stations:", error);
-              return;
-            }
-            // Get the closest stations based on the specified criteria
-            //let closestStations = getClosestStations(sortedStations, availabilityKey);
-            // Call populateTable() function to update the table with closest stations data
-            callback(sortedStations);
+        fetch("/getForecastWeather/" + context.forecast_hour)
+          .then(response => response.json())
+          .then(weatherData => {
+            let promises = nearbyStations.map(station => get_station_prediction(station.id, station.bikes, station.bike_stands, weatherData));
+            return promises;
+          })
+          .then(promises => {
+            Promise.all(promises)
+            .then(results => {
+              // Update the nearbyStations array with the results
+              for (let i = 0; i < nearbyStations.length; i++) {
+                nearbyStations[i].bikes = results[i].bikes;
+                nearbyStations[i].bike_stands = results[i].stands;
+              }
+              console.log(nearbyStations);
+              return nearbyStations;
+            })
+            .then(nearbyStations => {
+              // Sort the stations by distance from the location
+              return sortStationsByDistance(location, nearbyStations, (error, sortedStations) => {
+                if (error) {
+                  console.error("Error while sorting stations:", error);
+                  return;
+                }
+                // Get the closest stations based on the specified criteria
+                //let closestStations = getClosestStations(sortedStations, availabilityKey);
+                // Call populateTable() function to update the table with closest stations data
+                callback(sortedStations);
+              });
+            })
+            .catch(error => {
+              console.error("Error while getting station predictions:", error);
+            });
           });
-        })
-        .catch(error => {
-          console.error("Error while getting station predictions:", error);
-        });
     });
 }
   
@@ -359,7 +366,7 @@ function availabilityCanvas(id, availability, max){
 
 }
 
-async function get_station_prediction(id, bike_org, stands_org) {
+async function get_station_prediction(id, bike_org, stands_org, weatherData) {
   try {
     // get prediction
     let date = formatDateTime(context.applicationTime).split(' ').join('');
@@ -370,7 +377,7 @@ async function get_station_prediction(id, bike_org, stands_org) {
       const max = bikes + stands;
       return { bikes, stands, max };
     } else {
-      const response = await fetch("/getBikePrediction/" + id + "/" + context.forecast_hour + "/" + date);
+      const response = await fetch("/getBikePrediction/" + id + "/" + context.forecast_hour + "/" + date + "/" + weatherData.forecast_temp + "/" + weatherData.pressure + "/" + weatherData.humidity + "/" + weatherData.clouds + "/" + weatherData.precipitation_value  + "/" + weatherData.precipitation_probability);
       const availability = await response.json();
       const bikes = availability.bikes;
       const stands = availability.stands;

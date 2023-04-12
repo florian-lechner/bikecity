@@ -76,9 +76,14 @@ def get_forecast_weather(hours):
     except:
         return jsonify({'error': "No data found for future weather for hour " + hours})
     
-@app.route("/getBikePrediction/<int:id>/<string:hours>/<string:date>", methods= ['GET'])
-def get_bike_prediction(id, hours, date):
+@app.route("/getBikePrediction/<int:id>/<string:hours>/<string:date>/<int:temperature>/<string:pressure>/<string:humidity>/<string:clouds>/<string:precipitation_value>/<string:precipitation_probability>", methods= ['GET'])
+def get_bike_prediction(id, hours, date, temperature, pressure, humidity, clouds, precipitation_value, precipitation_probability):
     hours = int(hours)
+    pressure = float(pressure)
+    humidity = float(humidity)
+    clouds = float(clouds)
+    precipitation_value = float(precipitation_value)
+    precipitation_probability = float(precipitation_probability)
 
     # Station closed
     time = int(date[11:13]) * 12 + int(date[14:16])//5
@@ -87,14 +92,8 @@ def get_bike_prediction(id, hours, date):
         return jsonify(availability)
     else:
         try:
-            dbConnection.main()
-            if (hours > 0):
-                live_weather = dbConnection.get_forecast_weather(hours)
-                bikes, stands = get_available_bike_prediction(id, date, live_weather['forecast_temp'], live_weather['pressure'], live_weather['humidity'], live_weather['clouds'], live_weather['precipitation_value'], live_weather['precipitation_probability'])
-                availability = {'bikes':bikes, 'stands':stands}
-            else:
-                live_data = dbConnection.get_station_live_data(id)
-                availability = {'bikes': live_data['available_bikes'], 'stands': live_data['available_stands']}
+            bikes, stands = get_available_bike_prediction(id, date, temperature, pressure, humidity, clouds, precipitation_value, precipitation_probability)
+            availability = {'bikes':bikes, 'stands':stands}
             return jsonify(availability)
         except Exception as e:
             print(f"An error occurred: {e}")
