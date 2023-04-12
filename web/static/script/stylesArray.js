@@ -164,7 +164,7 @@ var stylesArray =
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#6a7b76"
+                "color": "#A3B1AD"
             }
         ]
     },

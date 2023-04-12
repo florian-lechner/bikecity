@@ -47,16 +47,19 @@ function createMarkers(stations) { // Function to create a marker for each stati
       new google.maps.Marker({
         label: { 
           text: String(count), 
-          color: "#B0EFFF", 
-          fontSize: "10px",
+          color: "#232323", 
+          fontSize: "14px",
+          fontWeight: "700",
           fillColor: "#232323",
           labelClass: "cluster-marker-class"
         },
         position,
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
-          fillColor: "#232323",
-          scale: 10,
+          fillColor: "#B0EFFF",
+          scale: 8,
+          strokeWeight: 16,
+          strokeColor: "#B0EFFF"
         },
         // adjust zIndex to be above other markers
         zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,

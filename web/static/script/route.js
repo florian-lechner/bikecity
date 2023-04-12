@@ -110,17 +110,17 @@ function showCompleteRoute() {
     routeParams.totalValues.Dur = 0;
 
     // Draw and save walking section between originLoc and startBikeLoc
-    let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#B0EFFF", (result) => {
+    let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#459CB2", (result) => {
         updateWalkDistDur1(result);
     });
 
     // Draw and save biking section between startBikeLoc and stopBikeLoc
-    let bike = requestRouteDrawPolyline(routeParams.startBikeLoc, routeParams.stopBikeLoc, "BICYCLING", "#459CB2", (result) => {
+    let bike = requestRouteDrawPolyline(routeParams.startBikeLoc, routeParams.stopBikeLoc, "BICYCLING", "#232323", (result) => {
         updateBikeDistDur(result);
     });
 
     // Draw and save walking section between stopBikeLoc and destinationLoc
-    let walk2 = requestRouteDrawPolyline(routeParams.stopBikeLoc, routeParams.destinationLoc, "WALKING", "#B0EFFF", (result) => {
+    let walk2 = requestRouteDrawPolyline(routeParams.stopBikeLoc, routeParams.destinationLoc, "WALKING", "#459CB2", (result) => {
         updateWalkDistDur2(result);
     });
 
@@ -137,7 +137,7 @@ function showCompleteRoute() {
 
 // Function to show partial route (startLocation to startBikeLoc) only
 function showPartialRoute() {
-    let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#B0EFFF", (result) => {
+    let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#459CB2", (result) => {
         updateWalkDistDur1(result);
     }).then(result => {
         routeParams.routePolylines = [result];
