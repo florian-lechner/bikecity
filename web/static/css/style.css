@@ -176,6 +176,61 @@ input[type="datetime-local"] {
 	color: #232323;
 }
 
+#predicted-weather {
+	position: relative;
+	z-index:4;
+}
+
+.departure-arrival-times {
+	visibility: hidden;
+	position: absolute;
+	width: 496px;
+	height: 67px;
+	left: 0px;
+	top: 0px;
+
+	background: #B0EFFF;
+	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
+	border-radius: 10px;
+	z-index: 2;
+}
+
+#departure-date-time, #arrival-date-time  {
+	position: absolute;
+	left: 240px;
+	font-size: 14px;
+	line-height: 16px;
+	width: 240px;
+}
+
+#divider-weather {
+    position: absolute;
+    left: 214px;
+    top: 7px; 
+	width: 2px;
+	border-radius: 4px;
+    height: calc(100% - 14px);
+    background-color: #232323;
+}
+
+#departure-date-time {
+	top: 14px; 
+}
+
+.dep-arr-date {
+	font-weight: 700;
+}
+
+.dep-arr-time {
+	position: absolute;
+	left: 90px;
+}
+
+#arrival-date-time {
+	bottom: 12px; 
+}
+
+
 #current-weather-icon, #predicted-weather-icon {
 	position: absolute;
 	width: 44px;
@@ -484,9 +539,9 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	font-size: 10px;
 }
 
-#weather > .predicted-weather {
+/*#weather > .predicted-weather {
 	display: none;
-}
+}*/
 
 
 /*input {
@@ -502,6 +557,7 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	position: absolute;
 	left: 18px;
 	font-weight: 700;
+	z-index: 3;
 }
 
 .precipitation-curve{
@@ -686,12 +742,13 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 }
 
 #divider {
-	width: 1px;
+	width: 2px;
     height: calc(100% - 14px);
     background-color: #B0EFFF;
     position: absolute;
     left: 27%;
     top: 7px;
+	border-radius: 4px;
 }
 
 #pins-label{

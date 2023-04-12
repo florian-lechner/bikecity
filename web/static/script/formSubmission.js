@@ -10,9 +10,17 @@ function nowLaterButton() {
   laterDropdown.addEventListener("change", (event) => {
     if(event.target.value != "Start Now") {
       document.getElementById("date-time-picker").style.display = "inline-block";
+      if (storedDateTimePickerValue != undefined) {
+        timePickChange();
+      }
     }
     else if (event.target.value == "Start Now") {
       document.getElementById("date-time-picker").style.display = "none";
+      context.forecast_hour = 0;
+      
+      refreshBox();
+      // Call the method to get the predicted weather
+      showPredictedWeather(context.forecast_hour);
     }
   });
   }
@@ -26,6 +34,9 @@ function addDestination() {
     })
   }
 
+// enables to keep datetime value set and then Departure/Arrival option is changed
+let storedDateTimePickerValue;
+
 function formSubmission() {
     // Call nowLaterButton function to add event listeners to the buttons
     nowLaterButton();
@@ -37,33 +48,11 @@ function formSubmission() {
     document.getElementById("time-picker").min = new Date().toISOString().slice(0, 16);
     document.getElementById("time-picker").setAttribute("max", formatDay(3) + "T23:59");
 
-    // enables to keep datetime value set and then Departure/Arrival option is changed
-    let storedDateTimePickerValue;
+    
+    
 
     // Listener Date change
-    document.getElementById("time-picker").addEventListener("change", function (event) {
-      let time = new Date(document.getElementById("time-picker").value);
-      storedDateTimePickerValue = time;
-      let hoursToTime = convertTimeToHours(time);
-      context.applicationTime = time;
-      console.log(context.applicationTime);
-      let departureOrArrival = document.getElementById("now-departure-arrival-picker").value;
-
-      if (departureOrArrival == "Start Now") {
-        // If now, current date as start time
-        hoursToTime = 0;
-        departureOrArrival = "Departure";
-      } else if (hoursToTime > 90) {
-        hoursToTime = 90;
-      } else if (hoursToTime < 1) {
-        hoursToTime = 0;
-      }
-      context.forecast_hour = hoursToTime;
-      
-      refreshBox();
-      // Call the method to get the predicted weather
-      showPredictedWeather(hoursToTime);
-    });
+    document.getElementById("time-picker").addEventListener("change", timePickChange);
 
     // listener checks if storedDateTimePickerValue exists upon Departure->Arrival or Arrival->Departure change
     document.getElementById("now-departure-arrival-picker").addEventListener("change", function (event) {
@@ -72,6 +61,31 @@ function formSubmission() {
       }
     });
   }
+
+function timePickChange() {
+  let time = new Date(document.getElementById("time-picker").value);
+  storedDateTimePickerValue = time;
+  let hoursToTime = convertTimeToHours(time);
+  context.applicationTime = time;
+  console.log(context.applicationTime);
+  let departureOrArrival = document.getElementById("now-departure-arrival-picker").value;
+
+  if (departureOrArrival == "Start Now") {
+    // If now, current date as start time
+    hoursToTime = 0;
+    departureOrArrival = "Departure";
+  } else if (hoursToTime > 90) {
+    hoursToTime = 90;
+  } else if (hoursToTime < 1) {
+    hoursToTime = 0;
+  }
+  context.forecast_hour = hoursToTime;
+  
+  // Call the method to get the predicted weather
+  showPredictedWeather(hoursToTime);
+
+  refreshBox();
+}
 
 function formatDay(add){
     var day = new Date(); 
@@ -140,7 +154,7 @@ function updateDepArrBox(duration) {
     const formattedDepartureTime = formatDateTime(times.departureTime);
     const formattedArrivalTime = formatDateTime(times.arrivalTime);
     var depArrBox = document.getElementsByClassName("departure-arrival-times")[0];
-    depArrBox.innerHTML = `<span id="departure-date-time">Depature:\t ${formattedDepartureTime}</span><span id="arrival-date-time">Arrival:\t ${formattedArrivalTime}</span>`;
+    depArrBox.innerHTML = `<div id="divider-weather"></div><span id="departure-date-time"><span class="dep-arr-date">Depature:</span><span class="dep-arr-time"> ${formattedDepartureTime}</span></span><span id="arrival-date-time"><span class="dep-arr-date">Arrival:</span><span class="dep-arr-time"> ${formattedArrivalTime}</span></span>`;
     console.log(`<span id="departure-date-time">Depature:\t ${formattedDepartureTime}</span><span id="arrival-date-time">Arrival:\t ${formattedArrivalTime}</span>`);
     depArrBox.style.visibility = "visible";
   }

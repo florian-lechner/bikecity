@@ -34,7 +34,6 @@ function findDistances(locationLat, locationLng, callback) {
                 nearbyStations[i].bikes = results[i].bikes;
                 nearbyStations[i].bike_stands = results[i].stands;
               }
-              console.log(nearbyStations);
               return nearbyStations;
             })
             .then(nearbyStations => {
