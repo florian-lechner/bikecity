@@ -764,15 +764,15 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	width: 25px;
 	height: 16px;
 	left: -4px;
-  }
-  
-  .switch input { 
+}
+
+.switch input { 
 	opacity: 0;
 	width: 0;
 	height: 0;
-  }
-  
-  .slider {
+}
+
+.slider {
 	position: absolute;
 	cursor: pointer;
 	top: 0;
@@ -782,9 +782,9 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	background-color: #B0EFFF;
 	-webkit-transition: .4s;
 	transition: .4s;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
 	position: absolute;
 	content: "";
 	height: 12px;
@@ -794,28 +794,135 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	background-color: #232323;
 	-webkit-transition: .4s;
 	transition: .4s;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked + .slider {
 	background-color: #459CB2;
-  }
-  
-  input:focus + .slider {
+}
+
+input:focus + .slider {
 	box-shadow: 0 0 1px #459CB2;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked + .slider:before {
 	-webkit-transform: translateX(9px);
 	-ms-transform: translateX(9px);
 	transform: translateX(9px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
+}
+
+/* Rounded sliders */
+.slider.round {
 	border-radius: 34px;
-  }
-  
-  .slider.round:before {
+}
+
+.slider.round:before {
 	border-radius: 50%;
-  }
-  /* ---- */
+}
+/* ---- */
+
+/* Duration Box */
+
+#duration-calculation-box {
+	visibility: hidden;
+	position: relative;
+	display: block;
+	width: 496px;
+	height: 67px;
+	left: 27px;
+	top: 143px;
+
+	background: #B0EFFF;
+	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
+	border-radius: 10px;
+	z-index: 2;
+	color: #232323;
+}
+
+#start-walking-distance-display-min, #biking-distance-display-min, #stop-walking-distance-display-min, #total-distance-display-min {
+	position: absolute;
+	top: 24px;
+	display: block;
+	width: 55px;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 19px;
+	text-align: center;
+}
+
+#start-walking-distance-display-m, #biking-distance-display-m, #stop-walking-distance-display-m, #total-distance-display-m {
+	position: absolute;
+	top: 44px;
+	display: block;
+	width: 55px;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16px;
+	text-align: center;
+}
+
+#start-walking-distance-display-min, #start-walking-distance-display-m {
+	left: 19px;
+}
+
+
+#biking-distance-display-min, #biking-distance-display-m {
+	left: 153px;
+}
+
+
+#stop-walking-distance-display-min, #stop-walking-distance-display-m {
+	left: 287px;
+}
+
+#total-distance-display-min, #total-distance-display-m {
+	right: 30px;
+}
+
+#start-walking-icon, #stop-walking-icon, #bike-icon, #destination-flag {
+	position: absolute;
+	top: 9px;
+	height: 14px;
+	width: 14px;
+}
+
+#start-walking-icon {
+	left: 40px;
+}
+
+#stop-walking-icon {
+	left: 309px;
+}
+
+#bike-icon {
+	left: 174px;
+}
+
+#destination-flag {
+	right: 50px;
+}
+
+#line-1, #line-2, #line-3 {
+	position: absolute;
+	display: block;
+	top: 35px;
+	width: 55px;
+	height: 2px;
+	border-radius: 4px;
+    background-color: #232323;
+}
+
+#line-1 {
+	left: 86px;
+}
+
+#line-2 {
+	left: 220px;
+}
+
+#line-3 {
+	top: 7px; 
+	width: 2px;
+	border-radius: 4px;
+    height: calc(100% - 14px);
+	right: 120px;
+}
