@@ -88,15 +88,15 @@ def get_bike_prediction(id, hours, date, temperature, pressure, humidity, clouds
     # Station closed
     time = int(date[11:13]) * 12 + int(date[14:16])//5
     if (6 < time < 60):
-        availability = {'bikes': 0, 'stands': 0}
+        availability = {'bikes': 0, 'stands': 0, 'chance_bike': 0, 'chance_stand': 0}
         return jsonify(availability)
     else:
         try:
-            bikes, stands = get_available_bike_prediction(id, date, temperature, pressure, humidity, clouds, precipitation_value, precipitation_probability)
-            availability = {'bikes':bikes, 'stands':stands}
+            bikes, stands, chance_bike, chance_stand = get_available_bike_prediction(id, date, temperature, pressure, humidity, clouds, precipitation_value, precipitation_probability)
+            availability = {'bikes':bikes, 'stands':stands, 'chance_bike':chance_bike, 'chance_stand':chance_stand}
             return jsonify(availability)
         except Exception as e:
             print(f"An error occurred: {e}")
-            availability = {'bikes': 0, 'stands': 0}
+            availability = {'bikes': 0, 'stands': 0, 'chance_bike': 0, 'chance_stand': 0}
             return jsonify(availability)
         

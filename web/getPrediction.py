@@ -21,7 +21,13 @@ def get_available_bike_prediction(station_id, date, temperature, pressure, humid
 
     input_value = np.array([[temperature, pressure, humidity, clouds, precipitation_value, precipitation_probability, time, day]])
     input_df = pd.DataFrame(input_value, columns=['temperature', 'pressure', 'humidity', 'clouds', 'precipitation_value', 'precipitation_probability', 'time', 'day'])
+    
     pred = float(prediction_models[station_id][0](input_df))
+    pred_bike_chance = round(float(prediction_models[station_id][2](input_df)) * 99)
+    pred_stand_chance = round(float(prediction_models[station_id][3](input_df)) * 99)
+
+
     pred_bikes = round(pred * prediction_models[station_id][1])
     pred_stations = prediction_models[station_id][1]-pred_bikes
-    return pred_bikes, pred_stations
+
+    return pred_bikes, pred_stations, pred_bike_chance, pred_stand_chance
