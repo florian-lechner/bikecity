@@ -85,6 +85,13 @@ function refreshBox() {
 
 // function that checks which parameters the current selection is fulfilling
 function checkRouteStatus() {
+
+
+  
+    // Function to hide all markers :))))
+
+
+
     if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat != 0) {
       //console.log("Both origin and destination set: ", routeParams);
       showCompleteRoute();
