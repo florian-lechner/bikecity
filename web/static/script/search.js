@@ -81,8 +81,8 @@ function refreshBox() {
 function checkRouteStatus() {
 
 
-  
-    // Function to hide all markers :))))
+
+    // Function to hide all markers except for the bike origin and destination stations:))))
 
 
 
