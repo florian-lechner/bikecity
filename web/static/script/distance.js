@@ -170,12 +170,12 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
     newDiv.addEventListener('click', function() {
       if (tableID === 'start') {
         preselectStartBike = sortedStations[i];
-        updateStartBike({ Lat: preselectStartBike.station.position_lat, Long: preselectStartBike.station.position_lng });
+        updateStartBike({ Lat: preselectStartBike.station.position_lat, Long: preselectStartBike.station.position_lng }, preselectStartBike.station);
         updateWalkDistDur1({ Dist : preselectStartBike.distance, Dur: distanceToMinutes(preselectStartBike.distance) });
         checkRouteStatus();
       } else {
         preselectEndBike = sortedStations[i];
-        updateStopBike({ Lat: preselectEndBike.station.position_lat, Long: preselectEndBike.station.position_lng });
+        updateStopBike({ Lat: preselectEndBike.station.position_lat, Long: preselectEndBike.station.position_lng }, preselectEndBike.station);
         updateWalkDistDur2({ Dist : preselectEndBike.distance, Dur: distanceToMinutes(preselectEndBike.distance) });
         checkRouteStatus();
       }
@@ -242,18 +242,17 @@ function preselectStation(closestStations, availabilityKey, tableID) {
     //  max  = result.max;
     //  bikes = result.bikes;
     //  stands = result.stands;
-    
 
     if (tableID == "start") {
       var available = bikes;
       var text = `${canvas_text}<img src="/static/img/toggle-bike-dark.svg" alt="icon" class="icon"><span class="available-number" id=${tableID}-available-bikes-${index}>${available}</span></div><span class="station-name" id=${tableID}-station-name-${index}>${availableStation.station.name}</span><span class="bike-chance" id=${tableID}-chance-to-get-bike-${index}>${availableStation.station.bike_chance}% Chance to get a bike</span><span class="station-walking-time" id=${tableID}-walking-distance-min-${index}>${walkingTimeInMinutes} min</span><span class="station-distance" id=${tableID}-walking-distance-m-${index}>${availableStation.distance} m</span>`
-      updateStartBike({ Lat: availableStation.station.position_lat, Long: availableStation.station.position_lng });
+      updateStartBike({ Lat: availableStation.station.position_lat, Long: availableStation.station.position_lng }, availableStation.station);
       updateWalkDistDur1({ Dist : availableStation.distance, Dur: walkingTimeInMinutes });
       var id = "preselect-start";
     } else if (tableID == "stop") {
       var available = stands;
       var text = `${canvas_text}<img src="/static/img/toggle-stands-dark.svg" alt="icon" class="icon"><span class="available-number" id=${tableID}-available-bike-stands-${index}>${available}</span></div><span class="station-name" id=${tableID}-station-name-${index}>${availableStation.station.name}</span><span class="bike-chance" id=${tableID}-chance-to-store-bike-${index}>${availableStation.station.stand_chance}% Chance to store a bike</span><span class="station-walking-time" id=${tableID}-walking-distance-min-${index}>${walkingTimeInMinutes} min</span><span class="station-distance" id=${tableID}-walking-distance-m-${index}>${availableStation.distance} m</span>`
-      updateStopBike({ Lat: availableStation.station.position_lat, Long: availableStation.station.position_lng });
+      updateStopBike({ Lat: availableStation.station.position_lat, Long: availableStation.station.position_lng }, availableStation.station);
       updateWalkDistDur2({ Dist : availableStation.distance, Dur: walkingTimeInMinutes });
       var id = "preselect-stop";
     }

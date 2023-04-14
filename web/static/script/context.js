@@ -12,7 +12,9 @@ let context = {
 let routeParams = {  // zero as default state
   originLoc: { Lat : 0, Long :	0 },
   startBikeLoc: { Lat : 0, Long :	0 },
+  startBikeStation: undefined,
   stopBikeLoc: { Lat : 0, Long :	0 },
+  stopBikeStation: undefined,
   destinationLoc: { Lat : 0, Long :	0 },
       
   walkDistDur1: { Dist : 0, Dur: 0 },
@@ -35,16 +37,18 @@ function updateWalkDistDur1(walkTime) {
   routeParams.walkDistDur1 = walkTime;
 }
 
-function updateStartBike(startBike) {
+function updateStartBike(startBike, station) {
   routeParams.startBikeLoc = startBike;
+  routeParams.startBikeStation = station;
 }
 
 function updateBikeDistDur(bikeTime) {
   routeParams.bikeDistDur = bikeTime;
 }
 
-function updateStopBike(stopBike) {
+function updateStopBike(stopBike, station) {
   routeParams.stopBikeLoc = stopBike;
+  routeParams.stopBikeStation = station;
 }
 
 function updateWalkDistDur2(walkTime) {

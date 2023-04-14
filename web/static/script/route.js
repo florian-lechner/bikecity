@@ -1,5 +1,6 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 import { formSubmission, calculateDepartureArrivalTimes, formatDateTime, updateDepArrBox } from "./formSubmission.js"
+import { hideStationMarkersExcept, addStartMarker } from "./map.js";
 
 function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
     /**
@@ -134,6 +135,9 @@ function showCompleteRoute() {
         durationBox.innerHTML = icons + lines + `<span id="start-walking-distance-display-min">${routeParams.walkDistDur1.Dur} min</span><span id="start-walking-distance-display-m">${transform_m_to_km(routeParams.walkDistDur1.Dist)}</span><span id="biking-distance-display-min">${routeParams.bikeDistDur.Dur} min</span><span id="biking-distance-display-m">${transform_m_to_km(routeParams.bikeDistDur.Dist)}</span><span id="stop-walking-distance-display-min">${routeParams.walkDistDur2.Dur} min</span><span id="stop-walking-distance-display-m">${transform_m_to_km(routeParams.walkDistDur2.Dist)}</span><span id="total-distance-display-min">${routeParams.totalValues.Dur} min</span><span id="total-distance-display-m">${transform_m_to_km(routeParams.totalValues.Dist)}</span>`;
         durationBox.style.visibility = "visible";
         updateDepArrBox(routeParams.totalValues.Dur);
+        hideStationMarkersExcept([routeParams.startBikeStation.id,routeParams.stopBikeStation.id]);
+        addStartMarker(routeParams.originLoc);
+        addStartMarker(routeParams.destinationLoc);
         });
 }
 
@@ -156,8 +160,10 @@ function showPartialRoute() {
         routeParams.routePolylines = [result];
         zoomOnPolyline(result);
         updateDepArrBox(routeParams.walkDistDur1.Dur);
+        hideStationMarkersExcept(routeParams.startBikeStation.id);
+        addStartMarker(routeParams.originLoc);
         });
-}
+}   
 
 
 

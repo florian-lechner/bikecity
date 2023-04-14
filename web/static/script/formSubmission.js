@@ -48,9 +48,6 @@ function formSubmission() {
     document.getElementById("time-picker").min = new Date().toISOString().slice(0, 16);
     document.getElementById("time-picker").setAttribute("max", formatDay(3) + "T23:59");
 
-    
-    
-
     // Listener Date change
     document.getElementById("time-picker").addEventListener("change", timePickChange);
 

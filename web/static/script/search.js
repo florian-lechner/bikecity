@@ -89,9 +89,6 @@ function checkRouteStatus() {
 
 
     // Function to hide all markers except for the bike origin and destination stations:))))
-
-
-
     if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat != 0) {
       //console.log("Both origin and destination set: ", routeParams);
       showCompleteRoute();

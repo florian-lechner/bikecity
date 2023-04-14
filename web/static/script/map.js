@@ -1,4 +1,4 @@
-import { context } from "./context.js";
+import { context, routeParams } from "./context.js";
 import { createPopUp } from "./popup.js";
 import { createCharts } from "./charts.js";
 import { stylesArray } from "./stylesArray.js";
@@ -34,8 +34,10 @@ function createMarkers(stations) { // Function to create a marker for each stati
         strokeWeight: 1.5,
         strokeColor: "#232323"
       },
+      stationId: station.id,
       //label: station.bikes.toString()
     });
+    console.log(marker);
     context.markers.push(marker);
     marker.setMap(context.map);
     addMarkerListener(marker, station);
@@ -45,9 +47,9 @@ function createMarkers(stations) { // Function to create a marker for each stati
   let renderer = {
     render: ({ count, position }) =>
       new google.maps.Marker({
-        label: { 
-          text: String(count), 
-          color: "#232323", 
+        label: {
+          text: String(count),
+          color: "#232323",
           fontSize: "14px",
           fontWeight: "700",
           fillColor: "#232323",
@@ -66,15 +68,15 @@ function createMarkers(stations) { // Function to create a marker for each stati
       }),
   };
 
-  let algorithm = new markerClusterer.SuperClusterAlgorithm({ maxZoom: 13, radius: 80});
+  let algorithm = new markerClusterer.SuperClusterAlgorithm({ maxZoom: 13, radius: 80 });
   let config = { map: context.map, markers: context.markers, renderer: renderer, algorithm: algorithm };
   let cluster = new markerClusterer.MarkerClusterer(config);
 }
 
 function availabilityColor(station) {
   let value = parseInt(station.bikes) / (parseInt(station.bikes) + parseInt(station.bike_stands));
-  let hue = ((value)*120).toString(10);
-  return ["hsl(",hue,",100%,70%)"].join("");
+  let hue = ((value) * 120).toString(10);
+  return ["hsl(", hue, ",100%,70%)"].join("");
 }
 
 function addMarkerListener(marker, station) {
@@ -97,6 +99,39 @@ function getStationData(marker, station) {
     });
 }
 
+function hideStationMarkersExcept(markerIDs) {
+  if (!Array.isArray(markerIDs)) {
+    markerIDs = [markerIDs]
+  }
+
+  context.markers.forEach(marker => {
+    if (markerIDs.includes(marker.stationId)) {
+      marker.setMap(context.map);
+    }
+    else {
+      marker.setMap(null);
+    }
+  });
+}
+
+function addStartMarker(loc) {
+  var marker = new google.maps.Marker({
+    position: { lat: loc.Lat, lng: loc.Long },
+    map: context.map,
+    title: "Start",
+    animation: google.maps.Animation.DROP,
+    icon: {
+      // url: ('./static/img/depature-arrival-1.svg'),
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 20,
+      fillColor: "#B0EFFF", // Set the fill color to blue
+      fillOpacity: 1,
+      strokeWeight: 1.5,
+      strokeColor: "#232323"
+    },
+  });
+}
 
 
-export { drawMap };
+
+export { drawMap, hideStationMarkersExcept, addStartMarker };
