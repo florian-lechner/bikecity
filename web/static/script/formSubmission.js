@@ -48,8 +48,6 @@ function formSubmission() {
     document.getElementById("time-picker").min = new Date().toISOString().slice(0, 16);
     document.getElementById("time-picker").setAttribute("max", formatDay(3) + "T23:59");
 
-    
-    
 
     // Listener Date change
     document.getElementById("time-picker").addEventListener("change", timePickChange);
@@ -155,7 +153,6 @@ function updateDepArrBox(duration) {
     const formattedArrivalTime = formatDateTime(times.arrivalTime);
     var depArrBox = document.getElementsByClassName("departure-arrival-times")[0];
     depArrBox.innerHTML = `<div id="divider-weather"></div><span id="departure-date-time"><span class="dep-arr-date">Depature:</span><span class="dep-arr-time"> ${formattedDepartureTime}</span></span><span id="arrival-date-time"><span class="dep-arr-date">Arrival:</span><span class="dep-arr-time"> ${formattedArrivalTime}</span></span>`;
-    console.log(`<span id="departure-date-time">Depature:\t ${formattedDepartureTime}</span><span id="arrival-date-time">Arrival:\t ${formattedArrivalTime}</span>`);
     depArrBox.style.visibility = "visible";
   }
 

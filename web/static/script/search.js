@@ -19,8 +19,8 @@ function place_changed(places, start) {
     // Update the walk origin
     updateWalkOrigin({ Lat: LocationLat, Long: LocationLng });
     // find distances to bike station and create popup
-    if (document.getElementsByClassName('start-locations-popup-more-info') > 0) {
-      document.querySelector(`start-locations-popup-more-info`).innerHTML = "";
+    if (document.getElementsByClassName('start-locations-popup-more-info').length > 0) {
+      document.getElementsByClassName(`start-locations-popup-more-info`)[0].innerHTML = "";
     }
     return findDistances(LocationLat, LocationLng, (closestStations) => {
       // preselect func, availabilityKey 'bikes'
@@ -36,8 +36,8 @@ function place_changed(places, start) {
     // Update the walk destination
     updateWalkDestination({ Lat: LocationLat, Long: LocationLng });
     // find distances to bike station and create popup
-    if (document.getElementsByClassName('stop-locations-popup-more-info') > 0) {
-      document.querySelector(`stop-locations-popup-more-info`).innerHTML = "";
+    if (document.getElementsByClassName('stop-locations-popup-more-info').length > 0) {
+      document.getElementsByClassName(`stop-locations-popup-more-info`)[0].innerHTML = "";
     }
     return findDistances(LocationLat, LocationLng, (closestStations) => {
       // preselect func, availabilityKey 'bike_stands'
