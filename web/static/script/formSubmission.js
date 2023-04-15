@@ -30,7 +30,7 @@ function addDestination() {
 
     addDestination.addEventListener("click", (event) => {
       document.getElementById("add-destination").style.display = "none";
-      document.getElementById("end-location-field").style.display = "block";
+      document.getElementById("destination-section").style.display = "block";
     })
   }
 

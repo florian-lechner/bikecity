@@ -76,6 +76,17 @@ def get_forecast_weather(hours):
     except:
         return jsonify({'error': "No data found for future weather for hour " + hours})
     
+
+@app.route("/getTimelineAvailability", methods= ['GET'])
+def get_timeline_availability():
+    try:
+        dbConnection.main()
+        timeline_availability = dbConnection.get_timeline_availability()
+        return jsonify(timeline_availability)
+    except Exception as e:
+        return jsonify({'error': e})
+
+    
 @app.route("/getBikePrediction/<int:id>/<string:hours>/<string:date>/<int:temperature>/<string:pressure>/<string:humidity>/<string:clouds>/<string:precipitation_value>/<string:precipitation_probability>", methods= ['GET'])
 def get_bike_prediction(id, hours, date, temperature, pressure, humidity, clouds, precipitation_value, precipitation_probability):
     hours = int(hours)

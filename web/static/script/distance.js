@@ -1,6 +1,7 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 import { checkRouteStatus } from "./search.js";
 import { formatDateTime } from "./formSubmission.js";
+import { clearPolylines } from "./route.js";
 
 
 let svgBG = ' class="background-station" width="44" height="33" viewBox="0 0 44 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path id="svgInternalID" fill-rule="evenodd" clip-rule="evenodd" d="M38.9671 31.9137C42.111 28.5415 44 24.2163 44 19.5C44 8.73045 34.1503 0 22 0C9.84974 0 0 8.73045 0 19.5C0 24.6369 2.24099 29.31 5.9037 32.7929C16.3968 28.1295 28.2971 27.8365 38.9671 31.9137Z" fill="hsl(1,100%,70%)"/></svg>'
@@ -172,12 +173,10 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
         preselectStartBike = sortedStations[i];
         updateStartBike({ Lat: preselectStartBike.station.position_lat, Long: preselectStartBike.station.position_lng }, preselectStartBike.station);
         updateWalkDistDur1({ Dist : preselectStartBike.distance, Dur: distanceToMinutes(preselectStartBike.distance) });
-        checkRouteStatus();
       } else {
         preselectEndBike = sortedStations[i];
         updateStopBike({ Lat: preselectEndBike.station.position_lat, Long: preselectEndBike.station.position_lng }, preselectEndBike.station);
         updateWalkDistDur2({ Dist : preselectEndBike.distance, Dur: distanceToMinutes(preselectEndBike.distance) });
-        checkRouteStatus();
       }
 
       // Update the preselect div
@@ -185,10 +184,12 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
 
       document.getElementsByClassName("popup-more-info")[0].style.visibility = "hidden";
       document.getElementsByClassName(`${tableID}-locations-popup-more-info`)[0].style.visibility = "hidden";
+      checkRouteStatus();
     });
   }
   document.getElementsByClassName(`${tableID}-locations-popup-more-info`)[0].style.visibility = "hidden";
 }
+
 function closeSelectionPopup(){
   document.getElementsByClassName("popup-more-info")[0].style.visibility = "hidden";
   document.getElementsByClassName(`start-locations-popup-more-info`)[0].style.visibility = "hidden";
@@ -236,12 +237,6 @@ function preselectStation(closestStations, availabilityKey, tableID) {
     let max = availableStation.station.bikes + availableStation.station.bike_stands;
     let bikes = availableStation.station.bikes;
     let stands= availableStation.station.bike_stands;
-    // get prediciton
-    //get_station_prediction(availableStation.station.id)
-    //.then(result => {
-    //  max  = result.max;
-    //  bikes = result.bikes;
-    //  stands = result.stands;
 
     if (tableID == "start") {
       var available = bikes;

@@ -2,12 +2,12 @@ let context = {
     map: undefined,
     openChartWindow: undefined,
     openInfoWindow: undefined,
-    markers: [],         
+    markers: [],
+    startMarker: undefined,
+    endMarker: undefined,
     applicationTime: new Date(Date.now()),
     forecast_hour: 0
   };
-
-// window.context = context;
 
 let routeParams = {  // zero as default state
   originLoc: { Lat : 0, Long :	0 },
@@ -24,9 +24,6 @@ let routeParams = {  // zero as default state
 
   routePolylines: undefined,
 }
-
-// window.routeParams = routeParams;
-
 
 // setters for updating locations and distance/duration values
 function updateWalkOrigin(origin) {

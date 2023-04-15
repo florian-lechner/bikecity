@@ -4,12 +4,14 @@ import { formSubmission, calculateDepartureArrivalTimes, formatDateTime } from "
 import { showLiveWeather } from "./weather.js";
 import { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute } from "./route.js";
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
+import { addSliderListener } from "./timeline.js";
 
 function main()  {
     drawMap();
     searchBoxes();
     formSubmission();
     showLiveWeather();
+    addSliderListener();
 }
 
 window.initMap = main;

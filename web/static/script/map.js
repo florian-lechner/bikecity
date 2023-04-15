@@ -18,6 +18,8 @@ function drawMap() {
 
 }
 
+
+
 function createMarkers(stations) { // Function to create a marker for each station and add it to the map
   console.log("Creating markers...")
   for (let station of stations) { // For each station in the stations list, create a new marker
@@ -28,8 +30,7 @@ function createMarkers(stations) { // Function to create a marker for each stati
       animation: google.maps.Animation.DROP,
       icon: {
         path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-        scale: 7,
-        fillColor: availabilityColor(station), // Set the fill color to blue
+        scale: 7.5,
         fillOpacity: 1,
         strokeWeight: 1.5,
         strokeColor: "#232323"
@@ -37,7 +38,7 @@ function createMarkers(stations) { // Function to create a marker for each stati
       stationId: station.id,
       //label: station.bikes.toString()
     });
-    console.log(marker);
+    marker.icon.fillColor = availabilityColor(station);
     context.markers.push(marker);
     marker.setMap(context.map);
     addMarkerListener(marker, station);
@@ -106,32 +107,55 @@ function hideStationMarkersExcept(markerIDs) {
 
   context.markers.forEach(marker => {
     if (markerIDs.includes(marker.stationId)) {
-      marker.setMap(context.map);
+      marker.setVisible(true);
     }
     else {
-      marker.setMap(null);
+      marker.setVisible(false);
     }
   });
 }
 
 function addStartMarker(loc) {
+  if (context.startMarker != undefined) {
+    context.startMarker.setMap(null)
+  }
   var marker = new google.maps.Marker({
     position: { lat: loc.Lat, lng: loc.Long },
     map: context.map,
     title: "Start",
     animation: google.maps.Animation.DROP,
-    icon: {
-      // url: ('./static/img/depature-arrival-1.svg'),
-      path: google.maps.SymbolPath.CIRCLE,
-      scale: 20,
-      fillColor: "#B0EFFF", // Set the fill color to blue
-      fillOpacity: 1,
-      strokeWeight: 1.5,
-      strokeColor: "#232323"
-    },
+    icon: createIcon("#B0EFFF"),
   });
+  context.startMarker = marker;
+}
+
+function addEndMarker(loc) {
+  if (context.endMarker != undefined) {
+    context.endMarker.setMap(null)
+  }
+  var marker = new google.maps.Marker({
+    position: { lat: loc.Lat, lng: loc.Long },
+    map: context.map,
+    title: "End",
+    animation: google.maps.Animation.DROP,
+    icon: createIcon("#B0EFFF"),
+  });
+  context.endMarker = marker;
+}
+
+function createIcon(color) {
+  var icon = {
+    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+    scale: 7.5,
+    fillColor: color, // Set the fill color to blue
+    fillOpacity: 1,
+    strokeWeight: 1.5,
+    strokeColor: "#232323"
+  };
+
+  return icon
 }
 
 
 
-export { drawMap, hideStationMarkersExcept, addStartMarker };
+export { drawMap, hideStationMarkersExcept, addStartMarker, addEndMarker };

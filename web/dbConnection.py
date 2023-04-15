@@ -150,7 +150,55 @@ def get_forecast_weather(hours): # time taken from input form
             print("Error getting current min/max weather")
 
         return forecast_weather
+
+        
         #return {'No forecast found for %f hours from now', hours}
+
+
+def get_timeline_availability():
+    timeline_availability = []
+    with Session(engine) as session:
+        try:
+            result = session.execute(text("(SELECT station_id, DAYNAME(last_update) as 'Day', HOUR(last_update) as 'Hour', CAST(AVG(available_bikes) AS SIGNED INT) as 'Average_Bikes', CAST(AVG(available_bike_stands) AS SIGNED INT) as 'Average_Stands'  FROM ringringbikes.station_availability\
+                                                    WHERE DATE(last_update) = (\
+                                                    SELECT DATE(last_update) FROM ringringbikes.station_availability ORDER BY last_update DESC\
+                                                    LIMIT 1) \
+                                                    AND HOUR(last_update) < (\
+                                                    SELECT HOUR(last_update) FROM ringringbikes.station_availability ORDER BY last_update DESC\
+                                                    LIMIT 1) \
+                                            GROUP BY station_id, Hour)\
+                                            UNION\
+                                            (SELECT station_id, DAYNAME(last_update) as 'Day', HOUR(last_update) as 'Hour', available_bikes as 'Average_Bikes', available_bike_stands as 'Average_Stands' FROM ringringbikes.station_availability, (SELECT station_id as 'max_id', MAX(last_update) as 'max_update' FROM ringringbikes.station_availability GROUP BY max_id) subtable \
+                                            WHERE station_id = max_id AND last_update = max_update)\
+                                            UNION\
+                                            (SELECT station_id, DAYNAME(last_update) as 'Day', HOUR(last_update) as 'Hour', CAST(AVG(available_bikes) AS SIGNED INT) as 'Average_Bikes', CAST(AVG(available_bike_stands) AS SIGNED INT) AS 'Average_Stands'  FROM ringringbikes.station_availability\
+                                            WHERE DAYNAME(last_update) = (\
+                                                    SELECT DAYNAME(last_update) FROM ringringbikes.station_availability ORDER BY last_update DESC\
+                                                    LIMIT 1)\
+                                                    AND HOUR(last_update) > (\
+                                                    SELECT HOUR(last_update) FROM ringringbikes.station_availability ORDER BY last_update DESC\
+                                                    LIMIT 1)\
+                                            GROUP BY station_id, Hour)\
+                                            ORDER BY station_id, Hour;"))
+
+            
+            resultArray = []
+
+            for line in result:
+                resultArray.append({'stationID' : int(line[0]), 'day': line[1], 'hour': int(line[2]), 'average_bikes': line[3], 'average_stands': line[4]})
+
+            for i in range(24):
+                availability = []
+                for item in resultArray:
+                    if int(item['hour']) == i:
+                        availability.append(item)
+                timeline_availability.append(availability)
+
+        except Exception as e:
+            print("Error getting timeline availability data", e)
+
+        return timeline_availability
+
 
 
 def get_clean_db():
@@ -161,7 +209,6 @@ def get_clean_db():
 
 def main():
     connect_db()
-
 main()
 
 
