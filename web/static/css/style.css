@@ -784,11 +784,21 @@ table#distance-calculator-table2 {
 }
 
 #heat-map-slider {
-	display: block;
-	margin: 0;
-	position: relative;
-	width: 84%;
-	margin: 0 auto
+	width: calc(100% - 50px);
+    height: 25px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#reset-slider {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+#reset-slider:hover {
+    opacity: .5;
+    cursor: pointer;
 }
 
 #toggle>span {
@@ -899,6 +909,60 @@ input:checked+.slider:before {
 	cursor: pointer;
 	border: none;
 }
+
+#button-and-slider {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    height: 100%;
+    align-items: center;
+    margin-top: 6px;
+}
+
+#play-triangle {
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-left: 9px solid #232323;
+    border-bottom: 5px solid transparent;
+}
+
+#play-button {
+    padding-left: 8px;
+}
+
+.button-circle {
+    width: 20px;
+    height: 20px;
+    background-color: #B0EFFF;
+    border-radius: calc(50%);
+    margin: 5px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.button-circle:hover {
+    background-color: #459CB2;
+	cursor: pointer;
+}
+
+.button-circle:active {
+    background-color: #357b8c;
+	cursor: pointer;
+}
+.pause-button-bar {
+	width: 2px;
+    height: 100%;
+    background-color: #232323;
+    margin: 4px auto;
+    border-radius: 1px;
+}
+
 
 /* ---- */
 

@@ -21,13 +21,6 @@ def connect_db():
     Base = automap_base()
     engine = create_engine(DATABASE_URL)
 
-    # reflect the tables
-    # Base.prepare(autoload_with=engine, schema="ringringbikes")
-    # Station_Availability_table = Base.classes.station_availability
-    # Stations_table = Base.classes.stations
-    # Station_Coordinates_table = Base.classes.station_coordinates
-    #Station_Availability_timestamp_table = Base.classes.station_availability_timestamp
-
 def get_stations():
     stations = []
     with Session(engine) as session:
@@ -199,6 +192,13 @@ def get_timeline_availability():
 
         return timeline_availability
 
+def current_time_for_testing(): 
+    connect_db()
+    with Session(engine) as session:
+        result = session.execute(text("SELECT DATE_FORMAT(last_update, '%Y-%m-%dT%H:%i:%sZ') from ringringbikes.station_availability ORDER BY last_update DESC LIMIT 1;"))
+        for line in result:
+            currentTime = {'time' : line[0]}
+        return currentTime
 
 
 def get_clean_db():
@@ -209,6 +209,7 @@ def get_clean_db():
 
 def main():
     connect_db()
+
 main()
 
 

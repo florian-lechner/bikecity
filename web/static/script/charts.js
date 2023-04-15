@@ -90,8 +90,8 @@ function displayChart(chartId, chartLabels, chartTitle, chartData) {
     return chart;
 }
 
-function populateBarColors(labels, mainColor, highlightColor, highlightCondition) {
-    backgroundColors = []
+function populateBarColors(labels, dataset, mainColor, highlightColor, highlightCondition) {
+    let backgroundColors = []
     dataset.map((dataItem) => {
         if (dataItem == highlightCondition) {
             backgroundColors.push(highlightColor);

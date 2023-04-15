@@ -6,7 +6,11 @@ let context = {
     startMarker: undefined,
     endMarker: undefined,
     applicationTime: new Date(Date.now()),
-    forecast_hour: 0
+    forecast_hour: 0,
+    
+    timeline_data: undefined,
+    timeline_is_animating: false,
+    timeline_start_value: undefined
   };
 
 let routeParams = {  // zero as default state
@@ -60,5 +64,9 @@ function updateTotalValues(totals) {
   routeParams.totalValues = totals;
 }
 
+function storeTimelineData(timelineData){
+  context.timeline_data = timelineData;
+}
+
  
-export { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues };
+export { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues, storeTimelineData };

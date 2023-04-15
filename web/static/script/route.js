@@ -151,12 +151,12 @@ function showCompleteRoute() {
     Promise.all([walk1, bike, walk2]).then(values => {
         clearPolylines();
         routeParams.routePolylines = values;
-        // routeParams.routePolylines.push(drawPolylineFromPoints({lat: routeParams.originLoc.Lat, lng: routeParams.originLoc.Long}, values[0].getPath().getAt(0), "#459CB2"));
-        // routeParams.routePolylines.push(drawPolylineFromPoints(values[0].getPath().getAt(values[0].getPath().getLength()-1), {lat:routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, "#459CB2"));
-        // routeParams.routePolylines.push(drawPolylineFromPoints({lat:routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, values[1].getPath().getAt(0), "#459CB2"));
-        // routeParams.routePolylines.push(drawPolylineFromPoints(values[1].getPath().getAt(values[1].getPath().getLength()-1), {lat:routeParams.stopBikeLoc.Lat, lng: routeParams.stopBikeLoc.Long}, "#459CB2"));
-        // routeParams.routePolylines.push(drawPolylineFromPoints({lat:routeParams.stopBikeLoc.Lat, lng: routeParams.stopBikeLoc.Long}, values[2].getPath().getAt(0), "#459CB2"));
-        // routeParams.routePolylines.push(drawPolylineFromPoints(values[2].getPath().getAt(values[2].getPath().getLength() - 1), {lat: routeParams.destinationLoc.Lat, lng: routeParams.destinationLoc.Long}, "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints({lat: routeParams.originLoc.Lat, lng: routeParams.originLoc.Long}, values[0].getPath().getAt(0), "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints(values[0].getPath().getAt(values[0].getPath().getLength()-1), {lat:routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints({lat:routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, values[1].getPath().getAt(0), "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints(values[1].getPath().getAt(values[1].getPath().getLength()-1), {lat:routeParams.stopBikeLoc.Lat, lng: routeParams.stopBikeLoc.Long}, "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints({lat:routeParams.stopBikeLoc.Lat, lng: routeParams.stopBikeLoc.Long}, values[2].getPath().getAt(0), "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints(values[2].getPath().getAt(values[2].getPath().getLength() - 1), {lat: routeParams.destinationLoc.Lat, lng: routeParams.destinationLoc.Long}, "#459CB2"));
 
         zoomOnPolyline(values);
         // fill duration-calculation-box with values from routeParams
