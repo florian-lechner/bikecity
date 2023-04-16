@@ -6,7 +6,7 @@ import requests
 import json
 import dbConnection
 from groupConfig import *
-from personalConfig import *
+#from personalConfig import *
 from getPrediction import get_available_bike_prediction
 
 

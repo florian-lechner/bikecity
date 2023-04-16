@@ -5,9 +5,12 @@ import pandas as pd
 import numpy as np
 
 import pickle
+from joblib import load
 
 with open('../Prediction_Model/predictionModels.pkl', 'rb') as file:
     prediction_models = pickle.load(file)
+
+#prediction_models = load('../Prediction_Model/predictionModels.joblib')
 
 def get_available_bike_prediction(station_id, date, temperature, pressure, humidity, clouds, precipitation_value, precipitation_probability):
     """ date as string: '02-05-2023, 23:59' """
