@@ -1,4 +1,4 @@
-import { context } from "./context.js";
+import { context, routeParams } from "./context.js";
 import { createPopUp } from "./popup.js";
 import { createCharts } from "./charts.js";
 import { stylesArray } from "./stylesArray.js";
@@ -18,6 +18,8 @@ function drawMap() {
 
 }
 
+
+
 function createMarkers(stations) { // Function to create a marker for each station and add it to the map
   console.log("Creating markers...")
   for (let station of stations) { // For each station in the stations list, create a new marker
@@ -28,14 +30,15 @@ function createMarkers(stations) { // Function to create a marker for each stati
       animation: google.maps.Animation.DROP,
       icon: {
         path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-        scale: 7,
-        fillColor: availabilityColor(station), // Set the fill color to blue
+        scale: 7.5,
         fillOpacity: 1,
         strokeWeight: 1.5,
         strokeColor: "#232323"
       },
+      stationId: station.id,
       //label: station.bikes.toString()
     });
+    marker.icon.fillColor = availabilityColor(station);
     context.markers.push(marker);
     marker.setMap(context.map);
     addMarkerListener(marker, station);
@@ -45,9 +48,9 @@ function createMarkers(stations) { // Function to create a marker for each stati
   let renderer = {
     render: ({ count, position }) =>
       new google.maps.Marker({
-        label: { 
-          text: String(count), 
-          color: "#232323", 
+        label: {
+          text: String(count),
+          color: "#232323",
           fontSize: "14px",
           fontWeight: "700",
           fillColor: "#232323",
@@ -66,15 +69,15 @@ function createMarkers(stations) { // Function to create a marker for each stati
       }),
   };
 
-  let algorithm = new markerClusterer.SuperClusterAlgorithm({ maxZoom: 13, radius: 80});
+  let algorithm = new markerClusterer.SuperClusterAlgorithm({ maxZoom: 13, radius: 80 });
   let config = { map: context.map, markers: context.markers, renderer: renderer, algorithm: algorithm };
   let cluster = new markerClusterer.MarkerClusterer(config);
 }
 
 function availabilityColor(station) {
   let value = parseInt(station.bikes) / (parseInt(station.bikes) + parseInt(station.bike_stands));
-  let hue = ((value)*120).toString(10);
-  return ["hsl(",hue,",100%,70%)"].join("");
+  let hue = ((value) * 120).toString(10);
+  return ["hsl(", hue, ",100%,70%)"].join("");
 }
 
 function addMarkerListener(marker, station) {
@@ -97,6 +100,62 @@ function getStationData(marker, station) {
     });
 }
 
+function hideStationMarkersExcept(markerIDs) {
+  if (!Array.isArray(markerIDs)) {
+    markerIDs = [markerIDs]
+  }
+
+  context.markers.forEach(marker => {
+    if (markerIDs.includes(marker.stationId)) {
+      marker.setVisible(true);
+    }
+    else {
+      marker.setVisible(false);
+    }
+  });
+}
+
+function addStartMarker(loc) {
+  if (context.startMarker != undefined) {
+    context.startMarker.setMap(null)
+  }
+  var marker = new google.maps.Marker({
+    position: { lat: loc.Lat, lng: loc.Long },
+    map: context.map,
+    title: "Start",
+    animation: google.maps.Animation.DROP,
+    icon: createIcon("#B0EFFF"),
+  });
+  context.startMarker = marker;
+}
+
+function addEndMarker(loc) {
+  if (context.endMarker != undefined) {
+    context.endMarker.setMap(null)
+  }
+  var marker = new google.maps.Marker({
+    position: { lat: loc.Lat, lng: loc.Long },
+    map: context.map,
+    title: "End",
+    animation: google.maps.Animation.DROP,
+    icon: createIcon("#B0EFFF"),
+  });
+  context.endMarker = marker;
+}
+
+function createIcon(color) {
+  var icon = {
+    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+    scale: 7.5,
+    fillColor: color, // Set the fill color to blue
+    fillOpacity: 1,
+    strokeWeight: 1.5,
+    strokeColor: "#232323"
+  };
+
+  return icon
+}
 
 
-export { drawMap };
+
+export { drawMap, hideStationMarkersExcept, addStartMarker, addEndMarker };

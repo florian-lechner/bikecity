@@ -14,9 +14,11 @@
 </head>
 
 <body>
-  <a href="/"><div class="title wrapper">
-    <img src="/static/img/BIKECITY.svg" alt="Bikecity logo">
-  </div></a>
+  <a href="/">
+    <div class="title wrapper">
+      <img src="/static/img/BIKECITY.svg" alt="Bikecity logo">
+    </div>
+  </a>
 
   <div id="current-weather-box">
     <div class="temperature-curve">
@@ -46,27 +48,73 @@
 
       <select name="now-departure-arrival" id="now-departure-arrival-picker">
         <option value="Start Now" selected="True">Start Now</option>
-        <option value="Arrival">Arrival</option>
-        <option value="Departure">Departure</option>
+        <option value="Arrival">Arrive By</option>
+        <option value="Departure">Depart At</option>
       </select>
 
       <span id="date-time-picker">
-        <input type="datetime-local" id="time-picker" name="date" min="2023-04-01T00:00" max="2023-06-01T23:59" />
+        <input type="datetime-local" id="time-picker" name="date" min="2023-04-15T11:38" max="2023-04-18T23:59">
       </span>
 
       <!--Provides the picker with the station location options from database-->
       <div class="location">
-        <input id="start-location-field" name="start-location-field" type="text" placeholder="Start location" />
-        <div id="start-bike-result"><!--Start Preselect-->
-          <div class="bike-preselect" id="start-bike-preselect"></div>
-          <div id="start-bike-show-more">Show more stations</div>
+        <div id="origin-section">
+          <div class="origin-destination-label"> Origin </div>
+
+          <input id="start-location-field" name="start-location-field" type="text" placeholder="Start Location"
+            class="pac-target-input" autocomplete="off">
+          <div id="missing-start-loc"> Missing Start Location </div>
+          <div id="start-bike-result"><!--Start Preselect-->
+            <div class="bike-preselect" id="start-bike-preselect">
+              <div class="station-curve"><canvas class="background-canvas" id="start-graph" width="48" height="48"
+                  style="display: block; box-sizing: border-box; height: 48px; width: 48px;"></canvas><canvas
+                  class="station-number-canvas" id="start-graph-number" width="48" height="48"
+                  style="display: block; box-sizing: border-box; height: 48px; width: 48px;"></canvas><svg id="start-bg"
+                  class="background-station" width="44" height="33" viewBox="0 0 44 33" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path id="svgInternalID" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M38.9671 31.9137C42.111 28.5415 44 24.2163 44 19.5C44 8.73045 34.1503 0 22 0C9.84974 0 0 8.73045 0 19.5C0 24.6369 2.24099 29.31 5.9037 32.7929C16.3968 28.1295 28.2971 27.8365 38.9671 31.9137Z"
+                    fill="hsl(0,100%,70%)"></path>
+                </svg><img src="/static/img/toggle-bike-dark.svg" alt="icon" class="icon"><span class="available-number"
+                  id="start-available-bikes-NaN">0</span></div><span class="station-name"
+                id="start-station-name-NaN">Harcourt Terrace</span><span class="bike-chance"
+                id="start-chance-to-get-bike-NaN">20% Chance to get a bike</span><span class="station-walking-time"
+                id="start-walking-distance-min-NaN">55 min</span><span class="station-distance"
+                id="start-walking-distance-m-NaN">4552 m</span>
+            </div>
+            <div id="start-bike-show-more">→ Show more stations</div>
+          </div>
         </div>
-        <span id="add-destination">+ Add destination</span>
-        <input id="end-location-field" name="end-location-field" type="text" placeholder="Destination" />
-        <div id="stop-bike-result"><!--Stop Preselect-->
-          <div class="bike-preselect" id="stop-bike-preselect"></div>
-          <div id="stop-bike-show-more">Show more stations</div>
+
+        <div id="add-destination">+ Destination</div>
+
+        <div id="destination-section">
+          <div class="origin-destination-label"> Destination</div>
+          <input id="end-location-field" name="end-location-field" type="text" placeholder="End Location"
+            class="pac-target-input" autocomplete="off">
+          <div id="stop-bike-result"><!--Stop Preselect-->
+            <div class="bike-preselect" id="stop-bike-preselect">
+              <div class="station-curve"><canvas class="background-canvas" id="stop-graph" width="48" height="48"
+                  style="display: block; box-sizing: border-box; height: 48px; width: 48px;"></canvas><canvas
+                  class="station-number-canvas" id="stop-graph-number" width="48" height="48"
+                  style="display: block; box-sizing: border-box; height: 48px; width: 48px;"></canvas><svg id="stop-bg"
+                  class="background-station" width="44" height="33" viewBox="0 0 44 33" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path id="svgInternalID" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M38.9671 31.9137C42.111 28.5415 44 24.2163 44 19.5C44 8.73045 34.1503 0 22 0C9.84974 0 0 8.73045 0 19.5C0 24.6369 2.24099 29.31 5.9037 32.7929C16.3968 28.1295 28.2971 27.8365 38.9671 31.9137Z"
+                    fill="hsl(76,100%,70%)"></path>
+                </svg><img src="/static/img/toggle-stands-dark.svg" alt="icon" class="icon"><span
+                  class="available-number" id="stop-available-bike-stands-0">19</span></div><span class="station-name"
+                id="stop-station-name-0">Pearse Street</span><span class="bike-chance"
+                id="stop-chance-to-store-bike-0">99% Chance to store a bike</span><span class="station-walking-time"
+                id="stop-walking-distance-min-0">5 min</span><span class="station-distance"
+                id="stop-walking-distance-m-0">391 m</span>
+            </div>
+            <div id="stop-bike-show-more">→ Show more stations</div>
+          </div>
         </div>
+
+
       </div>
     </form>
     <br>
@@ -79,7 +127,7 @@
         <div class="start-locations-popup-more-info"></div> <!--Start Popup-->
         <div class="stop-locations-popup-more-info"></div> <!--Stop Popup-->
       </div>
-    </div> 
+    </div>
 
   </div>
 
@@ -109,22 +157,57 @@
     <div id="toggle-and-slider">
 
       <div id="toggle">
-          <label id="pins-label" for="marker-toggle">Pins</label>
+        <label id="pins-label" for="marker-toggle">Pins</label>
+        <div id="marker-toggle-description" class="toggle-slider-subheader">Viewing Bikes</div>
+        <div id="toggle-icons">
           <img src="..\static\img\toggle-bike.svg" alt="bike icon" id="toggle-bike-icon">
           <label class="switch">
             <input type="checkbox" id="marker-toggle">
             <span class="slider round"></span>
           </label>
-          
+
           <img src="..\static\img\toggle-stands.svg" alt="park icon" id="toggle-stands-icon">
         </div>
+      </div>
 
       <div id="divider"></div>
 
       <div id="slider">
         <!--HeatMap min/max are times, step is minute, value is default for current user time-->
-        <label for="heat-map-slider">HeatMap</label>
-        <input type="range" id="heat-map-slider" name="heat-map-slider" min="00:00" max="23:59" step="00:01" value="">
+        <label id="toggle-slider-header" for="heat-map-slider">CycleCast</label>
+        <div id="slider-date-time" class="toggle-slider-subheader">Saturday, April 15, 2023</div>
+        <div id="button-and-slider">
+          <div id="play-button" class="button-circle">
+            <div id="play-triangle"></div>
+          </div>
+          <div id="pause-button" style="display:none;" class="button-circle">
+            <div id="pause-left" class="pause-button-bar"></div>
+            <div id="pause-right" class="pause-button-bar"></div>
+          </div>
+          <input type="range" id="heat-map-slider" name="heat-map-slider" list="tick-marks" min="5" value="5" max="24" step="1">
+          <datalist id="tick-marks">
+            <option value="5" label="5"></option>
+            <option value="6" label="6"></option>
+            <option value="7" label="7"></option>
+            <option value="8" label="8"></option>
+            <option value="9" label="9"></option>
+            <option value="10" label="10"></option>
+            <option value="11" label="11"></option>
+            <option value="12" label="12"></option>
+            <option value="13" label="13"></option>
+            <option value="14" label="14"></option>
+            <option value="15" label="15"></option>
+            <option value="16" label="16"></option>
+            <option value="17" label="17"></option>
+            <option value="18" label="18"></option>
+            <option value="19" label="19"></option>
+            <option value="20" label="20"></option>
+            <option value="21" label="21"></option>
+            <option value="22" label="22"></option>
+            <option value="23" label="23"></option>
+          </datalist>
+        </div>
+        <img id="reset-slider" src="../static/img/reset.svg" alt="reset">
       </div>
     </div>
 

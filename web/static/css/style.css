@@ -22,7 +22,7 @@ p {
 
 .newline {
 	display: block;
-  }
+}
 
 h1 {
 	font-weight: 700;
@@ -47,12 +47,13 @@ ul {
 	margin-bottom: 10px;
 }
 
-input, select {
+input,
+select {
 	background: #232323;
 	border: 2px solid #B0EFFF;
 	border-radius: 5px;
-    height: 40px;
-    padding-left: 12px;
+	height: 40px;
+	padding-left: 12px;
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 19px;
@@ -60,18 +61,22 @@ input, select {
 	width: 100%;
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder {
+	/* Chrome, Firefox, Opera, Safari 10.1+ */
 	color: #B0EFFF;
-	opacity: 1; /* Firefox */
-  }
-  
-  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+	opacity: 1;
+	/* Firefox */
+}
+
+:-ms-input-placeholder {
+	/* Internet Explorer 10-11 */
 	color: #B0EFFF;
-  }
-  
-  ::-ms-input-placeholder { /* Microsoft Edge */
+}
+
+::-ms-input-placeholder {
+	/* Microsoft Edge */
 	color: #B0EFFF;
-  }
+}
 
 input:hover {
 	border-color: #459CB2;
@@ -88,17 +93,18 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 	border: none;
 	cursor: pointer;
 }
-  
+
 /* Display a custom calendar icon */
 input[type="datetime-local"] {
 	background-image: url(/static/img/calendar.svg);
 	background-repeat: no-repeat;
-	background-position: 95% 50%;;
+	background-position: 95% 50%;
+	;
 	background-size: auto 40%;
 }
 
 *:focus {
-    outline: none;
+	outline: none;
 }
 
 /*
@@ -178,7 +184,7 @@ input[type="datetime-local"] {
 
 #predicted-weather {
 	position: relative;
-	z-index:4;
+	z-index: 4;
 }
 
 .departure-arrival-times {
@@ -195,7 +201,8 @@ input[type="datetime-local"] {
 	z-index: 2;
 }
 
-#departure-date-time, #arrival-date-time  {
+#departure-date-time,
+#arrival-date-time {
 	position: absolute;
 	left: 240px;
 	font-size: 14px;
@@ -204,17 +211,17 @@ input[type="datetime-local"] {
 }
 
 #divider-weather {
-    position: absolute;
-    left: 214px;
-    top: 7px; 
+	position: absolute;
+	left: 214px;
+	top: 7px;
 	width: 2px;
 	border-radius: 4px;
-    height: calc(100% - 14px);
-    background-color: #232323;
+	height: calc(100% - 14px);
+	background-color: #232323;
 }
 
 #departure-date-time {
-	top: 14px; 
+	top: 14px;
 }
 
 .dep-arr-date {
@@ -227,11 +234,12 @@ input[type="datetime-local"] {
 }
 
 #arrival-date-time {
-	bottom: 12px; 
+	bottom: 12px;
 }
 
 
-#current-weather-icon, #predicted-weather-icon {
+#current-weather-icon,
+#predicted-weather-icon {
 	position: absolute;
 	width: 44px;
 	height: 44px;
@@ -243,8 +251,8 @@ input[type="datetime-local"] {
 
 form {
 	position: relative;
-    top: 30px;
-	display:block;
+	top: 30px;
+	display: block;
 	margin-left: 30px;
 	margin-right: 30px;
 	margin-bottom: 14px;
@@ -268,7 +276,6 @@ form {
 	cursor: pointer;
 }
 
-
 #date-time-picker {
 	height: 40px;
 	display: none;
@@ -278,22 +285,16 @@ input#time-picker {
 	width: 237px;
 }
 
-#start-location-field, #end-location-field {
+#start-location-field,
+#end-location-field {
 	width: 418px;
 	margin-bottom: 16px;
 }
 
-#end-location-field {
-	margin-top: 18px;
-}
-
 #add-destination {
 	font-weight: 700;
-	margin-left: 15px;
-	margin-top: 25px;
-	display: block;
-	height: 19px;
-	margin-bottom: 27px;
+	margin-top: 30px;
+	margin-bottom: 27px
 }
 
 #add-destination:hover {
@@ -301,13 +302,54 @@ input#time-picker {
 	cursor: pointer;
 }
 
-#end-location-field {
+.origin-destination-label {
+	font-weight: 700;
+	margin-bottom: 12px;
+	font-size: 16px;
+}
+
+#missing-start-loc {
+	color: red;
+	font-style: italic;
+	margin-top: -10px;
+	font-size: 12px;
+	font-weight: 700;
 	display: none;
+}
+
+.shake {
+	display: block;
+	animation: shake 0.5s;
+}
+
+@keyframes shake {
+
+	10%,
+	90% {
+		transform: translate3d(-1px, 0, 0);
+	}
+
+	20%,
+	80% {
+		transform: translate3d(2px, 0, 0);
+	}
+
+	30%,
+	50%,
+	70% {
+		transform: translate3d(-4px, 0, 0);
+	}
+
+	40%,
+	60% {
+		transform: translate3d(4px, 0, 0);
+	}
 }
 
 
 /* Station selection */
-#start-bike-result, #stop-bike-result {
+#start-bike-result,
+#stop-bike-result {
 	display: none;
 }
 
@@ -318,7 +360,8 @@ input#time-picker {
 	top: 12px;
 }
 
-.bike-preselect, .bike-box {
+.bike-preselect,
+.bike-box {
 	width: 496px;
 	height: 66px;
 	color: #232323;
@@ -396,14 +439,17 @@ input#time-picker {
 	right: 30px;
 }
 
-#start-bike-show-more, #stop-bike-show-more {
+#start-bike-show-more,
+#stop-bike-show-more {
 	display: block;
-	margin-top: 7px;
-	margin-bottom: 14px;
+	margin: 12px 3px 14px 0px;
+	font-size: 14px;
+
 }
 
 
-#start-bike-show-more:hover, #stop-bike-show-more:hover {
+#start-bike-show-more:hover,
+#stop-bike-show-more:hover {
 	color: #459CB2;
 	cursor: pointer;
 }
@@ -425,15 +471,20 @@ input#time-picker {
 
 #close-popup {
 	right: 30px;
-    top: 26px;
-    position: absolute;
-    display: block;
-    width: 14px;
+	top: 26px;
+	position: absolute;
+	display: block;
+	width: 14px;
 }
 
 #close-popup:hover {
-	opacity: .5; 
+	opacity: .5;
 	cursor: pointer;
+}
+
+#destination-section {
+	display: none;
+	margin-top: 30px;
 }
 
 .scrollbox {
@@ -441,7 +492,8 @@ input#time-picker {
 	top: 56px;
 }
 
-.start-locations-popup-more-info, .stop-locations-popup-more-info {
+.start-locations-popup-more-info,
+.stop-locations-popup-more-info {
 	position: absolute;
 	top: 0px;
 	max-height: 70vh;
@@ -470,14 +522,14 @@ input#time-picker {
 	z-index: 0;
 }
 
-#google-map-overlays{
+#google-map-overlays {
 	position: absolute;
 	top: 700px;
 	color: black;
 	z-index: 1;
 }
 
-#google-map-overlays > * {
+#google-map-overlays>* {
 	display: inline-block;
 	background-color: white;
 }
@@ -505,7 +557,7 @@ input#time-picker {
 }
 */
 
-.bike-availability{
+.bike-availability {
 	display: inline-block;
 	width: 50px;
 	height: 50px;
@@ -514,28 +566,30 @@ input#time-picker {
 
 
 
-table#distance-calculator-table1, table#distance-calculator-table2 {
+table#distance-calculator-table1,
+table#distance-calculator-table2 {
 	font-size: 8;
 	border: #444;
 	visibility: hidden;
 }
 
-#plan-journey > button {
-    width: 100px;
-    height: 40px;
-    margin: 25px 0px;
+#plan-journey>button {
+	width: 100px;
+	height: 40px;
+	margin: 25px 0px;
 }
 
 .selected {
 	background-color: rgb(0, 102, 255);
 	color: white;
-  }
+}
 
 #plan-journey {
 	margin: 10px auto;
 }
 
-#stationInfo > h1, #stationInfo > p{
+#stationInfo>h1,
+#stationInfo>p {
 	font-size: 10px;
 }
 
@@ -550,30 +604,45 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 
 
 /* Canvas: */
-.temperature-curve, .station-curve, .precipitation-curve {
+.temperature-curve,
+.station-curve,
+.precipitation-curve {
 	width: 48px !important;
 	height: 48px !important;
 	/* display: box;*/
 	position: absolute;
-	left: 18px;
+	left: 30px;
 	font-weight: 700;
 	z-index: 3;
 }
 
-.precipitation-curve{
+.precipitation-curve {
 	left: 81px;
 }
 
-#current-temp-graph, #current-temp-graph-number, #current-precipitation-graph, #current-precipitation-graph-number, #predicted-temp-graph, #predicted-temp-graph-number, #predicted-precipitation-graph, #predicted-precipitation-graph-number, .background-canvas, .station-number-canvas {
+#current-temp-graph,
+#current-temp-graph-number,
+#current-precipitation-graph,
+#current-precipitation-graph-number,
+#predicted-temp-graph,
+#predicted-temp-graph-number,
+#predicted-precipitation-graph,
+#predicted-precipitation-graph-number,
+.background-canvas,
+.station-number-canvas {
 	position: absolute;
 	top: 0px;
 	z-index: 1;
 }
 
-#current-temp, #predicted-temp, #current-precipitation-probability, #predicted-precipitation-probability, .available-number {
+#current-temp,
+#predicted-temp,
+#current-precipitation-probability,
+#predicted-precipitation-probability,
+.available-number {
 	position: absolute;
 	left: 50%;
-    transform: translate(-50%, 0);
+	transform: translate(-50%, 0);
 	top: 26px;
 	font-size: 14px;
 	text-align: center;
@@ -585,32 +654,35 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 }
 
 .background-station {
-    position: relative;
-    top: 12px;
-    left: 2px;
+	position: relative;
+	top: 12px;
+	left: 2px;
 	z-index: 0;
 }
 
-#current-min, #predicted-min {
+#current-min,
+#predicted-min {
 	position: absolute;
 	left: 7px;
 	top: 46px;
 	font-size: 10px;
 }
 
-#current-max, #predicted-max {
+#current-max,
+#predicted-max {
 	position: absolute;
 	right: 8px;
 	top: 46px;
 	font-size: 10px;
 }
 
-#umbrella-icon, .icon {
+#umbrella-icon,
+.icon {
 	position: absolute;
 	height: 10px;
 	width: 10px;
 	left: 50%;
-    transform: translate(-50%, 0);
+	transform: translate(-50%, 0);
 	top: 46px;
 }
 
@@ -622,18 +694,18 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 #chart-window {
 	display: none;
 	position: absolute;
-    width: 300px;
-    height: 700px;
-    right: 30px;
-    top: 33px;
-    box-shadow: rgba(35, 35, 35, 0.16) 2px 4px 6px;
-    z-index: 9;
-    background: rgb(35, 35, 35);
-    border-radius: 10px;
+	width: 300px;
+	height: 700px;
+	right: 30px;
+	top: 33px;
+	box-shadow: rgba(35, 35, 35, 0.16) 2px 4px 6px;
+	z-index: 9;
+	background: rgb(35, 35, 35);
+	border-radius: 10px;
 	padding: 30px;
 }
 
-#chart-station-title{
+#chart-station-title {
 	display: block;
 	font-weight: 700;
 	height: 20px;
@@ -647,126 +719,143 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	margin-bottom: 27px;
 }
 
-#close-chart-window > img {
-    right: 30px;
-    position: absolute;
-    display: block;
-    width: 14px;
+#close-chart-window>img {
+	right: 30px;
+	position: absolute;
+	display: block;
+	width: 14px;
 }
 
-#close-chart-window > img:hover {
-	opacity: .5; 
+#close-chart-window>img:hover {
+	opacity: .5;
 	cursor: pointer;
-  }
-
-.chart-container{
-    display: block;
-    position: relative;
-    height: calc((100% - (30px + 10px + 20px)) / 2);
-    box-sizing: border-box;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    background: #232323;
-    border: 2px solid #B0EFFF;
-    padding: 12px 12px 0px 12px;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
 }
 
-.chart-container > .chart-container {
+.chart-container {
+	display: block;
+	position: relative;
+	height: calc((100% - (30px + 10px + 20px)) / 2);
+	box-sizing: border-box;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border-radius: 5px;
+	background: #232323;
+	border: 2px solid #B0EFFF;
+	padding: 12px 12px 0px 12px;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 19px;
+}
+
+.chart-container>.chart-container {
 	border: 0px;
-    position: relative;
-    height: 85%;	
+	position: relative;
+	height: 85%;
 }
 
-.chart-container > canvas {
+.chart-container>canvas {
 	position: relative;
 }
 
 #cluster-marker-class {
-	background-color:#232323;
+	background-color: #232323;
 }
 
 
 #slider {
-	width: calc(.75 * (100% - 20px));
-    float: right;
+	width: calc(.72 * (100% - 20px));
+	float: right;
 }
 
 #toggle {
 	float: left;
-    width: calc(.25 * (100% - 20px));
+	width: calc(.28 * (100% - 20px));
 }
 
 #toggle-and-slider {
 	position: absolute;
-    background: #232323;
-    width: 400px;
-    border-radius: 10px;
-    padding: 10px;
-    left: calc(50% - 200px);
-    bottom: 30px;
-    box-sizing: border-box
+	background: #232323;
+	width: 450px;
+	border-radius: 10px;
+	padding: 10px;
+	left: calc(50% - 200px);
+	bottom: 30px;
+	box-sizing: border-box
 }
 
-#heat-map-slider{
-	display: block;
-    margin: 0;
-    position: relative;
-    width: 84%;
-    margin: 0 auto
-}
-#marker-toggle {
-	box-sizing: border-box;
-    height: 15px;
-    width: 25%;
-    margin: 0 12px;
-    float: left;
-}
-#toggle > span {
-    font-size: 7px;
+#heat-map-slider {
+	width: calc(100% - 50px);
+	height: 25px;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0px;
 }
 
-#toggle-bike-icon, #toggle-stands-icon {
+#reset-slider {
+	position: absolute;
+	right: 15px;
+	top: 15px;
+}
+
+#reset-slider:hover {
+	opacity: .5;
+	cursor: pointer;
+}
+
+#toggle>span {
+	font-size: 7px;
+}
+
+#slider-date-time,
+#marker-toggle-description {
+	display: none;
+}
+
+
+
+#toggle-bike-icon,
+#toggle-stands-icon {
 	display: block;
-	float: left;
 	height: 16px;
 	width: 16px;
 }
 
-#toggle-stands-icon {
-	position: relative;
-	left: 50px;
-}
-
 #divider {
 	width: 2px;
-    height: calc(100% - 14px);
-    background-color: #B0EFFF;
-    position: absolute;
-    left: 27%;
-    top: 7px;
+	height: calc(100% - 14px);
+	background-color: #B0EFFF;
+	position: absolute;
+	left: 30%;
+	top: 7px;
 	border-radius: 4px;
 }
 
-#pins-label{
+.toggle-slider-header {
 	display: block;
-	margin: 0px 0px 13px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+.toggle-slider-subheader {
+	color: #459CB2;
+	margin-top: 2px;
+	font-size: 12px;
+}
+
+#toggle-icons {
+	margin: 13px 0px;
+	display: flex;
+	justify-content: space-evenly
 }
 
 
 /* w3school.com Toggle switch */
 .switch {
 	position: relative;
-	display: inline-block;
 	width: 25px;
 	height: 16px;
-	left: -4px;
 }
 
-.switch input { 
+.switch input {
 	opacity: 0;
 	width: 0;
 	height: 0;
@@ -796,15 +885,76 @@ table#distance-calculator-table1, table#distance-calculator-table2 {
 	transition: .4s;
 }
 
-input:checked + .slider {
+/*********** Baseline, reset styles ***********/
+input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent;
+	cursor: pointer;
+	width: 25%;
+  }
+  
+  /* Removes default focus */
+  input[type="range"]:focus {
+	outline: none;
+  }
+  
+  /******** Chrome, Safari, Opera and Edge Chromium styles ********/
+  /* slider track */
+  input[type="range"]::-webkit-slider-runnable-track {
+	background-color: #b0efff;
+	border-radius: 8px;
+	height: 5px;
+  }
+  
+  /* slider thumb */
+  input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none; /* Override default look */
+	appearance: none;
+	margin-top: -2.5px; /* Centers thumb on the track */
+	background-color: #459cb2;
+	border-radius: 0.5rem;
+	height: 10px;
+	width: 10px;
+  }
+  
+  input[type="range"]:focus::-webkit-slider-thumb {
+	outline: 3px solid #459cb2;
+	outline-offset: 0.125rem;
+  }
+  
+  /*********** Firefox styles ***********/
+  /* slider track */
+  input[type="range"]::-moz-range-track {
+	background-color: #b0efff;
+	border-radius: 8px;
+	height: 5px;
+  }
+  
+  /* slider thumb */
+  input[type="range"]::-moz-range-thumb {
+	background-color: #459cb2;
+	border: none; /*Removes extra border that FF applies*/
+	border-radius: 0.5rem;
+	height: 10px;
+	width: 10px;
+  }
+  
+  input[type="range"]:focus::-moz-range-thumb{
+	outline: 3px solid #459cb2;
+	outline-offset: 0.125rem;
+  }
+
+
+input:checked+.slider {
 	background-color: #459CB2;
 }
 
-input:focus + .slider {
+input:focus+.slider {
 	box-shadow: 0 0 1px #459CB2;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
 	-webkit-transform: translateX(9px);
 	-ms-transform: translateX(9px);
 	transform: translateX(9px);
@@ -818,6 +968,73 @@ input:checked + .slider:before {
 .slider.round:before {
 	border-radius: 50%;
 }
+
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: #459CB2;
+	cursor: pointer;
+	border: none;
+}
+
+#button-and-slider {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	align-content: center;
+	height: 100%;
+	align-items: center;
+	margin-top: 6px;
+}
+
+#play-triangle {
+	width: 0;
+	height: 0;
+	border-top: 5px solid transparent;
+	border-left: 9px solid #232323;
+	border-bottom: 5px solid transparent;
+}
+
+#play-button {
+	padding-left: 8px;
+}
+
+.button-circle {
+	width: 20px;
+	height: 20px;
+	background-color: #B0EFFF;
+	border-radius: calc(50%);
+	margin: 5px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	box-sizing: border-box;
+}
+
+.button-circle:hover {
+	background-color: #459CB2;
+	cursor: pointer;
+}
+
+.button-circle:active {
+	background-color: #357b8c;
+	cursor: pointer;
+}
+
+.pause-button-bar {
+	width: 2px;
+	height: 100%;
+	background-color: #232323;
+	margin: 4px auto;
+	border-radius: 1px;
+}
+
+
 /* ---- */
 
 /* Duration Box */
@@ -838,47 +1055,60 @@ input:checked + .slider:before {
 	color: #232323;
 }
 
-#start-walking-distance-display-min, #biking-distance-display-min, #stop-walking-distance-display-min, #total-distance-display-min {
+#start-walking-distance-display-min,
+#biking-distance-display-min,
+#stop-walking-distance-display-min,
+#total-distance-display-min {
 	position: absolute;
 	top: 24px;
 	display: block;
-	width: 55px;
+	width: 65px;
 	font-weight: 700;
 	font-size: 16px;
 	line-height: 19px;
 	text-align: center;
 }
 
-#start-walking-distance-display-m, #biking-distance-display-m, #stop-walking-distance-display-m, #total-distance-display-m {
+#start-walking-distance-display-m,
+#biking-distance-display-m,
+#stop-walking-distance-display-m,
+#total-distance-display-m {
 	position: absolute;
 	top: 44px;
 	display: block;
-	width: 55px;
+	width: 65px;
 	font-weight: 400;
 	font-size: 14px;
 	line-height: 16px;
 	text-align: center;
 }
 
-#start-walking-distance-display-min, #start-walking-distance-display-m {
+#start-walking-distance-display-min,
+#start-walking-distance-display-m {
 	left: 19px;
 }
 
 
-#biking-distance-display-min, #biking-distance-display-m {
+#biking-distance-display-min,
+#biking-distance-display-m {
 	left: 153px;
 }
 
 
-#stop-walking-distance-display-min, #stop-walking-distance-display-m {
+#stop-walking-distance-display-min,
+#stop-walking-distance-display-m {
 	left: 287px;
 }
 
-#total-distance-display-min, #total-distance-display-m {
-	right: 30px;
+#total-distance-display-min,
+#total-distance-display-m {
+	right: 25px;
 }
 
-#start-walking-icon, #stop-walking-icon, #bike-icon, #destination-flag {
+#start-walking-icon,
+#stop-walking-icon,
+#bike-icon,
+#destination-flag {
 	position: absolute;
 	top: 9px;
 	height: 14px;
@@ -901,14 +1131,16 @@ input:checked + .slider:before {
 	right: 50px;
 }
 
-#line-1, #line-2, #line-3 {
+#line-1,
+#line-2,
+#line-3 {
 	position: absolute;
 	display: block;
 	top: 35px;
 	width: 55px;
 	height: 2px;
 	border-radius: 4px;
-    background-color: #232323;
+	background-color: #232323;
 }
 
 #line-1 {
@@ -920,9 +1152,9 @@ input:checked + .slider:before {
 }
 
 #line-3 {
-	top: 7px; 
+	top: 7px;
 	width: 2px;
 	border-radius: 4px;
-    height: calc(100% - 14px);
+	height: calc(100% - 14px);
 	right: 120px;
 }
