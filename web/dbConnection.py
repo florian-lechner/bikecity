@@ -1,6 +1,6 @@
 import json
 from groupConfig import *
-from personalConfig import *
+#from personalConfig import *
 from sqlalchemy import text
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
@@ -121,8 +121,7 @@ def get_forecast_weather(hours): # time taken from input form
                 forecast_weather = {'forecast_temp': round(line[2]), 'weather_type': line[3], 'icon_number': ico, 'precipitation_probability': round(line[9]), 'pressure': line[10], 'humidity':line[11], 'clouds':line[12], 'precipitation_value':line[13]}
         
         # Get min / max weather:
-        #Test date:
-        today_time =  datetime(2023, 3, 8, 8, 0, 0) #datetime.datetime.now()
+        today_time =  datetime.datetime.now()
         today = str(today_time.date())
         min_max_temp = []
         try:
