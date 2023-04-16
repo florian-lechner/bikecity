@@ -20,7 +20,6 @@ def connect_db():
     global Station_Coordinates_table
     Base = automap_base()
     engine = create_engine(DATABASE_URL)
-
     # reflect the tables
     # Base.prepare(autoload_with=engine, schema="ringringbikes")
     # Station_Availability_table = Base.classes.station_availability

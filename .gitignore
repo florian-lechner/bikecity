@@ -7,3 +7,6 @@ web/__pycache__/*.pyc
 Prediction_Model/prediction_models.pkl
 Prediction_Model/prediction_models_test.pkl
 Prediction_Model/predictionModels.pkl
+Prediction_Model/cleaned_clean_db.csv
+.gitignore
+Prediction_Model/prediction_clean_df.csv
