@@ -3,6 +3,7 @@ let context = {
     openChartWindow: undefined,
     openInfoWindow: undefined,
     markers: [],
+    markerDisplayMode: 'bikes',
     startMarker: undefined,
     endMarker: undefined,
     applicationTime: new Date(Date.now()),
@@ -10,7 +11,8 @@ let context = {
     
     timeline_data: undefined,
     timeline_is_animating: false,
-    timeline_start_value: undefined
+    timeline_time: undefined,
+    timeline_start_value: undefined,
   };
 
 let routeParams = {  // zero as default state

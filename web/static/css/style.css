@@ -763,19 +763,19 @@ table#distance-calculator-table2 {
 
 
 #slider {
-	width: calc(.75 * (100% - 20px));
+	width: calc(.72 * (100% - 20px));
 	float: right;
 }
 
 #toggle {
 	float: left;
-	width: calc(.25 * (100% - 20px));
+	width: calc(.28 * (100% - 20px));
 }
 
 #toggle-and-slider {
 	position: absolute;
 	background: #232323;
-	width: 400px;
+	width: 450px;
 	border-radius: 10px;
 	padding: 10px;
 	left: calc(50% - 200px);
@@ -785,25 +785,33 @@ table#distance-calculator-table2 {
 
 #heat-map-slider {
 	width: calc(100% - 50px);
-    height: 25px;
-    margin: 0 !important;
-    padding: 0 !important;
+	height: 25px;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0px;
 }
 
 #reset-slider {
-    position: absolute;
-    right: 10px;
-    top: 10px;
+	position: absolute;
+	right: 15px;
+	top: 15px;
 }
 
 #reset-slider:hover {
-    opacity: .5;
-    cursor: pointer;
+	opacity: .5;
+	cursor: pointer;
 }
 
 #toggle>span {
 	font-size: 7px;
 }
+
+#slider-date-time,
+#marker-toggle-description {
+	display: none;
+}
+
+
 
 #toggle-bike-icon,
 #toggle-stands-icon {
@@ -817,7 +825,7 @@ table#distance-calculator-table2 {
 	height: calc(100% - 14px);
 	background-color: #B0EFFF;
 	position: absolute;
-	left: 27%;
+	left: 30%;
 	top: 7px;
 	border-radius: 4px;
 }
@@ -829,7 +837,8 @@ table#distance-calculator-table2 {
 
 .toggle-slider-subheader {
 	color: #459CB2;
-	font-size: 10px;
+	margin-top: 2px;
+	font-size: 12px;
 }
 
 #toggle-icons {
@@ -876,6 +885,67 @@ table#distance-calculator-table2 {
 	transition: .4s;
 }
 
+/*********** Baseline, reset styles ***********/
+input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent;
+	cursor: pointer;
+	width: 25%;
+  }
+  
+  /* Removes default focus */
+  input[type="range"]:focus {
+	outline: none;
+  }
+  
+  /******** Chrome, Safari, Opera and Edge Chromium styles ********/
+  /* slider track */
+  input[type="range"]::-webkit-slider-runnable-track {
+	background-color: #b0efff;
+	border-radius: 8px;
+	height: 5px;
+  }
+  
+  /* slider thumb */
+  input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none; /* Override default look */
+	appearance: none;
+	margin-top: -2.5px; /* Centers thumb on the track */
+	background-color: #459cb2;
+	border-radius: 0.5rem;
+	height: 10px;
+	width: 10px;
+  }
+  
+  input[type="range"]:focus::-webkit-slider-thumb {
+	outline: 3px solid #459cb2;
+	outline-offset: 0.125rem;
+  }
+  
+  /*********** Firefox styles ***********/
+  /* slider track */
+  input[type="range"]::-moz-range-track {
+	background-color: #b0efff;
+	border-radius: 8px;
+	height: 5px;
+  }
+  
+  /* slider thumb */
+  input[type="range"]::-moz-range-thumb {
+	background-color: #459cb2;
+	border: none; /*Removes extra border that FF applies*/
+	border-radius: 0.5rem;
+	height: 10px;
+	width: 10px;
+  }
+  
+  input[type="range"]:focus::-moz-range-thumb{
+	outline: 3px solid #459cb2;
+	outline-offset: 0.125rem;
+  }
+
+
 input:checked+.slider {
 	background-color: #459CB2;
 }
@@ -905,62 +975,63 @@ input:checked+.slider:before {
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
-	background: #4CAF50;
+	background: #459CB2;
 	cursor: pointer;
 	border: none;
 }
 
 #button-and-slider {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-content: center;
-    height: 100%;
-    align-items: center;
-    margin-top: 6px;
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	align-content: center;
+	height: 100%;
+	align-items: center;
+	margin-top: 6px;
 }
 
 #play-triangle {
-    width: 0;
-    height: 0;
-    border-top: 5px solid transparent;
-    border-left: 9px solid #232323;
-    border-bottom: 5px solid transparent;
+	width: 0;
+	height: 0;
+	border-top: 5px solid transparent;
+	border-left: 9px solid #232323;
+	border-bottom: 5px solid transparent;
 }
 
 #play-button {
-    padding-left: 8px;
+	padding-left: 8px;
 }
 
 .button-circle {
-    width: 20px;
-    height: 20px;
-    background-color: #B0EFFF;
-    border-radius: calc(50%);
-    margin: 5px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    box-sizing: border-box;
+	width: 20px;
+	height: 20px;
+	background-color: #B0EFFF;
+	border-radius: calc(50%);
+	margin: 5px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	box-sizing: border-box;
 }
 
 .button-circle:hover {
-    background-color: #459CB2;
+	background-color: #459CB2;
 	cursor: pointer;
 }
 
 .button-circle:active {
-    background-color: #357b8c;
+	background-color: #357b8c;
 	cursor: pointer;
 }
+
 .pause-button-bar {
 	width: 2px;
-    height: 100%;
-    background-color: #232323;
-    margin: 4px auto;
-    border-radius: 1px;
+	height: 100%;
+	background-color: #232323;
+	margin: 4px auto;
+	border-radius: 1px;
 }
 
 

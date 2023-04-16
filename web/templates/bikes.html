@@ -158,7 +158,7 @@
 
       <div id="toggle">
         <label id="pins-label" for="marker-toggle">Pins</label>
-        <div class="toggle-slider-subheader">Station Availability</div>
+        <div id="marker-toggle-description" class="toggle-slider-subheader">Viewing Bikes</div>
         <div id="toggle-icons">
           <img src="..\static\img\toggle-bike.svg" alt="bike icon" id="toggle-bike-icon">
           <label class="switch">
@@ -175,7 +175,7 @@
       <div id="slider">
         <!--HeatMap min/max are times, step is minute, value is default for current user time-->
         <label id="toggle-slider-header" for="heat-map-slider">CycleCast</label>
-        <div class="toggle-slider-subheader">Saturday, April 15, 2023</div>
+        <div id="slider-date-time" class="toggle-slider-subheader">Saturday, April 15, 2023</div>
         <div id="button-and-slider">
           <div id="play-button" class="button-circle">
             <div id="play-triangle"></div>
@@ -184,8 +184,7 @@
             <div id="pause-left" class="pause-button-bar"></div>
             <div id="pause-right" class="pause-button-bar"></div>
           </div>
-          <input type="range" id="heat-map-slider" name="heat-map-slider" list="tick-marks" min="5" ,="" max="24"
-            step="1">
+          <input type="range" id="heat-map-slider" name="heat-map-slider" list="tick-marks" min="5" value="5" max="24" step="1">
           <datalist id="tick-marks">
             <option value="5" label="5"></option>
             <option value="6" label="6"></option>
