@@ -99,7 +99,6 @@ input[type="datetime-local"] {
 	background-image: url(/static/img/calendar.svg);
 	background-repeat: no-repeat;
 	background-position: 95% 50%;
-	;
 	background-size: auto 40%;
 }
 
@@ -293,8 +292,11 @@ input#time-picker {
 
 #add-destination {
 	font-weight: 700;
-	margin-top: 30px;
-	margin-bottom: 27px
+	margin-top: 20px;
+	margin-bottom: 27px;
+	display: block;
+	margin-left: 15px;
+	height: 19px;
 }
 
 #add-destination:hover {
@@ -611,13 +613,17 @@ table#distance-calculator-table2 {
 	height: 48px !important;
 	/* display: box;*/
 	position: absolute;
-	left: 30px;
+	left: 18px;
 	font-weight: 700;
 	z-index: 3;
 }
 
 .precipitation-curve {
 	left: 81px;
+}
+
+.station-curve {
+	left: 30px;
 }
 
 #current-temp-graph,

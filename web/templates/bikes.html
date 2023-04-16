@@ -53,7 +53,7 @@
       </select>
 
       <span id="date-time-picker">
-        <input type="datetime-local" id="time-picker" name="date" min="2023-04-15T11:38" max="2023-04-18T23:59">
+        <input type="datetime-local" id="time-picker" name="date" min="2023-04-01T00:00" max="2023-06-01T23:59" />
       </span>
 
       <!--Provides the picker with the station location options from database-->
@@ -65,23 +65,7 @@
             class="pac-target-input" autocomplete="off">
           <div id="missing-start-loc"> Missing Start Location </div>
           <div id="start-bike-result"><!--Start Preselect-->
-            <div class="bike-preselect" id="start-bike-preselect">
-              <div class="station-curve"><canvas class="background-canvas" id="start-graph" width="48" height="48"
-                  style="display: block; box-sizing: border-box; height: 48px; width: 48px;"></canvas><canvas
-                  class="station-number-canvas" id="start-graph-number" width="48" height="48"
-                  style="display: block; box-sizing: border-box; height: 48px; width: 48px;"></canvas><svg id="start-bg"
-                  class="background-station" width="44" height="33" viewBox="0 0 44 33" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path id="svgInternalID" fill-rule="evenodd" clip-rule="evenodd"
-                    d="M38.9671 31.9137C42.111 28.5415 44 24.2163 44 19.5C44 8.73045 34.1503 0 22 0C9.84974 0 0 8.73045 0 19.5C0 24.6369 2.24099 29.31 5.9037 32.7929C16.3968 28.1295 28.2971 27.8365 38.9671 31.9137Z"
-                    fill="hsl(0,100%,70%)"></path>
-                </svg><img src="/static/img/toggle-bike-dark.svg" alt="icon" class="icon"><span class="available-number"
-                  id="start-available-bikes-NaN">0</span></div><span class="station-name"
-                id="start-station-name-NaN">Harcourt Terrace</span><span class="bike-chance"
-                id="start-chance-to-get-bike-NaN">20% Chance to get a bike</span><span class="station-walking-time"
-                id="start-walking-distance-min-NaN">55 min</span><span class="station-distance"
-                id="start-walking-distance-m-NaN">4552 m</span>
-            </div>
+            <div class="bike-preselect" id="start-bike-preselect"></div>
             <div id="start-bike-show-more">→ Show more stations</div>
           </div>
         </div>
@@ -93,23 +77,7 @@
           <input id="end-location-field" name="end-location-field" type="text" placeholder="End Location"
             class="pac-target-input" autocomplete="off">
           <div id="stop-bike-result"><!--Stop Preselect-->
-            <div class="bike-preselect" id="stop-bike-preselect">
-              <div class="station-curve"><canvas class="background-canvas" id="stop-graph" width="48" height="48"
-                  style="display: block; box-sizing: border-box; height: 48px; width: 48px;"></canvas><canvas
-                  class="station-number-canvas" id="stop-graph-number" width="48" height="48"
-                  style="display: block; box-sizing: border-box; height: 48px; width: 48px;"></canvas><svg id="stop-bg"
-                  class="background-station" width="44" height="33" viewBox="0 0 44 33" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path id="svgInternalID" fill-rule="evenodd" clip-rule="evenodd"
-                    d="M38.9671 31.9137C42.111 28.5415 44 24.2163 44 19.5C44 8.73045 34.1503 0 22 0C9.84974 0 0 8.73045 0 19.5C0 24.6369 2.24099 29.31 5.9037 32.7929C16.3968 28.1295 28.2971 27.8365 38.9671 31.9137Z"
-                    fill="hsl(76,100%,70%)"></path>
-                </svg><img src="/static/img/toggle-stands-dark.svg" alt="icon" class="icon"><span
-                  class="available-number" id="stop-available-bike-stands-0">19</span></div><span class="station-name"
-                id="stop-station-name-0">Pearse Street</span><span class="bike-chance"
-                id="stop-chance-to-store-bike-0">99% Chance to store a bike</span><span class="station-walking-time"
-                id="stop-walking-distance-min-0">5 min</span><span class="station-distance"
-                id="stop-walking-distance-m-0">391 m</span>
-            </div>
+            <div class="bike-preselect" id="stop-bike-preselect"></div>
             <div id="stop-bike-show-more">→ Show more stations</div>
           </div>
         </div>
