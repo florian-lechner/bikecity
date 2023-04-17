@@ -85,8 +85,7 @@ def get_live_weather():
             print("Error getting current weather from SQL")
         
         # Get min / max weather:
-        #Test date:
-        today =  str(date(2023, 3, 8)) #str(date.today())
+        today =  str(date.today())
         min_max_temp = []
         try:
             result = session.execute(text("SELECT W1.temperature\
