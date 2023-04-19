@@ -34,4 +34,3 @@ def get_available_bike_prediction(station_id, date, temperature, pressure, humid
     pred_stations = station_prediction_model[1] - pred_bikes
 
     return pred_bikes, pred_stations, pred_bike_chance, pred_stand_chance
-"""
