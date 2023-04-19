@@ -1,26 +1,9 @@
 import { context } from "./context.js";
+import { availabilityCanvas } from "./distance.js";
 // import { Chart} from "../../node_modules/chart.js/auto/auto.cjs";
 
 
-function createPopUp(marker, stationAvailability) {
-
-    // Hide open window if there is any, set current window to open window
-    if (context.openInfoWindow != undefined) {
-        context.openInfoWindow.close();
-    }
-
-    const infoWindow = new google.maps.InfoWindow({
-        content: createPopUpHTML(stationAvailability),
-        ariaLabel: stationAvailability.name
-    })
-
-    // Open window at marker
-    infoWindow.open({
-        anchor: marker,
-        map: context.map,
-    });
-
-    context.openInfoWindow = infoWindow;
+function createMarkerBounce(marker) {
 
     // Make markers bounce       
     marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -29,14 +12,5 @@ function createPopUp(marker, stationAvailability) {
     });
 }
 
-function createPopUpHTML(stationAvailability) { // Function to create a pop up for a station
-    var stationInfo =
-        '<div id="stationInfo">' +
-        '<h1>' + stationAvailability.name + '<h1>' +
-        '<p> Available Bikes: ' + stationAvailability.available_bikes + '<p>' +
-        '<p> Available Stands: ' + stationAvailability.available_stands + '<p>' +
-        '</div>'
-    return stationInfo
-}
 
-export { createPopUp }
+export { createMarkerBounce }

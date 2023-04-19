@@ -1,6 +1,6 @@
 import { context, routeParams } from "./context.js";
-import { createPopUp } from "./popup.js";
-import { createCharts } from "./charts.js";
+import { createMarkerBounce } from "./popup.js";
+import { createCharts, createCircleCharts } from "./charts.js";
 import { stylesArray } from "./stylesArray.js";
 
 function drawMap() {
@@ -95,8 +95,9 @@ function getStationData(marker, station) {
 
   Promise.all([liveData, historicalData])
     .then(([stationAvailability, historicalAvailability]) => {
-      createPopUp(marker, stationAvailability);
+      createMarkerBounce(marker);
       createCharts(stationAvailability, historicalAvailability);
+      createCircleCharts(stationAvailability);
     });
 }
 

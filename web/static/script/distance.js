@@ -29,7 +29,7 @@ function findDistances(locationLat, locationLng, callback) {
           })
           .then(promises => {
             Promise.all(promises)
-            .then(results => {
+            .then(results => {let svgBG = ' class="background-station" width="44" height="33" viewBox="0 0 44 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path id="svgInternalID" fill-rule="evenodd" clip-rule="evenodd" d="M38.9671 31.9137C42.111 28.5415 44 24.2163 44 19.5C44 8.73045 34.1503 0 22 0C9.84974 0 0 8.73045 0 19.5C0 24.6369 2.24099 29.31 5.9037 32.7929C16.3968 28.1295 28.2971 27.8365 38.9671 31.9137Z" fill="hsl(1,100%,70%)"/></svg>'
               // Update the nearbyStations array with the results
               for (let i = 0; i < nearbyStations.length; i++) {
                 nearbyStations[i].bikes = results[i].bikes;
@@ -269,9 +269,11 @@ function preselectStation(closestStations, availabilityKey, tableID) {
 var station_canvases = {};
 function availabilityCanvas(id, availability, max){
 
-  var border_color = 'rgba(176, 239, 255, 0)';
-  var background_color = 'rgba(69, 156, 178, 1)';
-  var front_color = 'rgba(35, 35, 35, 1)';
+    var border_color = 'rgba(176, 239, 255, 0)';
+    var background_color = 'rgba(69, 156, 178, 1)';
+    var front_color = 'rgba(35, 35, 35, 1)';
+
+
 
   // destroy previous graphs:
   if (id in station_canvases) {

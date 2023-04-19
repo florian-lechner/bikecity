@@ -295,7 +295,6 @@ input#time-picker {
 	margin-top: 20px;
 	margin-bottom: 27px;
 	display: block;
-	margin-left: 15px;
 	height: 19px;
 }
 
@@ -712,9 +711,33 @@ table#distance-calculator-table2 {
 }
 
 #chart-station-title {
-	display: block;
+	display: inline-block;
 	font-weight: 700;
-	height: 20px;
+	width: 48%;
+	vertical-align: top;
+}
+
+#graphs-container {
+	background-color: #B0EFFF;
+    border-radius: 6px;
+    display: inline-flex;
+    width: 50%;
+    height: 55px;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+#chart-available-stands, #chart-available-bikes {
+	color:#232323;
+}
+
+#graphs-container .station-curve {
+    position: relative;
+    left: 0;
+    right: 0;
+    top: -10px
 }
 
 #chart-title {
@@ -725,14 +748,19 @@ table#distance-calculator-table2 {
 	margin-bottom: 27px;
 }
 
+#chart-header {
+	height: 55px;
+}
+
 #close-chart-window>img {
-	right: 30px;
+	top:15px;
+	right: 15px;
 	position: absolute;
 	display: block;
 	width: 14px;
 }
 
-#close-chart-window>img:hover {
+#close-chart-window > img:hover {
 	opacity: .5;
 	cursor: pointer;
 }
@@ -740,7 +768,7 @@ table#distance-calculator-table2 {
 .chart-container {
 	display: block;
 	position: relative;
-	height: calc((100% - (30px + 10px + 20px)) / 2);
+	height: calc((100% - (30px + 10px + 55px)) / 2);
 	box-sizing: border-box;
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -898,58 +926,61 @@ input[type="range"] {
 	background: transparent;
 	cursor: pointer;
 	width: 25%;
-  }
-  
-  /* Removes default focus */
-  input[type="range"]:focus {
+}
+
+/* Removes default focus */
+input[type="range"]:focus {
 	outline: none;
-  }
-  
-  /******** Chrome, Safari, Opera and Edge Chromium styles ********/
-  /* slider track */
-  input[type="range"]::-webkit-slider-runnable-track {
+}
+
+/******** Chrome, Safari, Opera and Edge Chromium styles ********/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
 	background-color: #b0efff;
 	border-radius: 8px;
 	height: 5px;
-  }
-  
-  /* slider thumb */
-  input[type="range"]::-webkit-slider-thumb {
-	-webkit-appearance: none; /* Override default look */
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	/* Override default look */
 	appearance: none;
-	margin-top: -2.5px; /* Centers thumb on the track */
+	margin-top: -2.5px;
+	/* Centers thumb on the track */
 	background-color: #459cb2;
 	border-radius: 0.5rem;
 	height: 10px;
 	width: 10px;
-  }
-  
-  input[type="range"]:focus::-webkit-slider-thumb {
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
 	outline: 3px solid #459cb2;
 	outline-offset: 0.125rem;
-  }
-  
-  /*********** Firefox styles ***********/
-  /* slider track */
-  input[type="range"]::-moz-range-track {
+}
+
+/*********** Firefox styles ***********/
+/* slider track */
+input[type="range"]::-moz-range-track {
 	background-color: #b0efff;
 	border-radius: 8px;
 	height: 5px;
-  }
-  
-  /* slider thumb */
-  input[type="range"]::-moz-range-thumb {
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
 	background-color: #459cb2;
-	border: none; /*Removes extra border that FF applies*/
+	border: none;
+	/*Removes extra border that FF applies*/
 	border-radius: 0.5rem;
 	height: 10px;
 	width: 10px;
-  }
-  
-  input[type="range"]:focus::-moz-range-thumb{
+}
+
+input[type="range"]:focus::-moz-range-thumb {
 	outline: 3px solid #459cb2;
 	outline-offset: 0.125rem;
-  }
+}
 
 
 input:checked+.slider {
@@ -1122,15 +1153,15 @@ input:checked+.slider:before {
 }
 
 #start-walking-icon {
-	left: 40px;
+	left: 45px;
 }
 
 #stop-walking-icon {
-	left: 309px;
+	left: 314px;
 }
 
 #bike-icon {
-	left: 174px;
+	left: 179px;
 }
 
 #destination-flag {
@@ -1163,4 +1194,63 @@ input:checked+.slider:before {
 	border-radius: 4px;
 	height: calc(100% - 14px);
 	right: 120px;
+}
+
+
+
+/* From google maps popup documentation */
+/* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+#map {
+	height: 100%;
+}
+
+/* 
+   * Optional: Makes the sample page fill the window. 
+   */
+
+/* The popup bubble styling. */
+.gm-style .gm-style-iw-d::-webkit-scrollbar-track,
+.gm-style .gm-style-iw-d::-webkit-scrollbar-track-piece,
+.gm-style .gm-style-iw-c,
+.gm-style .gm-style-iw-t::after {
+	background: #232323;
+}
+
+.gm-style .gm-style-iw-tc::after {
+	background: #232323;
+}
+
+.gm-style .gm-style-iw-tc>button {
+	color: #B0EFFF;
+}
+
+.gm-style-iw button.gm-ui-hover-effect img {
+	display: none !important;
+}
+
+.gm-ui-hover-effect>span {
+	display: none !important;
+}
+
+.gm-style-iw button.gm-ui-hover-effect {
+	opacity: 1 !important;
+}
+
+.gm-style-iw button.gm-ui-hover-effect:before {
+	display: block;
+	content: "";
+	background: url('../img/x.svg') center center no-repeat;
+	background-size: cover;
+	width: 8px;
+	height: 8px;
+	right: -19px;
+	position: relative;
+}
+
+.gm-style-iw button.gm-ui-hover-effect {
+	top: 0px !important;
+	right: 6px !important;
 }

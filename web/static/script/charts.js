@@ -1,20 +1,33 @@
 import { context, routeParams } from "./context.js";
+import { availabilityCanvas } from "./distance.js";
 import { zoomOnPolyline } from "./route.js";
 //import { availabilityCanvas } from "./distance.js";
 
 var dailyChart;
 var weeklyChart;
 
+function createCircleCharts(stationAvailability){
+    let totalBikes = stationAvailability.available_bikes + stationAvailability.available_stands;
+    availabilityCanvas('chart-bikes', stationAvailability.available_bikes, totalBikes);
+    let available_bike_num = document.getElementById('chart-available-bikes');
+    available_bike_num.innerHTML = stationAvailability.available_bikes;
+    availabilityCanvas('chart-stands', stationAvailability.available_stands, totalBikes);
+    let available_stand_num = document.getElementById('chart-available-stands');
+    available_stand_num.innerHTML = stationAvailability.available_stands;
+}
+
 function createCharts(stationAvailability, historicalStationData) {
 
     // Add close event to X
     addChartWindowCloseEvent();
 
+    //  TODO ADD CANVASES
+
     // Set the title of the window
     if (context.openChartWindow == undefined) {
         context.openChartWindow = document.getElementById("chart-window");
     }
-    context.openChartWindow.children[1].innerHTML = stationAvailability.name;
+    context.openChartWindow.children[0].children[0].innerHTML = stationAvailability.name;
 
     // Variable for open hours
     const openHours = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
@@ -39,12 +52,19 @@ function createCharts(stationAvailability, historicalStationData) {
     // Generate array for each hour of the day
     const dailyData = singleDay.map((hour) => hour.average_bike_availability);
 
+    // Get constant to store the total bikes  
+    const totalBikes = stationAvailability.available_bikes + stationAvailability.available_stands;
+
+    if (context.markerDisplayMode != 'bikes'){
+        dailyData = dailyData.map((hour) => totalBikes - hour);
+    }
+
     // If there is already a chart, destroy it
     if (dailyChart != undefined) {
         dailyChart.destroy();
     }
     // Display the daily chart
-    dailyChart = displayChart('daily', openTime, 'Available Bikes', dailyData);
+    dailyChart = displayChart('daily', openTime, 'Available Bikes', dailyData, 2, "1:00 PM", totalBikes);
 
     // Declare array to store the average per day of the week
     let weeklyData = []
@@ -67,7 +87,7 @@ function createCharts(stationAvailability, historicalStationData) {
         weeklyChart.destroy();
     }
     // Display the weekly chart
-    weeklyChart = displayChart('weekly', days, 'Available Bikes', weeklyData);
+    weeklyChart = displayChart('weekly', days, 'Available Bikes', weeklyData, 2, 'Tuesday', totalBikes);
 
     // Open the chart window
     openChartWindow(stationAvailability);
@@ -76,28 +96,64 @@ function createCharts(stationAvailability, historicalStationData) {
     //availabilityCanvas("live-stand", stationAvailability.available_stands, max);
 }
 
-function displayChart(chartId, chartLabels, chartTitle, chartData) {
+function displayChart(chartId, chartLabels, chartTitle, historicalChartData, realChartData, highlightLabel, chartMax) {
     const chart = new Chart(
         document.getElementById(chartId),
         {
-            type: 'bar',
             data: {
-                labels: chartLabels,
-                datasets: [{ label: chartTitle, data: chartData, backgroundColor: '#B0EFFF' }]
+              labels: chartLabels,
+              datasets: [
+                {
+                  type: 'bar',
+                  label: "Historical" + chartTitle,
+                  data: historicalChartData,
+                  yAxisID: 'y',
+                  xAxisID: 'x',
+                  backgroundColor: populateBarColors(chartLabels, historicalChartData, '#B0EFFF', '#459CB2', highlightLabel),
+                  borderColor: '#243c42',
+                  order: 0
+                },
+                {
+                  type: 'line',
+                  label: "Current " + chartTitle,
+                  data: historicalChartData,
+                  yAxisID: 'y',
+                  xAxisID: 'x',
+                  borderColor: 'White',
+                  borderWidth: 1,
+                  order: 1
+                }
+              ]
             },
             options: {
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } }
-            },
-        }
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                x: {
+                  id: 'x',
+                  grid: { color: '#243c42' }
+                },
+                y: {
+                  id: 'y',
+                  grid: { color: '#243c42' },
+                  ticks: {
+                    beginAtZero: true,
+                    max: chartMax
+                  }
+                }
+              }
+            }
+          }
     );
     return chart;
 }
 
 function populateBarColors(labels, dataset, mainColor, highlightColor, highlightCondition) {
     let backgroundColors = []
-    dataset.map((dataItem) => {
-        if (dataItem == highlightCondition) {
+    labels.map((label) => {
+        if (label == highlightCondition) {
             backgroundColors.push(highlightColor);
         }
         else {
@@ -140,4 +196,4 @@ function addChartWindowCloseEvent() {
 }
 
 
-export { createCharts }
+export { createCharts, createCircleCharts }
