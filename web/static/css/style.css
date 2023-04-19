@@ -120,7 +120,7 @@ input[type="datetime-local"] {
 	width: 263px;
 	height: 67px;
 	left: 27px;
-	top: 33px;
+	top: 23px;
 
 	background: #232323;
 	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
@@ -145,7 +145,7 @@ input[type="datetime-local"] {
 	width: 496px;
 	/*height: 310px;*/
 	left: 27px;
-	top: 127px;
+	top: 110px;
 
 	background: #232323;
 	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
@@ -158,7 +158,7 @@ input[type="datetime-local"] {
 	width: 206px;
 	height: 67px;
 	left: 317px;
-	top: 33px;
+	top: 23px;
 
 	background: #232323;
 	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
@@ -172,7 +172,7 @@ input[type="datetime-local"] {
 	width: 206px;
 	height: 67px;
 	left: 27px;
-	top: 135px;
+	top: 116px;
 
 	background: #B0EFFF;
 	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);
@@ -1052,7 +1052,7 @@ input:checked+.slider:before {
 	width: 496px;
 	height: 67px;
 	left: 27px;
-	top: 143px;
+	top: 124px;
 
 	background: #B0EFFF;
 	box-shadow: 2px 4px 6px rgba(35, 35, 35, 0.16);

@@ -153,6 +153,7 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
 
     var text;
     var available;
+    let max = sortedStations[i].station.bikes + sortedStations[i].station.bike_stands;
     //var canvas_text = '<div class="station-curve"><canvas class="background-canvas" id="' + `${tableID}-${i + 1}-graph"` + ' width="48" height="48"></canvas><canvas class="station-number-canvas" id="' + `${tableID}-${i + 1}-graph-number"` + ' width="48" height="48"></canvas><object class="background-station" id="' + `${tableID}-${i + 1}-bg"` + '" type="image/svg+xml" data="/static/img/availability-background.svg"></object>';
     var canvas_text = '<div class="station-curve"><canvas class="background-canvas" id="' + `${tableID}-${i + 1}-graph"` + ' width="48" height="48"></canvas><canvas class="station-number-canvas" id="' + `${tableID}-${i + 1}-graph-number"` + ' width="48" height="48"></canvas><svg id="' + `${tableID}-${i + 1}-bg"` + svgBG;
     if (tableID == "start") {
@@ -165,7 +166,7 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
 
     newDiv.innerHTML = text;
 
-    availabilityCanvas(`${tableID}-${i + 1}`, available, 30); //  ############# add max
+    availabilityCanvas(`${tableID}-${i + 1}`, available, max); 
     addCloseSelectionEvent();
     // Add event listener to the new div
     newDiv.addEventListener('click', function() {
@@ -214,7 +215,7 @@ function distanceToMinutes(distance) {
 function preselectStation(closestStations, availabilityKey, tableID) {
   var stations = closestStations;
   var index;
-  
+
   if(availabilityKey == "bikes" || availabilityKey == "bike_stands" ) {
     // Select closest one
     for (let i = 0; i < stations.length; i++) {
@@ -253,8 +254,7 @@ function preselectStation(closestStations, availabilityKey, tableID) {
     }
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
     document.getElementById(`${tableID}-bike-result`).style.display = "block"; 
-    availabilityCanvas(tableID, available, 30); //  ############# add max
-  //});
+    availabilityCanvas(tableID, available, max); 
   } else { // error message in case no stations available
     var text = '<span id="preselect-no-result">There are no available stations in your area.<br>Stations are closed between 0:30am and 5:00am.</span>';
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
