@@ -86,6 +86,7 @@ def get_live_weather():
         
         # Get min / max weather:
         today =  str(date.today())
+        print(today)
         min_max_temp = []
         try:
             result = session.execute(text("SELECT W1.temperature\
@@ -99,6 +100,7 @@ def get_live_weather():
 
             live_weather["min_temp"] = round(min(min_max_temp))
             live_weather["max_temp"] = round(max(min_max_temp))
+
         except:
             print("Error getting current min/max weather")
         return live_weather
@@ -122,6 +124,7 @@ def get_forecast_weather(hours): # time taken from input form
         # Get min / max weather:
         today_time =  datetime.now()
         today = str(today_time.date())
+        print(today)
         min_max_temp = []
         try:
             result = session.execute(text("SELECT W1.temperature\

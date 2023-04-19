@@ -189,7 +189,6 @@ function showPartialRoute() {
     let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#459CB2", (result) => {
         updateWalkDistDur1(result);
     }).then(result => {
-        debugger
         clearPolylines();
         routeParams.routePolylines = [result];
         routeParams.routePolylines.push(drawPolylineFromPoints({lat: routeParams.originLoc.Lat, lng: routeParams.originLoc.Long}, result.getPath().getAt(0), "#459CB2"));

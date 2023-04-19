@@ -7,7 +7,7 @@ import numpy as np
 import pickle
 
 def load_station_model(station_id):
-    with open(f'../Prediction_Model/station_models/predictionModels_{station_id}.pkl', 'rb') as file:
+    with open(f'/var/www/bikecity/ring-ring-bike/Prediction_Model/station_models/predictionModels_{station_id}.pkl', 'rb') as file:
         return pickle.load(file)
 
 def get_available_bike_prediction(station_id, date, temperature, pressure, humidity, clouds, precipitation_value, precipitation_probability):
