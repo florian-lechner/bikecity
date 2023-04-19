@@ -391,4 +391,4 @@ async function get_station_prediction(id, bike_org, stands_org, weatherData) {
   }
 }
 
-export { findDistances, distanceToMinutes, populateDiv, preselectStation };
+export { findDistances, distanceToMinutes, populateDiv, preselectStation, availabilityCanvas };

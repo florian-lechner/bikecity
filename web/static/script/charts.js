@@ -1,5 +1,6 @@
 import { context, routeParams } from "./context.js";
 import { zoomOnPolyline } from "./route.js";
+//import { availabilityCanvas } from "./distance.js";
 
 var dailyChart;
 var weeklyChart;
@@ -70,6 +71,9 @@ function createCharts(stationAvailability, historicalStationData) {
 
     // Open the chart window
     openChartWindow(stationAvailability);
+    let max = stationAvailability.available_bikes + stationAvailability.available_stands;
+    //availabilityCanvas("live-bike", stationAvailability.available_bikes, max);
+    //availabilityCanvas("live-stand", stationAvailability.available_stands, max);
 }
 
 function displayChart(chartId, chartLabels, chartTitle, chartData) {
