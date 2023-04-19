@@ -30,18 +30,13 @@ function createCharts(stationAvailability, historicalStationData) {
 
     // Variable for open hours
     const openHours = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-    let openTime = openHours.map((hour) => {
-        if (hour < 12) {
-            return String(hour + ":00 AM");
-        } else if (hour === 12) {
-            return String(hour + ":00 PM");
-        } else {
-            return String(hour - 12 + ":00 PM");
-        }
-    });
+    let openTime = openHours.map((hour) => hoursToLabel(hour));
     // Variable to hold days of the week
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+    let today = days[context.applicationTime.getDay()];
+    let now = hoursToLabel(context.applicationTime.getHours());
+  
 
     // Get all values that correspond to the selected day
     let singleDay = historicalStationData.filter(
@@ -49,10 +44,10 @@ function createCharts(stationAvailability, historicalStationData) {
     singleDay = singleDay.sort((a, b) => a.hour - b.hour);
 
     // Generate array for each hour of the day
-    const dailyData = singleDay.map((hour) => hour.average_bike_availability);
+    let dailyData = singleDay.map((hour) => hour.average_bike_availability);
 
     // Get constant to store the total bikes  
-    const totalBikes = stationAvailability.available_bikes + stationAvailability.available_stands;
+    let totalBikes = stationAvailability.available_bikes + stationAvailability.available_stands;
 
     if (context.markerDisplayMode != 'bikes'){
         dailyData = dailyData.map((hour) => totalBikes - hour);
@@ -63,7 +58,7 @@ function createCharts(stationAvailability, historicalStationData) {
         dailyChart.destroy();
     }
     // Display the daily chart
-    dailyChart = displayChart('daily', openTime, 'Available Bikes', dailyData, 2, "1:00 PM", totalBikes);
+    dailyChart = displayChart('daily', openTime, 'Available Bikes', dailyData, dailyData, now, totalBikes);
 
     // Declare array to store the average per day of the week
     let weeklyData = []
@@ -86,7 +81,7 @@ function createCharts(stationAvailability, historicalStationData) {
         weeklyChart.destroy();
     }
     // Display the weekly chart
-    weeklyChart = displayChart('weekly', days, 'Available Bikes', weeklyData, 2, 'Tuesday', totalBikes);
+    weeklyChart = displayChart('weekly', days, 'Available Bikes', weeklyData, null, today, totalBikes);
 
     // Open the chart window
     openChartWindow(stationAvailability);
@@ -112,7 +107,7 @@ function displayChart(chartId, chartLabels, chartTitle, historicalChartData, rea
                 {
                   type: 'line',
                   label: "Current " + chartTitle,
-                  data: historicalChartData,
+                  data: realChartData,
                   yAxisID: 'y',
                   xAxisID: 'x',
                   borderColor: 'White',
@@ -144,6 +139,16 @@ function displayChart(chartId, chartLabels, chartTitle, historicalChartData, rea
           }
     );
     return chart;
+}
+
+function hoursToLabel(hour){
+    if (hour < 12) {
+        return String(hour + ":00 AM");
+    } else if (hour === 12) {
+        return String(hour + ":00 PM");
+    } else {
+        return String(hour - 12 + ":00 PM");
+    }
 }
 
 function populateBarColors(labels, dataset, mainColor, highlightColor, highlightCondition) {

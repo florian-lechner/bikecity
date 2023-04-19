@@ -83,6 +83,7 @@ function availabilityColor(station) {
 function addMarkerListener(marker, station) {
   marker.addListener("click", function () {
     getStationData(marker, station);
+    context.openInfoWindowStation = station.id;
   });
 }
 

@@ -2,6 +2,7 @@ let context = {
     map: undefined,
     openChartWindow: undefined,
     openInfoWindow: undefined,
+    openInfoWindowStation: undefined,
     markers: [],
     markerDisplayMode: 'bikes',
     startMarker: undefined,
