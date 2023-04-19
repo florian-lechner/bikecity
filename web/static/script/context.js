@@ -8,6 +8,7 @@ let context = {
     startMarker: undefined,
     endMarker: undefined,
     applicationTime: new Date(Date.now()),
+    clusterer: undefined, 
     forecast_hour: 0,
     
     timeline_data: undefined,

@@ -151,16 +151,21 @@ function addMarkerToggleListener() {
     const markerToggle = document.getElementById("marker-toggle");
     const hourSlider = document.getElementById("heat-map-slider");
     const description = document.getElementById("marker-toggle-description");
+    const dailyChartTitle = document.getElementById("daily-chart-title");
+    const weeklyChartTitle = document.getElementById("weekly-chart-title");
 
     markerToggle.addEventListener('change', function () {
-        console.log(markerToggle.checked);
         if (markerToggle.checked) {
             context.markerDisplayMode = 'stands';
             description.innerHTML = 'Viewing Bike Stands';
+            dailyChartTitle.innerHTML = 'Average Hourly Bike Stand Availability';
+            weeklyChartTitle.innerHTML = 'Average Daily Bike Stand Availability';
         }
         else {
             context.markerDisplayMode = 'bikes';
             description.innerHTML = 'Viewing Bikes';
+            dailyChartTitle.innerHTML = 'Average Hourly Bike Availability';
+            weeklyChartTitle.innerHTML = 'Average Daily Bike Availability';
         }
         updateMarkers(parseInt(hourSlider.value));
 
@@ -173,7 +178,6 @@ function addMarkerToggleListener() {
             Promise.all([liveData, historicalData])
                 .then(([stationAvailability, historicalAvailability]) => {
                     createCharts(stationAvailability, historicalAvailability);
-                    createCircleCharts(stationAvailability);
                 });
         }
     })

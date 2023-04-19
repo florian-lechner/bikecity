@@ -44,40 +44,53 @@ function createMarkers(stations) { // Function to create a marker for each stati
     addMarkerListener(marker, station);
   };
 
-  // Code to cluster the markers
-  let renderer = {
-    render: ({ count, position }) =>
-      new google.maps.Marker({
-        label: {
-          text: String(count),
-          color: "#232323",
-          fontSize: "14px",
-          fontWeight: "700",
-          fillColor: "#232323",
-          labelClass: "cluster-marker-class"
-        },
-        position,
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          fillColor: "#B0EFFF",
-          scale: 8,
-          strokeWeight: 16,
-          strokeColor: "#B0EFFF"
-        },
-        // adjust zIndex to be above other markers
-        zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
-      }),
-  };
+    // Code to cluster the markers
+    let renderer = {
+      render: ({ count, position }) =>
+        new google.maps.Marker({
+          label: {
+            text: String(count),
+            color: "#232323",
+            fontSize: "14px",
+            fontWeight: "700",
+            fillColor: "#232323",
+            labelClass: "cluster-marker-class"
+          },
+          position,
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: "#B0EFFF",
+            scale: 8,
+            strokeWeight: 16,
+            strokeColor: "#B0EFFF"
+          },
+          // adjust zIndex to be above other markers
+          zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
+        }),
+    };
 
-  let algorithm = new markerClusterer.SuperClusterAlgorithm({ maxZoom: 13, radius: 80 });
-  let config = { map: context.map, markers: context.markers, renderer: renderer, algorithm: algorithm };
-  let cluster = new markerClusterer.MarkerClusterer(config);
+    let algorithm = new markerClusterer.SuperClusterAlgorithm({ maxZoom: 13, radius: 80 });
+    let config = { map: context.map, markers: context.markers, renderer: renderer, algorithm: algorithm };
+    context.cluster = new markerClusterer.MarkerClusterer(config);
+}
+
+function disableClustering(){
+    context.cluster.algorithm.maxZoom = 1;
 }
 
 function availabilityColor(station) {
-  let value = parseInt(station.bikes) / (parseInt(station.bikes) + parseInt(station.bike_stands));
-  let hue = ((value) * 120).toString(10);
-  return ["hsl(", hue, ",100%,70%)"].join("");
+  let startTime = 5;
+  let endTime = 0.5;
+  let color = "gray";
+  let now = context.applicationTime.getHours() +  context.applicationTime.getMinutes()/60;
+
+  if ( now > startTime || now < endTime) {
+    let value = parseInt(station.bikes) / (parseInt(station.bikes) + parseInt(station.bike_stands));
+    let hue = ((value) * 120).toString(10);
+    color = ["hsl(", hue, ",100%,70%)"].join("");
+  }
+
+  return color
 }
 
 function addMarkerListener(marker, station) {
@@ -160,4 +173,4 @@ function createIcon(color) {
 
 
 
-export { drawMap, hideStationMarkersExcept, addStartMarker, addEndMarker };
+export { drawMap, hideStationMarkersExcept, addStartMarker, addEndMarker, disableClustering };

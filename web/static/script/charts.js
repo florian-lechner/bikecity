@@ -20,8 +20,6 @@ function createCharts(stationAvailability, historicalStationData) {
     // Add close event to X
     addChartWindowCloseEvent();
 
-    //  TODO ADD CANVASES
-
     // Set the title of the window
     if (context.openChartWindow == undefined) {
         context.openChartWindow = document.getElementById("chart-window");
@@ -130,10 +128,8 @@ function displayChart(chartId, chartLabels, chartTitle, historicalChartData, rea
                 y: {
                   id: 'y',
                   grid: { color: '#243c42' },
-                  ticks: {
-                    beginAtZero: true,
-                    max: chartMax
-                  }
+                  ticks: {  beginAtZero: true},
+                  max: chartMax,
                 }
               }
             }
