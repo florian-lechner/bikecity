@@ -85,6 +85,7 @@ function createCharts(stationAvailability, historicalStationData) {
 
     // Open the chart window
     openChartWindow(stationAvailability);
+    let max = stationAvailability.available_bikes + stationAvailability.available_stands;
 }
 
 function displayChart(chartId, chartLabels, chartTitle, historicalChartData, realChartData, highlightLabel, chartMax) {
