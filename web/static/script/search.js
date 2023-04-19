@@ -1,6 +1,7 @@
 import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
 import { findDistances, distanceToMinutes, populateDiv, preselectStation } from "./distance.js";
 import { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute, zoomOnPolyline, clearPolylines } from "./route.js";
+import { disableClustering } from "./map.js";
 
 // Preselects
 var preselectStartBike, preselectEndBike;
@@ -95,9 +96,11 @@ function checkRouteStatus() {
       missingStartDiv.classList.add("shake")
     }, 200);
   } else if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat != 0) {
+    disableClustering();
     missingStartDiv.style.display = "none";
     showCompleteRoute();
   } else if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat == 0) {
+    disableClustering();
     missingStartDiv.style.display = "none";
     showPartialRoute();
   }
