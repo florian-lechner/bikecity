@@ -64,13 +64,22 @@ function updateWalkDestination(destination) {
   routeParams.destinationLoc = destination;
 }
 
-function updateTotalValues(totals) {
-  routeParams.totalValues = totals;
-}
-
 function storeTimelineData(timelineData){
   context.timeline_data = timelineData;
 }
 
+function clearRouteDistDurParams(){
+  routeParams.walkDistDur1 =  {Dist: 0, Dur: 0};
+  routeParams.bikeDistDur = {Dist: 0, Dur: 0}
+  routeParams.walkDistDur2 =  {Dist: 0, Dur: 0};
+}
+
+function calcTotalDistDurParams(){
+  routeParams.totalValues =  {
+    Dist: (parseInt(routeParams.walkDistDur1.Dist) + parseInt(routeParams.bikeDistDur.Dist) + parseInt(routeParams.walkDistDur2.Dist)),
+    Dur: (parseInt(routeParams.walkDistDur1.Dur) + parseInt(routeParams.bikeDistDur.Dur) + parseInt(routeParams.walkDistDur2.Dur)),
+  }
+}
+
  
-export { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues, storeTimelineData };
+export { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, clearRouteDistDurParams, calcTotalDistDurParams, storeTimelineData };
