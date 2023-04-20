@@ -177,16 +177,8 @@ function populateDiv(sortedStations, tableID, preselectStartBike, preselectEndBi
 
 function changePreselectBikeToClickedStation(newDiv, clickedStation, tableID) {
   newDiv.addEventListener('click', function () {
-    // if (tableID === 'start') {
-    //   let preselectStartBike = clickedStation;
-    //   updateStartBike({ Lat: preselectStartBike.station.position_lat, Long: preselectStartBike.station.position_lng }, preselectStartBike.station);
-    //   updateWalkDistDur1()
-    // } else {
-    //   let preselectEndBike = clickedStation;
-    //   updateStopBike({ Lat: preselectEndBike.station.position_lat, Long: preselectEndBike.station.position_lng }, preselectEndBike.station);
-    // }
-    preselectStation(clickedStation, 'nothing', tableID)
 
+    preselectStation(clickedStation, 'nothing', tableID)
 
     document.getElementsByClassName("popup-more-info")[0].style.visibility = "hidden";
     document.getElementsByClassName(`${tableID}-locations-popup-more-info`)[0].style.visibility = "hidden";
