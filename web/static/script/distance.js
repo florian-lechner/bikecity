@@ -279,6 +279,10 @@ function generatePreSelectHTML(availableStation, index, tableID, walkingTimeInMi
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
     document.getElementById(`${tableID}-bike-result`).style.display = "block";
   }
+  checkRouteStatus();
+  document.getElementById(`spinner-${tableID}`).style.display = "none";
+  return availableStation;
+  
 }
 
 function selectClosestStation(stations, availabilityKey) {

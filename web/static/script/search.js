@@ -9,6 +9,14 @@ var preselectStartBike, preselectEndBike;
 
 // function that calls findDistances and populates tables
 function place_changed(places, start) {
+  let start_str = "stop";
+  if(start){
+    start_str = "start";
+  }
+  document.getElementById(`spinner-${start_str}`).style.display = "block";
+  document.getElementById(`${start_str}-bike-result`).style.display = "none";
+  clearPolylines();
+
   let LocationLat, LocationLng;
 
   places.forEach((place) => {
