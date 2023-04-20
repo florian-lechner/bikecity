@@ -261,6 +261,7 @@ function preselectStation(closestStations, availabilityKey, tableID) {
     document.getElementById(`${tableID}-bike-result`).style.display = "block";
   }
   checkRouteStatus();
+  document.getElementById(`spinner-${tableID}`).style.display = "none";
   return availableStation;
   
 }
