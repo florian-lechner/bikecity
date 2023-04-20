@@ -10,3 +10,4 @@ Prediction_Model/predictionModels.pkl
 Prediction_Model/cleaned_clean_db.csv
 .gitignore
 Prediction_Model/prediction_clean_df.csv
+Prediction_Model/predictionModels.joblib

@@ -96,7 +96,7 @@ function displayChart(chartId, chartLabels, chartTitle, historicalChartData, rea
               datasets: [
                 {
                   type: 'bar',
-                  label: "Historical" + chartTitle,
+                  label: "Historical " + chartTitle,
                   data: historicalChartData,
                   yAxisID: 'y',
                   xAxisID: 'x',
@@ -110,29 +110,41 @@ function displayChart(chartId, chartLabels, chartTitle, historicalChartData, rea
                   data: realChartData,
                   yAxisID: 'y',
                   xAxisID: 'x',
+                  backgroundColor: '#FF6666',
                   borderColor: '#FF6666',
-                  borderWidth: 4,
+                  borderWidth: 3,
                   order: 0,
-                  pointBorderWidth: 0
+                  pointBorderWidth: 1
                 }
               ]
             },
             options: {
               maintainAspectRatio: false,
               plugins: {
-                legend: { display: false }
+                legend: { 
+                    display: false
+                }
               },
               scales: {
                 x: {
-                  id: 'x',
-                  grid: { color: '#243c42' }
+                    id: 'x',
+                    grid: { 
+                        color: '#243c42',
+                        fontColor: '#459CB2'
+                    },
+                    ticks: {
+                        color: '#B0EFFF'
+                    }
                 },
                 y: {
-                  id: 'y',
-                  grid: { color: '#243c42' },
-                  ticks: {  beginAtZero: true},
-                  max: chartMax,
-                }
+                    id: 'y',
+                    grid: { color: '#243c42' },
+                    ticks: {  
+                        beginAtZero: true,
+                        color: '#B0EFFF'
+                    },
+                    max: chartMax,
+                }            
               }
             }
           }

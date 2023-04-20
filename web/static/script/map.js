@@ -21,7 +21,6 @@ function drawMap() {
 
 
 function createMarkers(stations) { // Function to create a marker for each station and add it to the map
-  console.log("Creating markers...")
   for (let station of stations) { // For each station in the stations list, create a new marker
     var marker = new google.maps.Marker({
       position: { lat: station.position_lat, lng: station.position_lng },

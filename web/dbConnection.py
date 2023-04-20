@@ -1,6 +1,6 @@
 import json
 from groupConfig import *
-from personalConfig import *
+#from personalConfig import *
 from sqlalchemy import text
 from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
@@ -85,8 +85,8 @@ def get_live_weather():
             print("Error getting current weather from SQL")
         
         # Get min / max weather:
-        #Test date:
-        today =  str(date(2023, 3, 8)) #str(date.today())
+        today =  str(date.today())
+        print(today)
         min_max_temp = []
         try:
             result = session.execute(text("SELECT W1.temperature\
@@ -100,6 +100,7 @@ def get_live_weather():
 
             live_weather["min_temp"] = round(min(min_max_temp))
             live_weather["max_temp"] = round(max(min_max_temp))
+
         except:
             print("Error getting current min/max weather")
         return live_weather
@@ -121,9 +122,9 @@ def get_forecast_weather(hours): # time taken from input form
                 forecast_weather = {'forecast_temp': round(line[2]), 'weather_type': line[3], 'icon_number': ico, 'precipitation_probability': round(line[9]), 'pressure': line[10], 'humidity':line[11], 'clouds':line[12], 'precipitation_value':line[13]}
         
         # Get min / max weather:
-        #Test date:
-        today_time =  datetime(2023, 3, 8, 8, 0, 0) #datetime.datetime.now()
+        today_time =  datetime.now()
         today = str(today_time.date())
+        print(today)
         min_max_temp = []
         try:
             result = session.execute(text("SELECT W1.temperature\

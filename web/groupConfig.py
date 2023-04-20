@@ -1,5 +1,5 @@
 # Database
-#DATABASE_URL = "DATABASE_URL"
+DATABASE_URL = "DATABASE_URL"
 
 # JCDecaux api
 JC_KEY = "JC_KEY"
