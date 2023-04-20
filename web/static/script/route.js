@@ -1,8 +1,10 @@
-import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
+import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, calcTotalDistDurParams, clearRouteDistDurParams } from "./context.js";
 import { formSubmission, calculateDepartureArrivalTimes, formatDateTime, updateDepArrBox } from "./formSubmission.js"
 import { hideStationMarkersExcept, addStartMarker, addEndMarker } from "./map.js";
 
-function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
+function requestRouteDrawPolyline(origin, destination, mode, color) {
+    clearRouteDistDurParams();
+    clearPolylines();
 
     // Set start and end points
     const start = new google.maps.LatLng(origin.Lat, origin.Long);
@@ -22,19 +24,9 @@ function requestRouteDrawPolyline(origin, destination, mode, color, callback) {
             const distance = response.routes[0].legs[0].distance.value;
             const duration = Math.ceil(response.routes[0].legs[0].duration.value/ 60);  // returns time in seconds!!! 
 
-            // Update total distance and duration
-            routeParams.totalValues.Dist += distance;
-            routeParams.totalValues.Dur += duration;
-
             let polyline = drawPolyline(response.routes[0].overview_polyline, color);
 
-            // Pass the distance and duration to the callback function           
-            callback({
-                Dist: distance,
-                Dur: duration,
-            });
-
-            return polyline;
+            return {polyline: polyline, distance: distance, duration: duration};
         });
 }
 
@@ -127,38 +119,39 @@ function zoomOnPolyline(polyline) {
 
 
 function showCompleteRoute() {
-    // Reset total distance and duration
-    routeParams.totalValues.Dist = 0;
-    routeParams.totalValues.Dur = 0;
-
     // Draw and save walking section between originLoc and startBikeLoc
-    let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#459CB2", (result) => {
-        updateWalkDistDur1(result);
-    });
+    let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#459CB2");
 
     // Draw and save biking section between startBikeLoc and stopBikeLoc
-    let bike = requestRouteDrawPolyline(routeParams.startBikeLoc, routeParams.stopBikeLoc, "BICYCLING", "#232323", (result) => {
-        updateBikeDistDur(result);
-    });
+    let bike = requestRouteDrawPolyline(routeParams.startBikeLoc, routeParams.stopBikeLoc, "BICYCLING", "#232323");
 
     // Draw and save walking section between stopBikeLoc and destinationLoc
-    let walk2 = requestRouteDrawPolyline(routeParams.stopBikeLoc, routeParams.destinationLoc, "WALKING", "#459CB2", (result) => {
-        updateWalkDistDur2(result);
-    });
+    let walk2 = requestRouteDrawPolyline(routeParams.stopBikeLoc, routeParams.destinationLoc, "WALKING", "#459CB2");
 
     // let toOrigin = // method to draw polyline from end of route to destination
 
     Promise.all([walk1, bike, walk2]).then(values => {
-        clearPolylines();
-        routeParams.routePolylines = values;
-        routeParams.routePolylines.push(drawPolylineFromPoints({lat: routeParams.originLoc.Lat, lng: routeParams.originLoc.Long}, values[0].getPath().getAt(0), "#459CB2"));
-        routeParams.routePolylines.push(drawPolylineFromPoints(values[0].getPath().getAt(values[0].getPath().getLength()-1), {lat:routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, "#459CB2"));
-        routeParams.routePolylines.push(drawPolylineFromPoints({lat:routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, values[1].getPath().getAt(0), "#459CB2"));
-        routeParams.routePolylines.push(drawPolylineFromPoints(values[1].getPath().getAt(values[1].getPath().getLength()-1), {lat:routeParams.stopBikeLoc.Lat, lng: routeParams.stopBikeLoc.Long}, "#459CB2"));
-        routeParams.routePolylines.push(drawPolylineFromPoints({lat:routeParams.stopBikeLoc.Lat, lng: routeParams.stopBikeLoc.Long}, values[2].getPath().getAt(0), "#459CB2"));
-        routeParams.routePolylines.push(drawPolylineFromPoints(values[2].getPath().getAt(values[2].getPath().getLength() - 1), {lat: routeParams.destinationLoc.Lat, lng: routeParams.destinationLoc.Long}, "#459CB2"));
 
-        zoomOnPolyline(values);
+        console.log("Complete route before: ");
+        console.log(routeParams);
+        let polylines = values.map((value) => value.polyline);
+        routeParams.routePolylines = polylines;
+
+        updateWalkDistDur1({Dist: values[0].distance, Dur: values[0].duration});
+        updateBikeDistDur({Dist: values[1].distance, Dur: values[1].duration});
+        updateWalkDistDur2({Dist: values[2].distance, Dur: values[2].duration});
+        calcTotalDistDurParams();
+        console.log("Complete route before: ");
+        console.log(routeParams);
+
+        routeParams.routePolylines.push(drawPolylineFromPoints({lat: routeParams.originLoc.Lat, lng: routeParams.originLoc.Long}, values[0].polyline.getPath().getAt(0), "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints(values[0].polyline.getPath().getAt(values[0].polyline.getPath().getLength()-1), {lat:routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints({lat:routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, values[1].polyline.getPath().getAt(0), "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints(values[1].polyline.getPath().getAt(values[1].polyline.getPath().getLength()-1), {lat:routeParams.stopBikeLoc.Lat, lng: routeParams.stopBikeLoc.Long}, "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints({lat:routeParams.stopBikeLoc.Lat, lng: routeParams.stopBikeLoc.Long}, values[2].polyline.getPath().getAt(0), "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints(values[2].polyline.getPath().getAt(values[2].polyline.getPath().getLength() - 1), {lat: routeParams.destinationLoc.Lat, lng: routeParams.destinationLoc.Long}, "#459CB2"));
+
+        zoomOnPolyline(routeParams.routePolylines);
         // fill duration-calculation-box with values from routeParams
         var durationBox = document.getElementById("duration-calculation-box");
         var icons = '<img src="/static/img/walking.svg" alt="icon" id="start-walking-icon">' + '<img src="/static/img/bike.svg" alt="icon" id="bike-icon">' + '<img src="/static/img/walking.svg" alt="icon" id="stop-walking-icon">' + '<img src="/static/img/destination-flag.svg" alt="icon" id="destination-flag">';
@@ -186,14 +179,22 @@ function transform_m_to_km(distance){
 // Function to show partial route (startLocation to startBikeLoc) only
 function showPartialRoute() {
     
-    let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#459CB2", (result) => {
-        updateWalkDistDur1(result);
-    }).then(result => {
+    let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#459CB2")
+    .then(result => {
+        console.log("Partial route before: ");
+        console.log(routeParams);
+
+        clearRouteDistDurParams();
         clearPolylines();
-        routeParams.routePolylines = [result];
-        routeParams.routePolylines.push(drawPolylineFromPoints({lat: routeParams.originLoc.Lat, lng: routeParams.originLoc.Long}, result.getPath().getAt(0), "#459CB2"));
-        routeParams.routePolylines.push(drawPolylineFromPoints(result.getPath().getAt(result.getPath().getLength()-1), {lat: routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, "#459CB2"));
-        zoomOnPolyline(result);
+
+        console.log("Partial route after: ");
+        console.log(routeParams);
+
+        updateWalkDistDur1({Dist: result.distance, Dur: result.duration});
+        routeParams.routePolylines = [result.polyline];
+        routeParams.routePolylines.push(drawPolylineFromPoints({lat: routeParams.originLoc.Lat, lng: routeParams.originLoc.Long}, result.polyline.getPath().getAt(0), "#459CB2"));
+        routeParams.routePolylines.push(drawPolylineFromPoints(result.polyline.getPath().getAt(result.polyline.getPath().getLength()-1), {lat: routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, "#459CB2"));
+        zoomOnPolyline(result.polyline);
         updateDepArrBox(routeParams.walkDistDur1.Dur);
         hideStationMarkersExcept(routeParams.startBikeStation.id);
         addStartMarker(routeParams.originLoc);

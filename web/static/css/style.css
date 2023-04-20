@@ -350,7 +350,8 @@ input#time-picker {
 
 /* Station selection */
 #start-bike-result,
-#stop-bike-result {
+#stop-bike-result,
+#spinner-start, #spinner-stop {
 	display: none;
 }
 
@@ -362,21 +363,25 @@ input#time-picker {
 }
 
 .bike-preselect,
-.bike-box {
+.bike-box,
+#spinner-start, #spinner-stop {
 	width: 496px;
 	height: 66px;
 	color: #232323;
-
+	cursor: pointer;
 	background: #B0EFFF;
 	position: relative;
 }
+
+
 
 .bike-box:hover {
 	background: #459CB2;
 	cursor: pointer;
 }
 
-.bike-preselect {
+.bike-preselect,
+#spinner-start, #spinner-stop {
 	margin-left: -30px;
 	box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.16);
 }
@@ -1253,4 +1258,52 @@ input:checked+.slider:before {
 .gm-style-iw button.gm-ui-hover-effect {
 	top: 0px !important;
 	right: 6px !important;
+}
+
+
+/* Loading Spinner */
+/* Taken from: https://loading.io/css/ */
+.lds-spinner {
+	display: inline-block;
+	position: relative;
+	width: 40px;
+	height: 40px;
+  }
+  .lds-spinner div {
+	display: inline-block;
+	position: absolute;
+	left: 4px;
+	width: 8px;
+	background: #232323;
+	animation: lds-spinner 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  }
+  .lds-spinner #div1 {
+	left: 4px;
+	animation-delay: -0.24s;
+  }
+  .lds-spinner #div2 {
+	left: 16px;
+	animation-delay: -0.12s;
+  }
+  .lds-spinner #div3 {
+	left: 28px;
+	animation-delay: 0;
+  }
+  @keyframes lds-spinner {
+	0% {
+	  top: 4px;
+	  height: 32px;
+	}
+	50%, 100% {
+	  top: 12px;
+	  height: 16px;
+	}
+  }
+  
+
+.lds-spinner {
+	position: absolute;
+	left: 50%;
+  	transform: translateX(-50%);
+	top: 12px;
 }

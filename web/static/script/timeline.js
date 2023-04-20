@@ -119,7 +119,7 @@ function togglePausePlay() {
 
 
 function updateMarkers(sliderValue) {
-    let hourData = context.timeline_data[sliderValue];
+    let hourData = context.timeline_data[sliderValue-1];
 
     context.markers.forEach(marker => {
         let station_data = hourData.filter(data => data.stationID == marker.stationId)[0];
