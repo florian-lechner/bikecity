@@ -383,10 +383,10 @@ function availabilityCanvas(id, availability, max) {
   station_canvases[id] = [background_canvas_temp, availability_graph_number_canvas];
 
   // Background:
-  var hue = ((availability / max) * 120).toString(10);
-  var color_bg = ["hsl(", hue, ",100%,70%)"].join("");
-  var svgBg = document.getElementById(id + "-bg").getElementById("svgInternalID");
-  svgBg.setAttribute("fill", color_bg)
+  var hue = ((availability/max)*120).toString(10);
+  var color_bg = ["hsl(",hue,",100%,70%)"].join("");
+  var svgBg = document.getElementById(id+ "-bg").getElementById("svgInternalID");
+  svgBg.setAttribute("fill", color_bg);
 
 }
 

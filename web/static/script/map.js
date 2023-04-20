@@ -106,11 +106,13 @@ function getStationData(marker, station) {
     .then((response) => response.json());
   let historicalData = fetch("/getStationHistoricalData/" + station.id)
     .then((response) => response.json());
+  let realData = fetch("/getTimelineStation/" + station.id)
+    .then((response) => response.json());
 
-  Promise.all([liveData, historicalData])
-    .then(([stationAvailability, historicalAvailability]) => {
+  Promise.all([liveData, historicalData, realData])
+    .then(([stationAvailability, historicalAvailability, realAvailability]) => {
       createMarkerBounce(marker);
-      createCharts(stationAvailability, historicalAvailability);
+      createCharts(stationAvailability, historicalAvailability, realAvailability);
       createCircleCharts(stationAvailability);
     });
 }

@@ -15,7 +15,7 @@ function createCircleCharts(stationAvailability){
     available_stand_num.innerHTML = stationAvailability.available_stands;
 }
 
-function createCharts(stationAvailability, historicalStationData) {
+function createCharts(stationAvailability, historicalStationData, realAvailability) {
 
     // Add close event to X
     addChartWindowCloseEvent();
@@ -56,7 +56,8 @@ function createCharts(stationAvailability, historicalStationData) {
         dailyChart.destroy();
     }
     // Display the daily chart
-    dailyChart = displayChart('daily', openTime, 'Available Bikes', dailyData, dailyData, now, totalBikes);
+    let realDailyData = addRealDailyData(realAvailability);
+    dailyChart = displayChart('daily', openTime, 'Available Bikes', dailyData, realDailyData, now, totalBikes);
 
     // Declare array to store the average per day of the week
     let weeklyData = []
@@ -101,7 +102,7 @@ function displayChart(chartId, chartLabels, chartTitle, historicalChartData, rea
                   xAxisID: 'x',
                   backgroundColor: populateBarColors(chartLabels, historicalChartData, '#B0EFFF', '#459CB2', highlightLabel),
                   borderColor: '#243c42',
-                  order: 0
+                  order: 1
                 },
                 {
                   type: 'line',
@@ -109,9 +110,10 @@ function displayChart(chartId, chartLabels, chartTitle, historicalChartData, rea
                   data: realChartData,
                   yAxisID: 'y',
                   xAxisID: 'x',
-                  borderColor: 'White',
-                  borderWidth: 1,
-                  order: 1
+                  borderColor: '#FF6666',
+                  borderWidth: 4,
+                  order: 0,
+                  pointBorderWidth: 0
                 }
               ]
             },
@@ -193,5 +195,18 @@ function addChartWindowCloseEvent() {
     document.getElementById("close-chart-window").addEventListener("click", closeChartWindow);
 }
 
+function addRealDailyData(realAvailability) {
+    let realDailyData = [];
+    for(let hour in realAvailability) {
+        if(hour > 4) {
+            if (context.markerDisplayMode != 'bikes'){
+                realDailyData.push(realAvailability[hour][0].average_stands);
+            } else {
+                realDailyData.push(realAvailability[hour][0].average_bikes);
+            }
+        }
+    }
+    return realDailyData;
+}
 
 export { createCharts, createCircleCharts }
