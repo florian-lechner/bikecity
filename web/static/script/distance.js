@@ -202,7 +202,7 @@ function distanceToMinutes(distance) {
   const averageWalkingSpeed = 1.39; // meters per second
   const timeInSeconds = distance / averageWalkingSpeed;
   const timeInMinutes = timeInSeconds / 60;
-  return Math.round(timeInMinutes);
+  return Math.ceil(timeInMinutes);
 }
 
 
@@ -279,7 +279,6 @@ function generatePreSelectHTML(availableStation, index, tableID, walkingTimeInMi
     document.getElementById(`${tableID}-bike-preselect`).innerHTML = text;
     document.getElementById(`${tableID}-bike-result`).style.display = "block";
   }
-  checkRouteStatus();
   document.getElementById(`spinner-${tableID}`).style.display = "none";
   return availableStation;
   

@@ -3,8 +3,6 @@ import { formSubmission, calculateDepartureArrivalTimes, formatDateTime, updateD
 import { hideStationMarkersExcept, addStartMarker, addEndMarker } from "./map.js";
 
 function requestRouteDrawPolyline(origin, destination, mode, color) {
-    clearRouteDistDurParams();
-    clearPolylines();
 
     // Set start and end points
     const start = new google.maps.LatLng(origin.Lat, origin.Long);
@@ -132,8 +130,9 @@ function showCompleteRoute() {
 
     Promise.all([walk1, bike, walk2]).then(values => {
 
-        console.log("Complete route before: ");
-        console.log(routeParams);
+        clearRouteDistDurParams();
+        clearPolylines();
+
         let polylines = values.map((value) => value.polyline);
         routeParams.routePolylines = polylines;
 
@@ -141,8 +140,6 @@ function showCompleteRoute() {
         updateBikeDistDur({Dist: values[1].distance, Dur: values[1].duration});
         updateWalkDistDur2({Dist: values[2].distance, Dur: values[2].duration});
         calcTotalDistDurParams();
-        console.log("Complete route before: ");
-        console.log(routeParams);
 
         routeParams.routePolylines.push(drawPolylineFromPoints({lat: routeParams.originLoc.Lat, lng: routeParams.originLoc.Long}, values[0].polyline.getPath().getAt(0), "#459CB2"));
         routeParams.routePolylines.push(drawPolylineFromPoints(values[0].polyline.getPath().getAt(values[0].polyline.getPath().getLength()-1), {lat:routeParams.startBikeLoc.Lat, lng: routeParams.startBikeLoc.Long}, "#459CB2"));
@@ -181,14 +178,9 @@ function showPartialRoute() {
     
     let walk1 = requestRouteDrawPolyline(routeParams.originLoc, routeParams.startBikeLoc, "WALKING", "#459CB2")
     .then(result => {
-        console.log("Partial route before: ");
-        console.log(routeParams);
 
         clearRouteDistDurParams();
         clearPolylines();
-
-        console.log("Partial route after: ");
-        console.log(routeParams);
 
         updateWalkDistDur1({Dist: result.distance, Dur: result.duration});
         routeParams.routePolylines = [result.polyline];
