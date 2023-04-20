@@ -1,3 +1,4 @@
+import { createCharts } from "./charts.js";
 import { context, storeTimelineData } from "./context.js";
 
 function createSlider() {
@@ -64,11 +65,11 @@ function addPauseButtonListener() {
     });
 }
 
-function addResetButtonListener(){
+function addResetButtonListener() {
     const hourSlider = document.getElementById("heat-map-slider");
     const resetButton = document.getElementById("reset-slider");
     resetButton.addEventListener('click', function () {
-        hourSlider.value = context.timeline_start_value; 
+        hourSlider.value = context.timeline_start_value;
         updateTime(hourSlider.value);
         updateMarkers(context.timeline_start_value);
     });
@@ -86,10 +87,10 @@ function animateSliderToMidnight() {
             updateTime(hourSlider.value);
             updateMarkers(sliderValue);
             setTimeout(updateSlider, 500);
-        } 
+        }
         else if (context.timeline_is_animating) {
             hourSlider.value = context.timeline_start_value;
-            updateTime(hourSlider.value); 
+            updateTime(hourSlider.value);
             updateMarkers(context.timeline_start_value);
             togglePausePlay();
         }
@@ -118,7 +119,7 @@ function togglePausePlay() {
 
 
 function updateMarkers(sliderValue) {
-    let hourData = context.timeline_data[sliderValue];
+    let hourData = context.timeline_data[sliderValue-1];
 
     context.markers.forEach(marker => {
         let station_data = hourData.filter(data => data.stationID == marker.stationId)[0];
@@ -136,7 +137,7 @@ function updateMarkers(sliderValue) {
 
 function timelineAvailabilityColor(station) {
     let value;
-    if (context.markerDisplayMode == 'bikes'){
+    if (context.markerDisplayMode == 'bikes') {
         value = parseInt(station.average_bikes) / (parseInt(station.average_bikes) + parseInt(station.average_stands));
     }
     else {
@@ -146,33 +147,52 @@ function timelineAvailabilityColor(station) {
     return ["hsl(", hue, ",100%,70%)"].join("");
 }
 
-function addMarkerToggleListener(){
+function addMarkerToggleListener() {
     const markerToggle = document.getElementById("marker-toggle");
     const hourSlider = document.getElementById("heat-map-slider");
     const description = document.getElementById("marker-toggle-description");
-    
-    markerToggle.addEventListener('change', function() {
-        console.log(markerToggle.checked);
-        if (markerToggle.checked){
+    const dailyChartTitle = document.getElementById("daily-chart-title");
+    const weeklyChartTitle = document.getElementById("weekly-chart-title");
+
+    markerToggle.addEventListener('change', function () {
+        if (markerToggle.checked) {
             context.markerDisplayMode = 'stands';
             description.innerHTML = 'Viewing Bike Stands';
+            dailyChartTitle.innerHTML = 'Average Hourly Bike Stand Availability';
+            weeklyChartTitle.innerHTML = 'Average Daily Bike Stand Availability';
         }
-        else{
+        else {
             context.markerDisplayMode = 'bikes';
             description.innerHTML = 'Viewing Bikes';
+            dailyChartTitle.innerHTML = 'Average Hourly Bike Availability';
+            weeklyChartTitle.innerHTML = 'Average Daily Bike Availability';
         }
         updateMarkers(parseInt(hourSlider.value));
+
+        if (context.openChartWindow != undefined) {
+            let liveData = fetch("/getLiveBikeData/" + context.openInfoWindowStation)
+                .then((response) => response.json());
+            let historicalData = fetch("/getStationHistoricalData/" + context.openInfoWindowStation)
+                .then((response) => response.json());
+            let realData = fetch("/getTimelineStation/" + context.openInfoWindowStation)
+                .then((response) => response.json());
+
+            Promise.all([liveData, historicalData, realData])
+                .then(([stationAvailability, historicalAvailability, realAvailability]) => {
+                    createCharts(stationAvailability, historicalAvailability, realAvailability);
+                });
+        }
     })
-    
+
 }
 
-function updateTime(hours){
+function updateTime(hours) {
     const dateTime = document.getElementById("slider-date-time");
     const dateTimeOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric' };
 
     const date = new Date(context.timeline_time); // Convert Unix timestamp to Date object
     date.setHours(hours);
-   
+
     let dateString = date.toLocaleString('en-US', dateTimeOptions);
 
     dateTime.innerHTML = dateString;

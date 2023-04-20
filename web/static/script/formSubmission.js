@@ -1,4 +1,4 @@
-import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
+import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination } from "./context.js";
 import { showPredictedWeather }  from "./weather.js"
 import { searchBoxes, refreshBox } from "./search.js";
 import { findDistances, populateDiv } from "./distance.js";
@@ -44,7 +44,6 @@ function formSubmission() {
     addDestination();
   
     // Limits Date selector
-    //document.getElementById("time-picker").setAttribute("min", formatDay(0) + "T00:00");
     document.getElementById("time-picker").min = new Date().toISOString().slice(0, 16);
     document.getElementById("time-picker").setAttribute("max", formatDay(3) + "T23:59");
 
@@ -52,11 +51,11 @@ function formSubmission() {
     document.getElementById("time-picker").addEventListener("change", timePickChange);
 
     // listener checks if storedDateTimePickerValue exists upon Departure->Arrival or Arrival->Departure change
-    document.getElementById("now-departure-arrival-picker").addEventListener("change", function (event) {
+    /*document.getElementById("now-departure-arrival-picker").addEventListener("change", function (event) {
       if (storedDateTimePickerValue) {
         document.getElementById("time-picker").value = storedDateTimePickerValue.toISOString().slice(0, 16);
       }
-    });
+    });*/
   }
 
 function timePickChange() {

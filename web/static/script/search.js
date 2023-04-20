@@ -1,6 +1,7 @@
-import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
+import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination } from "./context.js";
 import { findDistances, distanceToMinutes, populateDiv, preselectStation } from "./distance.js";
 import { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute, zoomOnPolyline, clearPolylines } from "./route.js";
+import { disableClustering } from "./map.js";
 
 // Preselects
 var preselectStartBike, preselectEndBike;
@@ -8,6 +9,12 @@ var preselectStartBike, preselectEndBike;
 
 // function that calls findDistances and populates tables
 function place_changed(places, start) {
+  let start_str = "stop";
+  if(start){
+    start_str = "start";
+  }
+  document.getElementById(`spinner-${start_str}`).style.display = "block";
+  document.getElementById(`${start_str}-bike-result`).style.display = "none";
   clearPolylines();
 
   let LocationLat, LocationLng;
@@ -70,13 +77,11 @@ function searchBoxes() {
   });
 
   searchBox_start.addListener("places_changed", () => {
-    place_changed(searchBox_start.getPlaces(), true)
-      .then(result => checkRouteStatus());
+    place_changed(searchBox_start.getPlaces(), true);
   });
 
   searchBox_end.addListener("places_changed", () => {
-    place_changed(searchBox_end.getPlaces(), false)
-      .then(result => checkRouteStatus());
+    place_changed(searchBox_end.getPlaces(), false);
   });
 }
 
@@ -95,9 +100,11 @@ function checkRouteStatus() {
       missingStartDiv.classList.add("shake")
     }, 200);
   } else if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat != 0) {
+    disableClustering();
     missingStartDiv.style.display = "none";
     showCompleteRoute();
   } else if (routeParams.originLoc.Lat != 0 && routeParams.destinationLoc.Lat == 0) {
+    disableClustering();
     missingStartDiv.style.display = "none";
     showPartialRoute();
   }

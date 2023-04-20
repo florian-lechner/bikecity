@@ -89,6 +89,15 @@ def get_timeline_availability():
     except Exception as e:
         return jsonify({'error': e})
     
+@app.route("/getTimelineStation/<int:id>", methods= ['GET'])
+def get_timeline_station(id):
+    try:
+        dbConnection.main()
+        timeline_availability = dbConnection.get_timeline_station(id)
+        return jsonify(timeline_availability)
+    except Exception as e:
+        return jsonify({'error': e})
+    
 @app.route("/getCurrentTimeForTesting", methods=['GET'])
 def current_time_for_testing():
     try:
