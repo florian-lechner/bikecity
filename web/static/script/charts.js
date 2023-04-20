@@ -111,8 +111,9 @@ function displayChart(chartId, chartLabels, chartTitle, historicalChartData, rea
                   yAxisID: 'y',
                   xAxisID: 'x',
                   borderColor: '#FF6666',
-                  borderWidth: 2,
-                  order: 0
+                  borderWidth: 4,
+                  order: 0,
+                  pointBorderWidth: 0
                 }
               ]
             },
@@ -198,7 +199,11 @@ function addRealDailyData(realAvailability) {
     let realDailyData = [];
     for(let hour in realAvailability) {
         if(hour > 4) {
-            realDailyData.push(realAvailability[hour][0].average_bikes);
+            if (context.markerDisplayMode != 'bikes'){
+                realDailyData.push(realAvailability[hour][0].average_stands);
+            } else {
+                realDailyData.push(realAvailability[hour][0].average_bikes);
+            }
         }
     }
     return realDailyData;

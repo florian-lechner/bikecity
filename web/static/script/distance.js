@@ -357,7 +357,7 @@ function availabilityCanvas(id, availability, max){
   var hue = ((availability/max)*120).toString(10);
   var color_bg = ["hsl(",hue,",100%,70%)"].join("");
   var svgBg = document.getElementById(id+ "-bg").getElementById("svgInternalID");
-  svgBg.setAttribute("fill", color_bg)
+  svgBg.setAttribute("fill", color_bg);
 
 }
 

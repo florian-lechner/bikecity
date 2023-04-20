@@ -174,10 +174,12 @@ function addMarkerToggleListener() {
                 .then((response) => response.json());
             let historicalData = fetch("/getStationHistoricalData/" + context.openInfoWindowStation)
                 .then((response) => response.json());
+            let realData = fetch("/getTimelineStation/" + context.openInfoWindowStation)
+                .then((response) => response.json());
 
-            Promise.all([liveData, historicalData])
-                .then(([stationAvailability, historicalAvailability]) => {
-                    createCharts(stationAvailability, historicalAvailability);
+            Promise.all([liveData, historicalData, realData])
+                .then(([stationAvailability, historicalAvailability, realAvailability]) => {
+                    createCharts(stationAvailability, historicalAvailability, realAvailability);
                 });
         }
     })
