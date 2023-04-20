@@ -1,4 +1,4 @@
-import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination, updateTotalValues } from "./context.js";
+import { context, routeParams, updateWalkOrigin, updateWalkDistDur1, updateStartBike, updateBikeDistDur, updateStopBike, updateWalkDistDur2, updateWalkDestination } from "./context.js";
 import { findDistances, distanceToMinutes, populateDiv, preselectStation } from "./distance.js";
 import { requestRouteDrawPolyline, showCompleteRoute, showPartialRoute, zoomOnPolyline, clearPolylines } from "./route.js";
 import { disableClustering } from "./map.js";
@@ -9,8 +9,6 @@ var preselectStartBike, preselectEndBike;
 
 // function that calls findDistances and populates tables
 function place_changed(places, start) {
-  clearPolylines();
-
   let LocationLat, LocationLng;
 
   places.forEach((place) => {
@@ -71,13 +69,11 @@ function searchBoxes() {
   });
 
   searchBox_start.addListener("places_changed", () => {
-    place_changed(searchBox_start.getPlaces(), true)
-      .then(result => checkRouteStatus());
+    place_changed(searchBox_start.getPlaces(), true);
   });
 
   searchBox_end.addListener("places_changed", () => {
-    place_changed(searchBox_end.getPlaces(), false)
-      .then(result => checkRouteStatus());
+    place_changed(searchBox_end.getPlaces(), false);
   });
 }
 

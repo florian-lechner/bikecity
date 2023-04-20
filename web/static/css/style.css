@@ -366,7 +366,7 @@ input#time-picker {
 	width: 496px;
 	height: 66px;
 	color: #232323;
-
+	cursor: pointer;
 	background: #B0EFFF;
 	position: relative;
 }
