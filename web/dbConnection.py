@@ -157,7 +157,7 @@ def get_timeline_availability():
                                                     WHERE DATE(last_update) = (\
                                                     SELECT DATE(last_update) FROM ringringbikes.station_availability ORDER BY last_update DESC\
                                                     LIMIT 1) \
-                                                    AND HOUR(last_update) < (\
+                                                    AND HOUR(last_update) <= (\
                                                     SELECT HOUR(last_update) FROM ringringbikes.station_availability ORDER BY last_update DESC\
                                                     LIMIT 1) \
                                             GROUP BY station_id, Hour)\
@@ -202,7 +202,7 @@ def get_timeline_station(station_id):
                                                     WHERE DATE(last_update) = (\
                                                     SELECT DATE(last_update) FROM ringringbikes.station_availability ORDER BY last_update DESC\
                                                     LIMIT 1) \
-                                                    AND HOUR(last_update) < (\
+                                                    AND HOUR(last_update) <= (\
                                                     SELECT HOUR(last_update) FROM ringringbikes.station_availability ORDER BY last_update DESC\
                                                     LIMIT 1) \
                                                     AND station_id = :id\
