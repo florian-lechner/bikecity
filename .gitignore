@@ -2,6 +2,7 @@ desktop.ini
 *.vscode
 *.DS_Store
 **.pyc
+Admin/
 web/personalConfig.py
 web/__pycache__/*.pyc
 Prediction_Model/prediction_models.pkl
